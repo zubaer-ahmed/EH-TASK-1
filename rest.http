@@ -1,6 +1,4 @@
-
 GET http://localhost:8000/admin/getSelf
-###
 ###
 POST http://localhost:8000/admin/login
 Content-Type: application/json
@@ -19,15 +17,4 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:8000/admin/getSelf
-
-###
-POST http://localhost:8000/login
-Content-Type: application/json
-
-{
-    "username": "pass"
-}
-###
-###
-###
 ###
