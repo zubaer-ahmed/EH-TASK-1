@@ -5,8 +5,8 @@ const User = require("./User");
 
 // models for Admin Panel
 const Job = require("./Job");
-//to be implemented
-let Service, Review, Reply;
+const Service = require("./Service");
+const Review = require("./Review");
 
 // only for development phase
 let connectionString =
@@ -16,16 +16,18 @@ async function main() {
   await mongoose.connect(connectionString);
   await User.deleteMany({}); // for development phase
   await Job.deleteMany({});
-  await addTemplateJobs();
+  await Service.deleteMany({});
+  await Review.deleteMany({});
+  await addTemplates();
   console.log("Connected to MongoDB");
 }
 main().catch((err) => console.log(err));
 
-module.exports = { mongoose, User, Job, Service, Review, Reply };
+module.exports = { mongoose, User, Job, Service, Review };
 
 // info: to check if DB is connected: (mongoose.connection.readyState == 1)
 
-async function addTemplateJobs() {
+async function addTemplates() {
   let initializerJobs = [
     {
       title: "Engineer",
@@ -42,8 +44,86 @@ async function addTemplateJobs() {
       budget: 50000,
     },
   ];
+  let initializerServices = [
+    {
+      name: "Electrician",
+      cost: 300,
+      workers: 5,
+    },
+    {
+      name: "Plumber",
+      cost: 400,
+      workers: 15,
+    },
+    {
+      name: "Mechanic",
+      cost: 100,
+      workers: 50,
+    },
+    {
+      name: "Welder",
+      cost: 200,
+      workers: 5,
+    },
+    {
+      name: "Custodian",
+      cost: 500,
+      workers: 15,
+    },
+  ];
+  let initializerReviews = [
+    {
+      jobId: "id1",
+      senderId: "id1",
+      text: "Template review 1",
+    },
+    {
+      jobId: "id2",
+      senderId: "id2",
+      text: "Template review 2",
+    },
+  ];
+  let initializerUsers = [
+    {
+      email: "email1",
+      password: "pass1",
+      firstName: "first1",
+      lastName: "last1",
+      jwt: "jwt1",
+      role: "user",
+    },
+    {
+      email: "email2",
+      password: "pass2",
+      firstName: "first2",
+      lastName: "last2",
+      jwt: "jwt2",
+      role: "worker",
+    },
+    {
+      email: "email3",
+      password: "pass3",
+      firstName: "first3",
+      lastName: "last3",
+      jwt: "jwt3",
+      role: "admin",
+    },
+  ];
+
   initializerJobs.forEach(async (item) => {
     const newJob = new Job(item);
     await newJob.save();
+  });
+  initializerServices.forEach(async (item) => {
+    const newService = new Service(item);
+    await newService.save();
+  });
+  initializerReviews.forEach(async (item) => {
+    const newReview = new Review(item);
+    await newReview.save();
+  });
+  initializerUsers.forEach(async (item) => {
+    const newUser = new User(item);
+    await newUser.save();
   });
 }

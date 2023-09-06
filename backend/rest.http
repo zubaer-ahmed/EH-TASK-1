@@ -1,4 +1,7 @@
+### USER ENDPOINTS
 GET http://localhost:8000/api/users/getSelf
+###
+GET http://localhost:8000/api/users/getUsers
 ###
 POST http://localhost:8000/api/users/login
 Content-Type: application/json
@@ -16,10 +19,6 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-GET http://localhost:8000/api/jobs/getJobs
-###
-GET http://localhost:8000/api/users/getUsers
-###
 POST http://localhost:8000/api/users/updateUser
 Content-Type: application/json
 
@@ -31,4 +30,49 @@ Content-Type: application/json
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNjkzOTg2NTUwfQ.xgiVi95ubgqN9LsJ231usCMM4bl_035gqBNEtQ7zRp8",
   "__v": 0
 }
+### JOBS ENDPOINTS
+GET http://localhost:8000/api/jobs/getJobs
+### SERVICES ENDPOINTS
+GET http://localhost:8000/api/services/getServices
 
+###
+POST http://localhost:8000/api/services/updateService
+Content-Type: application/json
+
+{
+    "_id": "64f84c632cde56078d374138",
+    "name": "Mechanics",
+    "cost": "100",
+    "workers": "50",
+    "__v": 0
+}
+### REVIEWS ENDPOINTS
+GET http://localhost:8000/api/reviews/getReviews
+###
+POST http://localhost:8000/api/reviews/updateReview
+Content-Type: application/json
+
+{
+  "_id": "64f84b9f8a0579b16a74b1d1",
+  "jobId": "id1",
+  "senderId": "id1",
+  "text": "Template review 1 modified",
+  "__v": 0
+}
+###
+POST http://localhost:8000/api/reviews/createReview
+Content-Type: application/json
+
+{
+  "jobId": "id7",
+  "senderId": "id7",
+  "text": "Template review 7"
+}
+
+###
+POST http://localhost:8000/api/reviews/deleteReview
+Content-Type: application/json
+
+{
+    "_id": "64f84d33cddf8c1b70381b69"
+}

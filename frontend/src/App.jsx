@@ -5,6 +5,7 @@ import Sidebar from "./Components/SideBar";
 import Services from "./Pages/AdminPanel/Services";
 import Jobs from "./Pages/AdminPanel/Jobs";
 import Users from "./Pages/AdminPanel/Users";
+import Comments from "./Pages/AdminPanel/Comments";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import NavBar from "./Components/SideBar";
@@ -31,10 +32,15 @@ function App() {
             </div>
           }
         >
-          <Route path="profile" element={<Admin />} />
+          <Route
+            path="profile
+          "
+            element={<Admin />}
+          />
           <Route path="users" element={<Users />} />
-          <Route path="service" element={<Services />} />
+          <Route path="services" element={<Services />} />
           <Route path="jobs" element={<Jobs />} />
+          <Route path="comments" element={<Comments />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

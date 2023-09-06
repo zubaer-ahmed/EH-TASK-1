@@ -5,6 +5,8 @@ const cors = require("cors");
 // Local Modules
 const userRoute = require("./routes/userRoute.js"); // login, register, etc
 const jobsRoute = require("./routes/jobRoute.js"); // login, register, etc
+const servicesRoute = require("./routes/serviceRoute.js"); // login, register, etc
+const reviewsRoute = require("./routes/reviewRoute.js"); // login, register, etc
 
 // Server Initialization
 const app = express();
@@ -24,6 +26,8 @@ app.use(cookieParser());
 // Routes will be written here
 app.use("/api/users", userRoute);
 app.use("/api/jobs", jobsRoute);
+app.use("/api/services", servicesRoute);
+app.use("/api/reviews", reviewsRoute);
 
 // Server Listen Along with Database
 app.listen(PORT, (error) => {
