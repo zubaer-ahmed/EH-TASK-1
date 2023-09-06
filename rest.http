@@ -1,6 +1,6 @@
-GET http://localhost:8000/admin/getSelf
+GET http://localhost:8000/api/users/getSelf
 ###
-POST http://localhost:8000/admin/login
+POST http://localhost:8000/api/users/login
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-POST http://localhost:8000/admin/register
+POST http://localhost:8000/api/users/register
 Content-Type: application/json
 
 {
@@ -16,5 +16,5 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-GET http://localhost:8000/admin/getSelf
+GET http://localhost:8000/api/users/getSelf
 ###

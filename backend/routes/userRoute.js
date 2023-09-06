@@ -3,7 +3,7 @@ const { Router } = require("express");
 const express = require("express");
 
 // Local Modules
-const myController = require("../controllers/userController");
+const userController = require("../controllers/userController");
 
 // Initialization
 const router = Router();
@@ -13,8 +13,8 @@ router.use(express.json());
 router.get("/", (req, res) => {
   res.send("Hello");
 });
-router.post("/register", myController.register);
-router.post("/login", myController.login);
-router.get("/getSelf", myController.auth, myController.getSelf);
+router.post("/register", userController.register);
+router.post("/login", userController.login);
+router.get("/getSelf", userController.auth, userController.getSelf);
 
 module.exports = router;

@@ -5,7 +5,6 @@ const developmentSecretKey = "jwtSecret";
 
 // Methods to be executed on routes
 const getSelf = async (req, res) => {
-  console.log(models.mongoose.connection.readyState);
   if (models.mongoose.connection.readyState != 1)
     return res.status(500).json({ error: "Database not ready yet" });
   let user = req.user; // set by auth middleware
@@ -32,7 +31,7 @@ const register = async (req, res) => {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
   });
-  console.log("User registered: ", user);
+  console.log("User registered: ", user.email);
   res.send(user);
 };
 
@@ -50,18 +49,23 @@ const login = async (req, res) => {
   let newJwt = jwt.sign({ email: user.email }, developmentSecretKey);
   user.jwt = newJwt;
   await user.save();
-  console.log("User logged in: ", user);
+  res.cookie("jwt", newJwt, {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  console.log("User logged in: ", user.email);
   res.send(user);
 };
 
 const auth = async (req, res, next) => {
-  let token = req.headers["authorization"];
-  let jwtCookie = req.cookies["jwt"];
-  if (jwtCookie) token = jwtCookie;
-  if (!token) return res.status(401).json({ error: "No token provided" });
-  let decoded =await verifyTokenSync(token, developmentSecretKey);
+  let jwtToken = req.headers["authorization"];
+  let jwtCookie = req.cookies["jwt"]; // if jwt is found as cookie, use it
+  if (jwtCookie) {
+    jwtToken = jwtCookie;
+  }
+  if (!jwtToken) return res.status(401).json({ error: "No token provided" });
+  let decoded = await verifyTokenSync(jwtToken, developmentSecretKey);
   if (!decoded) return res.status(401).json({ error: "Invalid token" });
-  console.log(decoded);
   req.user = await models.User.findOne({ email: decoded.email });
   next();
 };

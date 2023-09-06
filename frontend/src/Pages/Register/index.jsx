@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
 export default () => {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState({
     firstName: "",
     lastName: "",
@@ -13,12 +14,12 @@ export default () => {
     event.preventDefault();
     console.log(user);
     clearErrors();
-    if (!user.email || !user.password) 
+    if (!user.email || !user.password)
       return showErrorMessage("Please fill in all the fields");
-    
-    if(user.password != user.passwordConfirmation)
-    return showErrorMessage("Password confirmation doesn't match");
-    
+
+    if (user.password != user.passwordConfirmation)
+      return showErrorMessage("Password confirmation doesn't match");
+
     let res = await fetch("http://localhost:8000/api/users/register", {
       method: "POST",
       headers: {
@@ -26,24 +27,32 @@ export default () => {
       },
       body: JSON.stringify(user),
     });
-    console.log("response", await res.json());
+    let responseJSON = await res.json();
+    console.log("response", responseJSON);
+    if (res.status != 200) {
+      return showErrorMessage(responseJSON?.error);
+    }
+    localStorage.jwt = responseJSON.jwt;
+    navigate("/");
   }
-  function showErrorMessage(msg){
-    document.querySelector("#error").textContent = msg;
-    document.querySelector("#error").classList.remove("hidden");
+  function showErrorMessage(msg) {
+    document.querySelector("#signup-error").textContent = msg;
+    document.querySelector("#signup-error").classList.remove("hidden");
   }
-  function clearErrors(){
-    document.querySelector("#error").classList.add("hidden");
+  function clearErrors() {
+    document.querySelector("#signup-error").classList.add("hidden");
   }
-  
 
   return (
     <>
-      <div className=" overflow-auto bg-gray-100 flex flex-col py-8">
+      <div className="h-full overflow-auto bg-gray-100 flex flex-col py-8">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-8 text-3xl text-center font-medium">Sign up</h1>
-            <div id="error" className="text-sm p-2 rounded bg-red-100 border my-4 text-red-500 text-center hidden"></div>
+            <div
+              id="signup-error"
+              className="text-sm p-2 rounded bg-red-100 border my-4 text-red-500 text-center hidden"
+            ></div>
             <input
               type="text"
               className="border w-full p-3 rounded mb-4"
@@ -118,7 +127,7 @@ export default () => {
           </div>
 
           <div className="text-gray-700 mt-6">
-            Already have an account?
+            Already have an account?{" "}
             <Link
               className="no-underline border-b border-blue text-blue"
               to="/login"

@@ -40,7 +40,7 @@ npm install
 npm start
 ```
 
-The `backend` server should now be running at http://localhost:8000.
+The `backend` server should now be running at http://localhost:8000, which is used by frontend app.
 
 ## Others
 
