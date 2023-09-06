@@ -1,5 +1,6 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, Routes, Route, useNavigate } from "react-router-dom";
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <nav className="sticky top-0 w-20 h-full border-r bg-white space-y-8 shrink-0 z-10">
       <div className="flex flex-col h-full">
@@ -22,29 +23,6 @@ const Sidebar = () => {
                 </div>
                 <span className="absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
                   Profile
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/admin/customers"
-                className="relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150 group"
-              >
-                <div className="text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle cx="6" cy="4" r="2"></circle>
-                    <path d="M9 7H3a1 1 0 0 0-1 1v7h2v7h4v-7h2V8a1 1 0 0 0-1-1z"></path>
-                    <circle cx="17" cy="4" r="2"></circle>
-                    <path d="M20.21 7.73a1 1 0 0 0-1-.73h-4.5a1 1 0 0 0-1 .73L12 14h2l-1 4h2v4h4v-4h2l-1-4h2z"></path>
-                  </svg>
-                </div>
-                <span className="absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
-                  Customers
                 </span>
               </Link>
             </li>
@@ -136,6 +114,11 @@ const Sidebar = () => {
 
             <li>
               <Link
+                onClick={(e) => {
+                  e.preventDefault();
+                  localStorage.removeItem("jwt");
+                  navigate("/logout");
+                }}
                 to="/logout"
                 className="relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150 group"
               >

@@ -1,7 +1,7 @@
-import Admin from "./Pages/AdminPanel/Profile";
 import AdminPanel from "./Pages/AdminPanel";
 import { Route, Routes } from "react-router-dom";
 import Sidebar from "./Components/SideBar";
+import Profile from "./Pages/AdminPanel/Profile";
 import Services from "./Pages/AdminPanel/Services";
 import Jobs from "./Pages/AdminPanel/Jobs";
 import Users from "./Pages/AdminPanel/Users";
@@ -14,6 +14,7 @@ import TopNav from "./Components/TopNav";
 import { Outlet } from "react-router-dom";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import Logout from "./Pages/Logout";
 
 function App() {
   return (
@@ -35,13 +36,16 @@ function App() {
           <Route
             path="profile
           "
-            element={<Admin />}
+            element={<AdminPanel />}
           />
+          <Route path="" element={<Profile />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="users" element={<Users />} />
           <Route path="services" element={<Services />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="comments" element={<Comments />} />
         </Route>
+        <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
