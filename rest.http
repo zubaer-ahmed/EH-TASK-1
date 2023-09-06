@@ -1,0 +1,33 @@
+
+GET http://localhost:8000/admin/getSelf
+###
+###
+POST http://localhost:8000/admin/login
+Content-Type: application/json
+
+{
+    "email": "test@email.com",
+    "password": "pass"
+}
+###
+POST http://localhost:8000/admin/register
+Content-Type: application/json
+
+{
+    "email": "test@email.com",
+    "password": "pass"
+}
+###
+GET http://localhost:8000/admin/getSelf
+
+###
+POST http://localhost:8000/login
+Content-Type: application/json
+
+{
+    "username": "pass"
+}
+###
+###
+###
+###
