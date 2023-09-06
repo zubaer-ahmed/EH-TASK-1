@@ -16,5 +16,5 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-GET http://localhost:8000/api/users/getSelf
+GET http://localhost:8000/api/jobs/getJobs
 ###

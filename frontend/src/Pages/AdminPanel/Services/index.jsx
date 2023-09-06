@@ -4,7 +4,7 @@ const Service = () => {
   return (
     <div className="flex flex-col px-12 container mx-auto mt-[1rem]">
       <div
-        className="service-page-alert bg-zinc-100 dark:bg-zinc-700 border-t-4 border-teal-500 rounded-b text-zinc-700 dark:text-zinc-200 px-4 py-3 shadow-md"
+        className="service-page-alert bg-zinc-100 border-t-4 border-teal-500 rounded-b text-zinc-700  px-4 py-3 shadow-md"
         role="alert"
       >
         <div className="flex">
@@ -38,14 +38,8 @@ const Service = () => {
         </div>
       </div>
       <div className="buttons flex py-4 space-x-2">
-        <button variant="outlined">
-          {" "}
-          <i className="fa fa-plus mr-2"></i> Add
-        </button>
-        <button variant="outlined">
-          {" "}
-          <i className="fa fa-trash mr-2"></i> Delete
-        </button>
+        <button className="material-button">Add</button>
+        <button className="material-button">Delete</button>
       </div>
       <h1 className="text-2xl font-bold my-2">Overview</h1>
       <div className="" id="example-table"></div>

@@ -1,9 +1,10 @@
 const express = require("express");
 var bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 // Local Modules
 const userRoute = require("./routes/userRoute.js"); // login, register, etc
+const jobsRoute = require("./routes/jobRoute.js"); // login, register, etc
 
 // Server Initialization
 const app = express();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 // Routes will be written here
 app.use("/api/users", userRoute);
+app.use("/api/jobs", jobsRoute);
 
 // Server Listen Along with Database
 app.listen(PORT, (error) => {

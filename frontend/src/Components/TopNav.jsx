@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 const TopNav = () => {
   return (
     <>
-      <nav className="shrink-0 h-14 w-full border-b bg-gray-100 space-y-8">
+      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-gray-100 space-y-8">
         <ul className="flex items-center h-full space-x-4 px-4 font-medium">
           <li>
             <div className="h-20 flex items-center justify-center px-2">

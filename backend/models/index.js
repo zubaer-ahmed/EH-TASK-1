@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 // common models
 const User = require("./User");
 
-// models for Admin Panel; to be implemented
-let Job, Service, Review, Reply;
+// models for Admin Panel
+const Job = require("./Job");
+//to be implemented
+let Service, Review, Reply;
 
 // only for development phase
 let connectionString =

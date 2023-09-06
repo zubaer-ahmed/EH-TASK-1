@@ -2,7 +2,8 @@ import Admin from "./Pages/AdminPanel/Profile";
 import AdminPanel from "./Pages/AdminPanel";
 import { Route, Routes } from "react-router-dom";
 import Sidebar from "./Pages/AdminPanel/Profile/SideBar";
-import Service from "./Pages/AdminPanel/Service";
+import Services from "./Pages/AdminPanel/Services";
+import Jobs from "./Pages/AdminPanel/Jobs";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import NavBar from "./Pages/AdminPanel/Profile/SideBar";
@@ -14,7 +15,7 @@ import Register from "./Pages/Register";
 
 function App() {
   return (
-    <div className="overflow-auto flex flex-col w-full h-full">
+    <div className="flex flex-col w-full min-h-screen ">
       <TopNav />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -23,14 +24,15 @@ function App() {
         <Route
           path="admin"
           element={
-            <div className="flex w-full h-full">
+            <div className="relative flex w-full h-full">
               <Sidebar />
               <Outlet />
             </div>
           }
         >
           <Route path="profile" element={<Admin />} />
-          <Route path="service" element={<Service />} />
+          <Route path="service" element={<Services />} />
+          <Route path="jobs" element={<Jobs />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
