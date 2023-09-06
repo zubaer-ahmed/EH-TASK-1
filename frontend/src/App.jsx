@@ -1,12 +1,13 @@
 import Admin from "./Pages/AdminPanel/Profile";
 import AdminPanel from "./Pages/AdminPanel";
 import { Route, Routes } from "react-router-dom";
-import Sidebar from "./Pages/AdminPanel/Profile/SideBar";
+import Sidebar from "./Components/SideBar";
 import Services from "./Pages/AdminPanel/Services";
 import Jobs from "./Pages/AdminPanel/Jobs";
+import Users from "./Pages/AdminPanel/Users";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
-import NavBar from "./Pages/AdminPanel/Profile/SideBar";
+import NavBar from "./Components/SideBar";
 import TopNav from "./Components/TopNav";
 
 import { Outlet } from "react-router-dom";
@@ -31,6 +32,7 @@ function App() {
           }
         >
           <Route path="profile" element={<Admin />} />
+          <Route path="users" element={<Users />} />
           <Route path="service" element={<Services />} />
           <Route path="jobs" element={<Jobs />} />
         </Route>

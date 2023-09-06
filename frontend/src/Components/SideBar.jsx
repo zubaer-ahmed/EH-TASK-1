@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 const Sidebar = () => {
   return (
-    <nav className="sticky top-0 w-20 h-full border-r bg-white space-y-8 shrink-0">
+    <nav className="sticky top-0 w-20 h-full border-r bg-white space-y-8 shrink-0 z-10">
       <div className="flex flex-col h-full">
         <div className="flex-1 flex flex-col h-full">
           <ul className="px-4 text-sm font-medium flex-1 space-y-2 py-4">
@@ -51,7 +51,7 @@ const Sidebar = () => {
 
             <li>
               <Link
-                to="/admin/workers"
+                to="/admin/users"
                 className="relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150 group"
               >
                 <div className="text-gray-500">
@@ -65,7 +65,7 @@ const Sidebar = () => {
                   </svg>
                 </div>
                 <span className="absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
-                  Workers
+                  Users
                 </span>
               </Link>
             </li>

@@ -3,6 +3,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const developmentSecretKey = "jwtSecret";
 
+const getUsers = async (req, res) => {
+  return res.json(await models.User.find({}));
+};
+const updateUser = async (req, res) => {
+  return res.json(await models.User.updateOne({ _id: req.body._id }, req.body));
+};
+
 // Methods to be executed on routes
 const getSelf = async (req, res) => {
   if (models.mongoose.connection.readyState != 1)
@@ -62,6 +69,7 @@ const auth = async (req, res, next) => {
   let jwtCookie = req.cookies["jwt"]; // if jwt is found as cookie, use it
   if (jwtCookie) {
     jwtToken = jwtCookie;
+    console.log("cookie:", jwtToken);
   }
   if (!jwtToken) return res.status(401).json({ error: "No token provided" });
   let decoded = await verifyTokenSync(jwtToken, developmentSecretKey);
@@ -76,6 +84,8 @@ const verifyTokenSync = async (token, secretKey) => {
 };
 // Export of all methods as object
 module.exports = {
+  getUsers,
+  updateUser,
   getSelf,
   auth,
   register,

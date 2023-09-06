@@ -13,8 +13,10 @@ router.use(express.json());
 router.get("/", (req, res) => {
   res.send("Hello");
 });
+router.get("/getUsers", userController.getUsers);
+router.post("/updateUser", userController.updateUser);
+router.get("/getSelf", userController.auth, userController.getSelf);
 router.post("/register", userController.register);
 router.post("/login", userController.login);
-router.get("/getSelf", userController.auth, userController.getSelf);
 
 module.exports = router;

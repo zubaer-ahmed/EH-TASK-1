@@ -18,3 +18,17 @@ Content-Type: application/json
 ###
 GET http://localhost:8000/api/jobs/getJobs
 ###
+GET http://localhost:8000/api/users/getUsers
+###
+POST http://localhost:8000/api/users/updateUser
+Content-Type: application/json
+
+{
+  "email": "tdsdsest@email.com",
+  "password": "$2b$10$96sMAUqYEQgUF48mZVhYeeZVZ3RvsoBsTDQsWHPOrspZweS4IW/2a",
+  "role": "users",
+  "_id": "64f82ef6f747acc67d02ce30",
+  "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNjkzOTg2NTUwfQ.xgiVi95ubgqN9LsJ231usCMM4bl_035gqBNEtQ7zRp8",
+  "__v": 0
+}
+

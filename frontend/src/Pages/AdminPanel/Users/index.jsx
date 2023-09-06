@@ -50,22 +50,21 @@ const Service = () => {
 
     return updatedRow;
   };
+  // React.useEffect(() => {
+  //   return () => {};
+  // }, [users]);
+
   const columns = [
     {
       editable: true,
-      field: "title",
-      headerName: "Title",
+      field: "firstName",
+      headerName: "First Name",
       width: 150,
     },
-    {
-      editable: true,
-      field: "description",
-      headerName: "Description",
-      width: 150,
-    },
-    { editable: true, field: "budget", headerName: "Budget", width: 150 },
-    { editable: true, field: "location", headerName: "Location", width: 150 },
-    { editable: true, field: "employer", headerName: "Employer", width: 150 },
+    { editable: true, field: "lastName", headerName: "Last Name", width: 150 },
+    { editable: true, field: "email", headerName: "Email", width: 150 },
+    { editable: true, field: "password", headerName: "Password", width: 150 },
+    { editable: true, field: "role", headerName: "Role", width: 150 },
     {
       field: "actions",
       type: "actions",
@@ -116,7 +115,7 @@ const Service = () => {
   React.useEffect(() => {
     (async () => {
       let fetchedJobs = await (
-        await fetch("http://localhost:8000/api/jobs/getJobs")
+        await fetch("http://localhost:8000/api/users/getUsers")
       ).json();
       setUsers(fetchedJobs.map((e, i) => ({ ...e, id: i })));
       console.log("users fetched");
@@ -125,7 +124,7 @@ const Service = () => {
   }, []);
   return (
     <div className="flex flex-col w-full h-full p-4 overflow-auto">
-      <h1 className="text-2xl font-bold my-2 text-gray-700">Jobs</h1>
+      <h1 className="text-2xl font-bold my-2 text-gray-700">Users</h1>
       <div className="flex space-x-2 m-2">
         <div className=" material-button flex items-center">
           <AddIcon />
