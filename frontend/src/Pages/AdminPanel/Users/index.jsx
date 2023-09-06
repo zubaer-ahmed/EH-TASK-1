@@ -59,12 +59,12 @@ const Service = () => {
       editable: true,
       field: "firstName",
       headerName: "First Name",
-      width: 150,
+      width: 250,
     },
-    { editable: true, field: "lastName", headerName: "Last Name", width: 150 },
-    { editable: true, field: "email", headerName: "Email", width: 150 },
-    { editable: true, field: "password", headerName: "Password", width: 150 },
-    { editable: true, field: "role", headerName: "Role", width: 150 },
+    { editable: true, field: "lastName", headerName: "Last Name", width: 250 },
+    { editable: true, field: "email", headerName: "Email", width: 250 },
+    { editable: true, field: "password", headerName: "Password", width: 250 },
+    { editable: true, field: "role", headerName: "Role", width: 250 },
     {
       field: "actions",
       type: "actions",
@@ -123,7 +123,8 @@ const Service = () => {
     return () => {};
   }, []);
   return (
-    <div className="flex flex-col w-full h-full p-4 overflow-auto">
+    <div className="container mx-auto">
+      <div className="flex flex-col w-full h-full p-4 overflow-auto">
       <h1 className="text-2xl font-bold my-2 text-gray-700">Users</h1>
       <div className="flex space-x-2 m-2">
         <div className=" material-button flex items-center">
@@ -165,6 +166,7 @@ const Service = () => {
           }}
         />
       </div>{" "}
+    </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ export default () => {
             Engineer<span className="text-red-700">Hut</span>
           </h1>
           <p>
-            Future of Finding Servies and Workforce Hiring at Your Footsteps
+            Future of Finding Services and Workforce Hiring at Your Footsteps
           </p>
           <div className="flex items-center sm:text-sm">
             <Link
