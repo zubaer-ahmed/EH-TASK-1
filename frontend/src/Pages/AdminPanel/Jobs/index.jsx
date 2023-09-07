@@ -4,6 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import React from "react";
+import AlertView from "../../../Components/AlertView";
+
 import {
   DataGrid,
   GridRowModes,
@@ -125,6 +127,10 @@ const Service = () => {
   }, []);
   return (
     <div className="flex flex-col w-full h-full p-4 overflow-auto">
+      <AlertView
+        title="Jobs Offerred by the Employers"
+        message="You will see all jobs people post and be able to edit/add/remove items"
+      />{" "}
       <h1 className="text-2xl font-bold my-2 text-gray-700">Jobs</h1>
       <div className="flex space-x-2 m-2">
         <div className=" material-button flex items-center">

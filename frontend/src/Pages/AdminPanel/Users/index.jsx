@@ -3,7 +3,9 @@ import CancelIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import AlertView from "../../../Components/AlertView";
 import React from "react";
+
 import {
   DataGrid,
   GridRowModes,
@@ -15,8 +17,8 @@ const rows = [];
 
 const Service = () => {
   const [users, setUsers] = React.useState([]);
-  const [rowModesModel, setRowModesModel] = React.useState({});
-  const [rowSelectionModel, setRowSelectionModel] = React.useState([]);
+  const [rowModesModel, setRowModesModel] = React.useState({}); // mode is for edit/view switching
+  const [rowSelectionModel, setRowSelectionModel] = React.useState([]); // selection is used by checkbokes
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -47,7 +49,6 @@ const Service = () => {
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setUsers(users.map((row) => (row.id == newRow.id ? updatedRow : row)));
-
     return updatedRow;
   };
   // React.useEffect(() => {
@@ -79,33 +80,25 @@ const Service = () => {
             <GridActionsCellItem
               icon={<SaveIcon />}
               label="Save"
-              sx={{
-                color: "primary.main",
-              }}
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
               icon={<CancelIcon />}
               label="Cancel"
-              className="textPrimary"
               onClick={handleCancelClick(id)}
-              color="inherit"
             />,
           ];
         }
-
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Add"
             onClick={handleEditClick(id)}
-            color="inherit"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
-            color="inherit"
           />,
         ];
       },
@@ -124,6 +117,10 @@ const Service = () => {
   }, []);
   return (
     <div className="flex flex-col w-full h-full p-4 overflow-auto">
+      <AlertView
+        title="Users of All Roles"
+        message="You will see list of all customers, workers and admins and be able to edit/add/remove items"
+      />{" "}
       <h1 className="text-2xl font-bold my-2 text-gray-700">Users</h1>
       <div className="flex space-x-2 m-2">
         <div className=" material-button flex items-center">
@@ -146,7 +143,10 @@ const Service = () => {
         <DataGrid
           rows={users}
           columns={columns}
-          pageSizeOptions={[5]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          pageSizeOptions={[5, 20, 100]}
           editMode="row"
           checkboxSelection
           rowSelectionModel={rowSelectionModel}
