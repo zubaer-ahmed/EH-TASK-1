@@ -124,48 +124,48 @@ const Service = () => {
   return (
     <div className="container mx-auto">
       <div className="flex flex-col w-full h-full p-4 overflow-auto">
-      <h1 className="text-2xl font-bold my-2 text-gray-700">Services</h1>
-      <div className="flex space-x-2 m-2">
-        <div className=" material-button flex items-center">
-          <AddIcon />
-          <span>Add</span>
+        <h1 className="text-2xl font-bold my-2 text-gray-700">Services</h1>
+        <div className="flex space-x-2 m-2">
+          <div className=" material-button flex items-center">
+            <AddIcon />
+            <span>Add</span>
+          </div>
+          <div
+            className="material-button"
+            onClick={() => {
+              setUsers(
+                users.filter((row) => !rowSelectionModel.includes(row.id))
+              );
+            }}
+          >
+            <DeleteIcon />
+            Delete
+          </div>
         </div>
-        <div
-          className="material-button"
-          onClick={() => {
-            setUsers(
-              users.filter((row) => !rowSelectionModel.includes(row.id))
-            );
-          }}
-        >
-          <DeleteIcon />
-          Delete
-        </div>
+        <div className="h-80 w-full">
+          <DataGrid
+            rows={users}
+            columns={columns}
+            pageSizeOptions={[5]}
+            editMode="row"
+            checkboxSelection
+            rowSelectionModel={rowSelectionModel}
+            disableRowSelectionOnClick
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            processRowUpdate={processRowUpdate}
+            onRowSelectionModelChange={(newRowSelectionModel) => {
+              setRowSelectionModel(newRowSelectionModel);
+            }}
+            slots={{
+              toolbar: ({ setUsers, setRowModesModel }) => <></>,
+            }}
+            slotProps={{
+              toolbar: { setUsers, setRowModesModel },
+            }}
+          />
+        </div>{" "}
       </div>
-      <div className="h-80 w-full">
-        <DataGrid
-          rows={users}
-          columns={columns}
-          pageSizeOptions={[5]}
-          editMode="row"
-          checkboxSelection
-          rowSelectionModel={rowSelectionModel}
-          disableRowSelectionOnClick
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          processRowUpdate={processRowUpdate}
-          onRowSelectionModelChange={(newRowSelectionModel) => {
-            setRowSelectionModel(newRowSelectionModel);
-          }}
-          slots={{
-            toolbar: ({ setUsers, setRowModesModel }) => <></>,
-          }}
-          slotProps={{
-            toolbar: { setUsers, setRowModesModel },
-          }}
-        />
-      </div>{" "}
-    </div>
     </div>
   );
 };
