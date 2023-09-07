@@ -76,3 +76,6 @@ Content-Type: application/json
 {
     "_id": "64f84d33cddf8c1b70381b69"
 }
+
+###
+GET http://localhost:8000/api/comments/getComments

@@ -7,6 +7,7 @@ const User = require("./User");
 const Job = require("./Job");
 const Service = require("./Service");
 const Review = require("./Review");
+const Comment = require("./Comment");
 
 // only for development phase
 let connectionString =
@@ -18,12 +19,13 @@ async function main() {
   await Job.deleteMany({});
   await Service.deleteMany({});
   await Review.deleteMany({});
+  await Comment.deleteMany({});
   await addTemplates();
   console.log("Connected to MongoDB");
 }
 main().catch((err) => console.log(err));
 
-module.exports = { mongoose, User, Job, Service, Review };
+module.exports = { mongoose, User, Job, Service, Review, Comment };
 
 // info: to check if DB is connected: (mongoose.connection.readyState == 1)
 
@@ -114,6 +116,20 @@ async function addTemplates() {
     const newJob = new Job(item);
     await newJob.save();
   });
+  initializerUsers.forEach(async (item) => {
+    const newUser = new User(item);
+    await newUser.save();
+    const comments = ["item1", "item2"];
+    for (const item of comments) {
+      const newComment = new Comment({
+        jobId: await Job.findOne({}),
+        senderId: await User.findOne({}),
+        commentType: "review",
+        text: item,
+      });
+      await newComment.save();
+    }
+  });
   initializerServices.forEach(async (item) => {
     const newService = new Service(item);
     await newService.save();
@@ -121,9 +137,5 @@ async function addTemplates() {
   initializerReviews.forEach(async (item) => {
     const newReview = new Review(item);
     await newReview.save();
-  });
-  initializerUsers.forEach(async (item) => {
-    const newUser = new User(item);
-    await newUser.save();
   });
 }
