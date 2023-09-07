@@ -41,7 +41,12 @@ function CommentById() {
   return (
     <div className="flex w-full h-full p-4">
       <div className="flex flex-col w-full h-full p-4 rounded border shadow">
-        <h1 className="text-xl font-bold text-gray-800 my-2">Comment</h1>
+        <h1 className="text-xl font-bold text-gray-800 my-2">
+          {(comment &&
+            comment?.commentType.charAt(0).toUpperCase() +
+              comment?.commentType.slice(1)) ||
+            "Loading..."}
+        </h1>
         <div className="flex flex-col w-full">
           <h1 className="text-sm font-bold text-gray-700">
             {comment?.senderId?.firstName}
@@ -65,8 +70,11 @@ function CommentById() {
         <h1 className="text-xl font-bold text-gray-800 mt-2">Replies</h1>
         <div className="flex flex-col py-4 space-y-2">
           {(comment?.replies.length > 0 &&
-            comment?.replies?.map((reply) => (
-              <div className="flex  p-2 border bg-gray-50 shadow space-x-2 px-2 py-4">
+            comment?.replies?.map((reply, index) => (
+              <div
+                className="flex  p-2 border bg-gray-50 shadow space-x-2 px-2 py-4"
+                key={index}
+              >
                 <img src="/noimage.svg" className="h-8 w-8" alt="Vite logo" />
                 <div className="flex flex-col w-full" key={reply._id}>
                   <h1 className="text-sm font-bold text-gray-700">

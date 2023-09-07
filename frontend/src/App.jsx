@@ -82,6 +82,7 @@ function App() {
               </div>
             }
           >
+            <Route path="" element={<Reviews />} />
             <Route path="reviews" element={<Reviews />} />
             <Route path="suggestions" element={<Suggestions />} />
             <Route path="questions" element={<Questions />} />

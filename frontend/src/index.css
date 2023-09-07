@@ -4,6 +4,7 @@
 
 ::-webkit-scrollbar {
   height: 0.5em;
+  width: 0.5em;
 }
 ::-webkit-scrollbar-track-piece {
   background: #ffd5d5;

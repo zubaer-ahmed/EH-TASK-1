@@ -88,27 +88,59 @@ async function addTemplates() {
   let initializerUsers = [
     {
       email: "email1",
-      password: "",
-      firstName: "first1",
-      lastName: "last1",
+      password: "pass1",
+      firstName: "firstName1",
+      lastName: "lastName1",
       jwt: "jwt1",
       role: "user",
     },
     {
       email: "email2",
       password: "pass2",
-      firstName: "first2",
-      lastName: "last2",
+      firstName: "firstName2",
+      lastName: "lastName2",
       jwt: "jwt2",
       role: "worker",
     },
     {
       email: "email3",
       password: "pass3",
-      firstName: "first3",
-      lastName: "last3",
+      firstName: "firstName3",
+      lastName: "lastName3",
       jwt: "jwt3",
       role: "admin",
+    },
+    {
+      email: "email1",
+      password: "pass1",
+      firstName: "firstName1",
+      lastName: "lastName1",
+      jwt: "jwt1",
+      role: "user",
+    },
+    {
+      email: "email2",
+      password: "pass2",
+      firstName: "firstName2",
+      lastName: "lastName2",
+      jwt: "jwt2",
+      role: "worker",
+    },
+    {
+      email: "email1",
+      password: "pass1",
+      firstName: "firstName1",
+      lastName: "lastName1",
+      jwt: "jwt1",
+      role: "user",
+    },
+    {
+      email: "email2",
+      password: "pass2",
+      firstName: "firstName2",
+      lastName: "lastName2",
+      jwt: "jwt2",
+      role: "worker",
     },
   ];
 
@@ -130,7 +162,7 @@ async function addTemplates() {
     for (const item of comments) {
       const newComment = new Comment({
         sourceJobId: await Job.findOne({}),
-        senderId: newUser,
+        senderId: await User.findOne({}),
         commentType: item,
         text: "template " + item,
       });
