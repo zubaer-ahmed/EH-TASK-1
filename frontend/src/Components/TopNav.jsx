@@ -4,9 +4,9 @@ const TopNav = () => {
   return (
     <>
       <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-gray-100 space-y-8 z-10">
-        <ul className="flex items-center h-full space-x-4 px-4 font-medium">
+        <ul className="flex items-center h-full space-x-4 px-4 font-medium overflow-x-auto">
           <li>
-            <div className="h-20 flex items-center justify-center px-2">
+            <div className="h-full flex items-center justify-center px-2">
               <Link to="/" className="flex-none">
                 <svg
                   fill="#0000FF"

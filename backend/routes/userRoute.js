@@ -15,6 +15,7 @@ router.get("/", (req, res) => {
 });
 router.get("/getUsers", userController.getUsers);
 router.post("/updateUser", userController.updateUser);
+router.post("/deleteUser", userController.deleteUser);
 router.get("/getSelf", userController.auth, userController.getSelf);
 router.post("/register", userController.register);
 router.post("/login", userController.login);

@@ -15,7 +15,8 @@ const PORT = 8000;
 
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:5173", "*"], // 5173 is the vite dev server default
+    credentials: true,
   })
 );
 

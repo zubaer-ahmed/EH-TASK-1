@@ -88,7 +88,7 @@ async function addTemplates() {
   let initializerUsers = [
     {
       email: "email1",
-      password: "pass1",
+      password: "",
       firstName: "first1",
       lastName: "last1",
       jwt: "jwt1",
@@ -119,13 +119,20 @@ async function addTemplates() {
   initializerUsers.forEach(async (item) => {
     const newUser = new User(item);
     await newUser.save();
-    const comments = ["item1", "item2"];
+    const comments = [
+      "review",
+      "suggestion",
+      "question",
+      "review",
+      "suggestion",
+      "question",
+    ];
     for (const item of comments) {
       const newComment = new Comment({
-        jobId: await Job.findOne({}),
-        senderId: await User.findOne({}),
-        commentType: "review",
-        text: item,
+        sourceJobId: await Job.findOne({}),
+        senderId: newUser,
+        commentType: item,
+        text: "template " + item,
       });
       await newComment.save();
     }

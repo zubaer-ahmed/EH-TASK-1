@@ -3,7 +3,13 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  width: 5px;
+  height: 0.5em;
+}
+::-webkit-scrollbar-track-piece {
+  background: #ffd5d5;
+}
+::-webkit-scrollbar-thumb {
+  background: #9c969e;
 }
 .material-button {
   position: relative;

@@ -16,6 +16,7 @@ export default () => {
 
     let res = await fetch("http://localhost:8000/api/users/login", {
       method: "POST",
+      credentials: "include", // Required to allow setting of cookies
       headers: {
         "Content-Type": "application/json",
       },

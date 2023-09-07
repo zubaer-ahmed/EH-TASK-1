@@ -29,7 +29,12 @@ const Service = () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
+  const handleDeleteClick = (id) => async () => {
+    await fetch("http://localhost:8000/api/users/deleteUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users.find((row) => row.id == id)),
+    });
     setUsers(users.filter((row) => row.id !== id));
   };
   const handleRowModesModelChange = (newRowModesModel) => {
@@ -46,9 +51,15 @@ const Service = () => {
       setUsers(users.filter((row) => row.id !== id));
     }
   };
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setUsers(users.map((row) => (row.id == newRow.id ? updatedRow : row)));
+    let res = await fetch("http://localhost:8000/api/users/updateUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRow),
+    });
+
     return updatedRow;
   };
   // React.useEffect(() => {
@@ -116,50 +127,58 @@ const Service = () => {
     return () => {};
   }, []);
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-col w-full h-full p-4 overflow-auto">
-        <h1 className="text-2xl font-bold my-2 text-gray-700">Users</h1>
-        <div className="flex space-x-2 m-2">
-          <div className=" material-button flex items-center">
-            <AddIcon />
-            <span>Add</span>
-          </div>
-          <div
-            className="material-button"
-            onClick={() => {
-              setUsers(
-                users.filter((row) => !rowSelectionModel.includes(row.id))
-              );
-            }}
-          >
-            <DeleteIcon />
-            Delete
-          </div>
+    <div className="flex flex-col w-full h-full p-4 overflow-auto">
+      <h1 className="text-2xl font-bold my-2 text-gray-700">Users</h1>
+      <div className="flex space-x-2 m-2">
+        <div className=" material-button flex items-center">
+          <AddIcon />
+          <span>Add</span>
         </div>
-        <div className="h-80 w-full">
-          <DataGrid
-            rows={users}
-            columns={columns}
-            pageSizeOptions={[5]}
-            editMode="row"
-            checkboxSelection
-            rowSelectionModel={rowSelectionModel}
-            disableRowSelectionOnClick
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            processRowUpdate={processRowUpdate}
-            onRowSelectionModelChange={(newRowSelectionModel) => {
-              setRowSelectionModel(newRowSelectionModel);
-            }}
-            slots={{
-              toolbar: ({ setUsers, setRowModesModel }) => <></>,
-            }}
-            slotProps={{
-              toolbar: { setUsers, setRowModesModel },
-            }}
-          />
-        </div>{" "}
+        <div
+          className="material-button"
+          onClick={() => {
+            setUsers(
+              users.filter((row) => !rowSelectionModel.includes(row.id))
+            );
+            rowSelectionModel.forEach((id) => {
+              fetch("http://localhost:8000/api/users/deleteUser", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(users.find((row) => row.id == id)),
+              });
+            });
+          }}
+        >
+          <DeleteIcon />
+          Delete
+        </div>
       </div>
+      <div className="h-80 w-full">
+        <DataGrid
+          rows={users}
+          columns={columns}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          pageSizeOptions={[5, 10, 50, 100]}
+          editMode="row"
+          checkboxSelection
+          rowSelectionModel={rowSelectionModel}
+          disableRowSelectionOnClick
+          rowModesModel={rowModesModel}
+          onRowModesModelChange={handleRowModesModelChange}
+          processRowUpdate={processRowUpdate}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
+          slots={{
+            toolbar: ({ setUsers, setRowModesModel }) => <></>,
+          }}
+          slotProps={{
+            toolbar: { setUsers, setRowModesModel },
+          }}
+        />
+      </div>{" "}
     </div>
   );
 };
