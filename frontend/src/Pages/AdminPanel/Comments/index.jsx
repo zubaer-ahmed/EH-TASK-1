@@ -117,7 +117,7 @@ export default function IconLabelTabs() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <input
                           type="text"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                           placeholder="type here..."
                         />
                       </td>
@@ -161,7 +161,7 @@ export default function IconLabelTabs() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <input
                           type="text"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                           placeholder="type here..."
                         />
                       </td>
@@ -205,7 +205,7 @@ export default function IconLabelTabs() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <input
                           type="text"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                           placeholder="type here..."
                         />
                       </td>
