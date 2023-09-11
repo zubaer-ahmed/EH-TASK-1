@@ -1,6 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* YouTube icon */
+.animate-focus {
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  line-height: 52px;
+  border: 2px solid transparent;
+  color: #ff1717;
+  transition: 0.3s;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.animate-focus:hover {
+  border-radius: 10px;
+  border-color: #ff1717;
+  box-shadow: 0 0 10px #ff4040;
+}
+body {
+  font-family: "Dosis", sans-serif;
+}
 
 ::-webkit-scrollbar {
   height: 0.5em;
@@ -15,6 +36,7 @@
 .material-button {
   position: relative;
   display: inline-block;
+  flex-shrink: 0;
   box-sizing: border-box;
   border: none;
   border-radius: 4px;

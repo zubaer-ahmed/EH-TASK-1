@@ -1,7 +1,7 @@
 export default () => {
   return (
     <>
-      <main className="py-14 flex w-full h-full justify-center">
+      <main className="py-14 flex w-full h-full justify-center overflow-auto">
         <div className="px-4 text-gray-600 md:px-8">
           <div className="relative w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
             <svg
