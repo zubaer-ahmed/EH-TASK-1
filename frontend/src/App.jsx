@@ -30,6 +30,7 @@ import Register from "./Pages/Register";
 import Logout from "./Pages/Logout";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
+import Footer from "./Pages/Utils/footer";
 
 function App() {
   const navigate = useNavigate();
@@ -136,6 +137,7 @@ function App() {
         <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }
