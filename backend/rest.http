@@ -76,3 +76,42 @@ Content-Type: application/json
 {
     "_id": "64f84d33cddf8c1b70381b69"
 }
+
+###
+GET http://localhost:8000/api/comments/getComments
+###
+GET http://localhost:8000/api/comments/getComments/review
+###
+GET http://localhost:5173/api/comments/64f9d42793f2fc37c2af3107
+###
+POST http://localhost:8000/api/comments/replyComment/64f9dce6fc67a480e86f5ae8
+Content-Type: application/json
+
+  {
+    "_id": "64f9dce6fc67a480e86f5ae8",
+    "sourceJobId": {
+      "_id": "64f9dce4fc67a480e86f5ace",
+      "title": "Web Developer",
+      "description": "Web Developer Required",
+      "budget": "50000",
+      "location": "Mohakhali, Dhaka",
+      "employer": "Employer2",
+      "__v": 0
+    },
+    "senderId": {
+      "_id": "64f9dce4fc67a480e86f5ad0",
+      "email": "email2",
+      "password": "pass2",
+      "firstName": "first2",
+      "lastName": "last2",
+      "jwt": "jwt2",
+      "role": "worker",
+      "__v": 0
+    },
+    "commentType": "review",
+    "text": "template review",
+    "replies": [],
+    "__v": 0
+  }
+###
+https://api.getAddress.io/autocomplete/SW1W0NY?api-key=AT87F1ms5U-0Z7KPCWI86g25373

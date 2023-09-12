@@ -8,10 +8,9 @@ const User = mongoose.model(
     firstName: String,
     lastName: String,
     jwt: String,
-    role: {
-      type: String,
-      enum: ["admin", "user", "worker"],
-      default: "user",
+    roles: {
+      type: Array,
+      default: ["default"],
     },
   })
 );

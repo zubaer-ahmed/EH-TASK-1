@@ -44,8 +44,9 @@ The `backend` server should now be running at http://localhost:8000, which is us
 
 ## Others
 
-- `rest.http`: This file mentions some of the the API endpoints. The format is directly compatible with VSCode's REST Client Extension
-- `login/signup` system uses `JWT`. Its send both as `login/signup` response and as a cookie, either may be used to retrieve JWT token.
+- the file `rest.http` mentions some of the the API endpoints. The format is directly compatible with VSCode's REST Client Extension
+- `login/signup` system uses `JWT`. Its send both as `login/signup` response and as a cookie. Either may be used to retrieve `JWT` token.
+- the `mongodb` that connects is hosted on cloud (`atlas`). Feel free to start backend and try the `rest.http` endpoints directly.
 
 ## Contributing
 

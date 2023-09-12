@@ -6,7 +6,8 @@ const User = require("./User");
 // models for Admin Panel
 const Job = require("./Job");
 const Service = require("./Service");
-const Review = require("./Review");
+const Comment = require("./Comment");
+const Worker = require("./Worker");
 
 // only for development phase
 let connectionString =
@@ -17,13 +18,13 @@ async function main() {
   await User.deleteMany({}); // for development phase
   await Job.deleteMany({});
   await Service.deleteMany({});
-  await Review.deleteMany({});
+  await Comment.deleteMany({});
   await addTemplates();
   console.log("Connected to MongoDB");
 }
 main().catch((err) => console.log(err));
 
-module.exports = { mongoose, User, Job, Service, Review };
+module.exports = { mongoose, User, Job, Service, Comment, Worker };
 
 // info: to check if DB is connected: (mongoose.connection.readyState == 1)
 
@@ -35,95 +36,143 @@ async function addTemplates() {
       employer: "Employer1",
       location: "Mirpur, Dhaka",
       budget: 40000,
+      appointmentDate: new Date(),
     },
     {
-      title: "Web Developer",
-      description: "Web Developer Required",
+      title: "Plumber",
+      description: "Plumber Required",
       employer: "Employer2",
       location: "Mohakhali, Dhaka",
       budget: 50000,
+      appointmentDate: new Date(),
     },
   ];
   let initializerServices = [
     {
-      name: "Electrician",
-      cost: 300,
-      workers: 5,
-    },
-    {
-      name: "Plumber",
+      title: "Plumber",
+      description: "Plumber Required",
       cost: 400,
-      workers: 15,
+      availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
+      availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
+      maxResponseTime: 30 * 60 * 1000, // milliseconds
+      status: 1, // 0,1
+      locations: ["Mohakhali, Dhaka", "Cantonment", "Mirpur"],
     },
     {
-      name: "Mechanic",
-      cost: 100,
-      workers: 50,
+      title: "Electrician",
+      description: "Electrician Required",
+      cost: 400,
+      availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
+      availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
+      maxResponseTime: 30 * 60 * 1000, // milliseconds
+      status: 1, // 0,1
+      locations: ["Mohakhali, Dhaka", "Cantonment", "Mirpur"],
     },
     {
-      name: "Welder",
-      cost: 200,
-      workers: 5,
-    },
-    {
-      name: "Custodian",
-      cost: 500,
-      workers: 15,
+      title: "Wifi Provider",
+      description: "Wifi Provider Required",
+      cost: 400,
+      availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
+      availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
+      maxResponseTime: 30 * 60 * 1000, // milliseconds
+      status: 1, // 0,1
+      locations: ["Mohakhali, Dhaka", "Cantonment", "Mirpur"],
     },
   ];
-  let initializerReviews = [
-    {
-      jobId: "id1",
-      senderId: "id1",
-      text: "Template review 1",
-    },
-    {
-      jobId: "id2",
-      senderId: "id2",
-      text: "Template review 2",
-    },
-  ];
+
   let initializerUsers = [
     {
       email: "email1",
       password: "pass1",
-      firstName: "first1",
-      lastName: "last1",
+      firstName: "firstName1",
+      lastName: "lastName1",
       jwt: "jwt1",
       role: "user",
     },
     {
       email: "email2",
       password: "pass2",
-      firstName: "first2",
-      lastName: "last2",
+      firstName: "firstName2",
+      lastName: "lastName2",
       jwt: "jwt2",
       role: "worker",
     },
     {
       email: "email3",
       password: "pass3",
-      firstName: "first3",
-      lastName: "last3",
+      firstName: "firstName3",
+      lastName: "lastName3",
       jwt: "jwt3",
       role: "admin",
     },
+    {
+      email: "email1",
+      password: "pass1",
+      firstName: "firstName1",
+      lastName: "lastName1",
+      jwt: "jwt1",
+      role: "user",
+    },
+    {
+      email: "email2",
+      password: "pass2",
+      firstName: "firstName2",
+      lastName: "lastName2",
+      jwt: "jwt2",
+      role: "worker",
+    },
+    {
+      email: "email1",
+      password: "pass1",
+      firstName: "firstName1",
+      lastName: "lastName1",
+      jwt: "jwt1",
+      role: "user",
+    },
+    {
+      email: "email2",
+      password: "pass2",
+      firstName: "firstName2",
+      lastName: "lastName2",
+      jwt: "jwt2",
+      role: "worker",
+    },
   ];
 
-  initializerJobs.forEach(async (item) => {
-    const newJob = new Job(item);
-    await newJob.save();
-  });
-  initializerServices.forEach(async (item) => {
-    const newService = new Service(item);
-    await newService.save();
-  });
-  initializerReviews.forEach(async (item) => {
-    const newReview = new Review(item);
-    await newReview.save();
-  });
   initializerUsers.forEach(async (item) => {
     const newUser = new User(item);
     await newUser.save();
+    const comments = [
+      "review",
+      "suggestion",
+      "question",
+      "review",
+      "suggestion",
+      "question",
+    ];
+    for (const item of comments) {
+      const newComment = new Comment({
+        sourceJobId: await Job.findOne({}),
+        senderId: await User.findOne({}),
+        commentType: item,
+        text: "template " + item,
+      });
+      await newComment.save();
+    }
+
+    initializerJobs.forEach(async (item) => {
+      const newJob = new Job({
+        ...item,
+        employer: await User.findOne({}),
+      });
+      await newJob.save();
+    });
+    initializerServices.forEach(async (item) => {
+      const newService = new Service({
+        ...item,
+        worker: await User.findOne({}),
+      });
+      await newService.save();
+    });
   });
 }

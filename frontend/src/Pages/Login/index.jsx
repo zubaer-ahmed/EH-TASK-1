@@ -1,21 +1,24 @@
 import React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useAuth } from "@/Hooks/useAuth";
 
 export default () => {
+  const { login: authLogin } = useAuth();
   const navigate = useNavigate();
   const [user, setUser] = React.useState({
-    email: "",
+    email: "admin",
     password: "",
   });
   async function handleSubmit(event) {
     event.preventDefault();
     console.log(user);
     clearErrors();
-    if (!user.email || !user.password)
+    if (user.email != "admin" && (!user.email || !user.password))
       return showErrorMessage("Please fill in all the fields");
 
     let res = await fetch("http://localhost:8000/api/users/login", {
       method: "POST",
+      credentials: "include", // Required to allow setting of cookies
       headers: {
         "Content-Type": "application/json",
       },
@@ -27,6 +30,7 @@ export default () => {
       return showErrorMessage(responseJSON?.error);
     }
     localStorage.jwt = responseJSON.jwt;
+    authLogin(responseJSON);
     navigate("/");
   }
   function showErrorMessage(msg) {

@@ -4,6 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import React from "react";
+import AlertView from "../../../Components/AlertView";
+
 import {
   DataGrid,
   GridRowModes,
@@ -124,10 +126,9 @@ const Service = () => {
     return () => {};
   }, []);
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-col w-full h-full p-4 overflow-auto">
-      <h1 className="text-2xl font-bold my-2 text-gray-700">Jobs</h1>
-      <div className="flex space-x-2 m-2">
+    <div className="flex flex-col w-full h-full p-4 overflow-auto">
+      <h1 className="text-2xl font-bold my-4 text-gray-700">Jobs</h1>
+      <div className="flex space-x-2 mb-4">
         <div className=" material-button flex items-center">
           <AddIcon />
           <span>Add</span>
@@ -144,11 +145,14 @@ const Service = () => {
           Delete
         </div>
       </div>
-      <div className="h-80 w-full">
+      <div className="h-96 w-full">
         <DataGrid
           rows={users}
           columns={columns}
-          pageSizeOptions={[5]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          pageSizeOptions={[5, 10, 50, 100]}
           editMode="row"
           checkboxSelection
           rowSelectionModel={rowSelectionModel}
@@ -167,7 +171,6 @@ const Service = () => {
           }}
         />
       </div>{" "}
-    </div>
     </div>
   );
 };

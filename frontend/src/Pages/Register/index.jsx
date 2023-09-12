@@ -22,6 +22,7 @@ export default () => {
 
     let res = await fetch("http://localhost:8000/api/users/register", {
       method: "POST",
+      credentials: "include", // Required to allow setting of imcomming cookies
       headers: {
         "Content-Type": "application/json",
       },

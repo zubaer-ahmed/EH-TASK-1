@@ -1,7 +1,7 @@
 export default () => {
   return (
     <>
-      <main className="py-14 flex w-full h-full justify-center">
+      <main className="py-14 flex w-full h-full justify-center overflow-auto">
         <div className="px-4 text-gray-600 md:px-8">
           <div className="relative w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
             <svg
@@ -10,10 +10,7 @@ export default () => {
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                fill-rule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              ></path>
+              <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
             </svg>
           </div>
           <p className="text-gray-700 text-xs mt-4 ml-5">@8457389</p>

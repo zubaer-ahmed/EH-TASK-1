@@ -7,7 +7,12 @@ const Job = mongoose.model(
     description: String,
     budget: String,
     location: String,
-    employer: String,
+    appointmentDate: String,
+    employer: {
+      // AKA Customer
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   })
 );
 

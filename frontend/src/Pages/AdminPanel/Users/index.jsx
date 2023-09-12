@@ -3,7 +3,9 @@ import CancelIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import AlertView from "../../../Components/AlertView";
 import React from "react";
+
 import {
   DataGrid,
   GridRowModes,
@@ -15,8 +17,8 @@ const rows = [];
 
 const Service = () => {
   const [users, setUsers] = React.useState([]);
-  const [rowModesModel, setRowModesModel] = React.useState({});
-  const [rowSelectionModel, setRowSelectionModel] = React.useState([]);
+  const [rowModesModel, setRowModesModel] = React.useState({}); // mode is for edit/view switching
+  const [rowSelectionModel, setRowSelectionModel] = React.useState([]); // selection is used by checkbokes
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -27,7 +29,12 @@ const Service = () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
+  const handleDeleteClick = (id) => async () => {
+    await fetch("http://localhost:8000/api/users/deleteUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users.find((row) => row.id == id)),
+    });
     setUsers(users.filter((row) => row.id !== id));
   };
   const handleRowModesModelChange = (newRowModesModel) => {
@@ -44,9 +51,14 @@ const Service = () => {
       setUsers(users.filter((row) => row.id !== id));
     }
   };
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setUsers(users.map((row) => (row.id == newRow.id ? updatedRow : row)));
+    let res = await fetch("http://localhost:8000/api/users/updateUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRow),
+    });
 
     return updatedRow;
   };
@@ -79,33 +91,25 @@ const Service = () => {
             <GridActionsCellItem
               icon={<SaveIcon />}
               label="Save"
-              sx={{
-                color: "primary.main",
-              }}
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
               icon={<CancelIcon />}
               label="Cancel"
-              className="textPrimary"
               onClick={handleCancelClick(id)}
-              color="inherit"
             />,
           ];
         }
-
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Add"
             onClick={handleEditClick(id)}
-            color="inherit"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
-            color="inherit"
           />,
         ];
       },
@@ -123,10 +127,10 @@ const Service = () => {
     return () => {};
   }, []);
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-col w-full h-full p-4 overflow-auto">
-      <h1 className="text-2xl font-bold my-2 text-gray-700">Users</h1>
-      <div className="flex space-x-2 m-2">
+    <div className="flex flex-col w-full h-full p-4 overflow-auto">
+      <h1 className="text-2xl font-bold my-4 text-gray-700">Users</h1>
+      <div className="flex space-x-2 mb-4">
+        {" "}
         <div className=" material-button flex items-center">
           <AddIcon />
           <span>Add</span>
@@ -137,17 +141,27 @@ const Service = () => {
             setUsers(
               users.filter((row) => !rowSelectionModel.includes(row.id))
             );
+            rowSelectionModel.forEach((id) => {
+              fetch("http://localhost:8000/api/users/deleteUser", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(users.find((row) => row.id == id)),
+              });
+            });
           }}
         >
           <DeleteIcon />
           Delete
         </div>
       </div>
-      <div className="h-80 w-full">
+      <div className="h-96 w-full">
         <DataGrid
           rows={users}
           columns={columns}
-          pageSizeOptions={[5]}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          pageSizeOptions={[5, 10, 50, 100]}
           editMode="row"
           checkboxSelection
           rowSelectionModel={rowSelectionModel}
@@ -166,7 +180,6 @@ const Service = () => {
           }}
         />
       </div>{" "}
-    </div>
     </div>
   );
 };
