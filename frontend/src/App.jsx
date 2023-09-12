@@ -30,7 +30,8 @@ import Register from "./Pages/Register";
 import Logout from "./Pages/Logout";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
-import Footer from "./Pages/Utils/footer";
+import Footer from "./Components/footer";
+import FAQ from "./Pages/Guest/FAQ/FAQ";
 
 function App() {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="customer" element={<Customer />} />
         <Route path="postJob" element={<PostJob />} />
+        <Route path="FAQ" element={<FAQ />} />
         <Route
           path="worker"
           element={

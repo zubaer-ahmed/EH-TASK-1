@@ -1,8 +1,11 @@
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import Features from "../Guest/Features/Features";
+import FeaturedCategory from "../Guest/FeaturedCategory";
 
 export default () => {
   return (
-    <section className="w-full h-full flex">
+    <>
+      <section className="w-full h-full flex">
       <div className="mx-auto px-4 pt-12 flex flex-col text-gray-600 overflow-hidden md:px-8 md:flex-row">
         <div className="w-full md:w-1/2 md:order-1">
           {/* Replace with your image */}
@@ -40,5 +43,8 @@ export default () => {
         </div>
       </div>
     </section>
+    <FeaturedCategory/>
+    <Features/>
+    </>
   );
 };
