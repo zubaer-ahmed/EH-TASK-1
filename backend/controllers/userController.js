@@ -8,7 +8,20 @@ const getUsers = async (req, res) => {
   return res.json(await models.User.find({}));
 };
 const updateUser = async (req, res) => {
-  return res.json(await models.User.updateOne({ _id: req.body._id }, req.body));
+  return res.json(
+    await models.User.updateOne(
+      { _id: req.user._id },
+      {
+        $set: {
+          ...req.body,
+          password: req.body.password
+            ? bcrypt.hashSync(req.body.password, 10)
+            : null,
+          _id: req.user._id,
+        },
+      }
+    )
+  );
 };
 const deleteUser = async (req, res) => {
   return res.json(await models.User.deleteOne({ _id: req.body._id }, req.body));
@@ -52,7 +65,7 @@ const login = async (req, res) => {
     return res.status(500).json({ error: "Database not ready yet" });
   let user = await models.User.findOne({ email: req.body.email });
   if (req.body?.email == "admin") {
-    user = await models.User.findOne({});
+    user = await models.User.findOne({ roles: { $in: ["admin"] } });
   }
   if (!user) {
     return res.status(401).json({ error: "Email is not registered" });

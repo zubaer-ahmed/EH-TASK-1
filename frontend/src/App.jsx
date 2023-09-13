@@ -1,7 +1,8 @@
-import { useLocalStorage } from "@/Hooks/useLocalStorage";
+import { useAuth } from "@/Hooks/useAuth";
 import AdminPanel from "./Pages/AdminPanel";
 import PostJob from "./Pages/PostJob";
 import PostService from "./Pages/PostService";
+import Orders from "./Pages/Orders";
 import Settings from "./Pages/Settings";
 import Worker from "./Pages/WorkerPanel";
 import Customer from "./Pages/Customer";
@@ -39,7 +40,14 @@ import FAQ from "./Pages/Guest/FAQ/FAQ";
 function App() {
   const navigate = useNavigate();
   const [tabValue, setTabValue] = React.useState("1");
-  const [user, setUser] = useLocalStorage("user", null);
+  const { user, setUser, fetchUser } = useAuth();
+  React.useEffect(() => {
+    (async () => {
+      fetchUser();
+      window.fetchUser = fetchUser;
+    })();
+    return () => {};
+  });
   return (
     <div className="flex flex-col w-full h-full">
       <TopNav />
@@ -53,6 +61,7 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
+        <Route path="orders" element={<Orders />} />
         <Route path="job/:slug" element={<JobById />} />
         <Route path="service/:slug" element={<ServiceById />} />
         <Route
@@ -85,20 +94,7 @@ function App() {
           }
         />
         <Route path="register" element={<Register />} />
-        <Route
-          path="admin"
-          element={
-            <div className="relative flex w-full h-full  overflow-auto">
-              <Sidebar />
-              <Outlet />
-            </div>
-          }
-        >
-          <Route
-            path="profile
-          "
-            element={<AdminPanel />}
-          />
+        <Route path="admin" element={<AdminPanel />}>
           <Route path="" element={<AdminProfile />} />
           <Route path="profile" element={<AdminProfile />} />
           <Route path="users" element={<Users />} />

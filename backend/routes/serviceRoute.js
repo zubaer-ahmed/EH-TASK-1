@@ -15,6 +15,7 @@ router.get("/getServices", serviceController.getServices);
 router.get("/getService/:id", serviceController.getService);
 router.post("/updateService", serviceController.updateService);
 router.post("/createService", auth, serviceController.createService);
+router.post("/orderService", auth, serviceController.orderService);
 router.post("/deleteService", serviceController.deleteService);
 
 module.exports = router;

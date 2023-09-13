@@ -114,7 +114,7 @@ const TopNav = () => {
             </Link>
           )}
           {user?.roles.includes("worker") && (
-            <Link className="flex button space-x-2 h-10 px-3" to="/postJob">
+            <Link className="flex button space-x-2 h-10 px-3" to="/postService">
               <Icon fontSize="inherit">add</Icon> Post Service
             </Link>
           )}
@@ -169,6 +169,13 @@ const TopNav = () => {
                   >
                     <Icon fontSize="inherit">person</Icon>
                     <div>Profile</div>
+                  </Link>
+                  <Link
+                    className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
+                    to="/orders"
+                  >
+                    <Icon fontSize="inherit">shopping_cart</Icon>
+                    <div>Orders</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"

@@ -1,19 +1,20 @@
 const mongoose = require("mongoose");
 
-const Job = mongoose.model(
-  "Job",
+const Order = mongoose.model(
+  "Order",
   new mongoose.Schema(
     {
-      title: String,
-      description: String,
-      budget: String,
-      location: String,
-      appointmentDate: String,
-      employer: {
-        // AKA Customer
+      user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+      service: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Service",
+      },
+      amount: Number,
+      status: Number,
+      statusText: String,
     },
     {
       timestamps: true, // This option adds 'createdAt' and 'updatedAt' fields
@@ -21,4 +22,4 @@ const Job = mongoose.model(
   )
 );
 
-module.exports = Job;
+module.exports = Order;

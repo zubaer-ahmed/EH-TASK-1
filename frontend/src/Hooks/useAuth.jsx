@@ -18,11 +18,26 @@ const AuthProvider = ({ children }) => {
     setUser(null);
     // navigate("/", { replace: true });
   };
+  const fetchUser = async () => {
+    let res, fetchedUser;
+    try {
+      res = await fetch(import.meta.env.VITE_BASE_URL + "/api/users/getSelf", {
+        method: "GET",
+        credentials: "include",
+      });
+      fetchedUser = await res.json();
+      setUser(fetchedUser);
+    } catch (e) {
+      console.log(e);
+      return [e, res, fetchedUser];
+    }
+  };
 
   const value = useMemo(
     () => ({
       user,
       setUser,
+      fetchUser,
       login,
       logout,
     }),

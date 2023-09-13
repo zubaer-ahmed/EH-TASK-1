@@ -22,10 +22,10 @@ export default () => {
   return (
     <section className="flex flex-col w-full h-full  basis-full shrink-0">
       {(() => {
-        if (user.roles.includes("worker")) {
-          return <WorkerPanel />;
-        } else if (user.roles.includes("customer")) {
+        if (user.roles.includes("customer")) {
           return <CustomerPanel />;
+        } else if (user.roles.includes("worker")) {
+          return <WorkerPanel />;
         } else if (user.roles.includes("admin")) {
           return <AdminPanel />;
         }

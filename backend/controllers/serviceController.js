@@ -22,7 +22,21 @@ const deleteService = async (req, res) => {
 };
 const createService = async (req, res) => {
   return res.json(
-    await models.Service.create({ ...req.body, worker: req.user })
+    await models.Service.create({
+      ...req.body,
+      worker: req.user,
+      status: 0,
+      statusText: "Ongoing",
+    })
+  );
+};
+const orderService = async (req, res) => {
+  return res.json(
+    await models.Order.create({
+      service: req.body,
+      user: req.user,
+      amount: req.body.amount,
+    })
   );
 };
 
@@ -33,4 +47,5 @@ module.exports = {
   updateService,
   deleteService,
   createService,
+  orderService,
 };

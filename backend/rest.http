@@ -7,7 +7,7 @@ POST http://localhost:8000/api/users/login
 Content-Type: application/json
 
 {
-    "email": "test@email.com",
+    "email": "admin",
     "password": "pass"
 }
 ###
@@ -26,7 +26,7 @@ Content-Type: application/json
   "email": "tdsdsest@email.com",
   "password": "$2b$10$96sMAUqYEQgUF48mZVhYeeZVZ3RvsoBsTDQsWHPOrspZweS4IW/2a",
   "role": "users",
-  "_id": "64f82ef6f747acc67d02ce30",
+  "_id": "65016b345f3d3f015861b065",
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZW1haWwuY29tIiwiaWF0IjoxNjkzOTg2NTUwfQ.xgiVi95ubgqN9LsJ231usCMM4bl_035gqBNEtQ7zRp8",
   "__v": 0
 }
