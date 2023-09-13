@@ -5,7 +5,7 @@ export default () => {
   logout();
   const navigate = useNavigate();
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center space-y-4 grow ">
+    <div className="w-full h-screen flex flex-col items-center justify-center space-y-4 grow ">
       <div className="text-4xl font-bold">Successful</div>
       <div className="text-2xl text-gray-500">You have logged out</div>
       <div className="flex space-x-2">

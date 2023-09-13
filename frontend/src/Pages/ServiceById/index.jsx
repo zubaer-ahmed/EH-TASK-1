@@ -74,6 +74,14 @@ function CommentById() {
             </p>
           </div>
           <div className="my-4"></div>
+          <div className="flex space-x-2">
+            <div className="button p-2">
+              <Icon fontSize="inherit">question_mark</Icon>{" "}
+              <div>Ask a Question</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col w-full h-full p-4 rounded border shadow">
           <div className="flex w-full items-center space-x-2">
             <input
               className="border-2 rounded-lg p-2 w-full"
@@ -84,7 +92,7 @@ function CommentById() {
               onChange={(e) => setReplyText(e.target.value)}
             />
             <div className="material-button">Send</div>
-          </div>
+          </div>{" "}
           <h1 className="text-xl font-bold text-gray-800 mt-2">Commnets</h1>
           <div className="flex flex-col py-4 space-y-2">
             {(job?.comments?.length > 0 &&
@@ -116,10 +124,11 @@ function CommentById() {
                   </div>
                 </div>
               ))) ||
-              "No replies yet"}
+              "No comments yet"}
           </div>
         </div>
       </div>
+
       <div className="basis-4/12 w-full px-4">
         <div className="w-full h-full rounded border shadow p-4">
           <div className="flex items-center ">

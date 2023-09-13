@@ -20,7 +20,7 @@ export default () => {
 
   const { user, setUser } = useAuth();
   return (
-    <section className="flex flex-col w-full h-full overflow-auto">
+    <section className="flex flex-col w-full h-full  basis-full shrink-0">
       {(() => {
         if (user.roles.includes("worker")) {
           return <WorkerPanel />;

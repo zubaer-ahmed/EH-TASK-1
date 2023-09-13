@@ -19,7 +19,7 @@ export default () => {
   return (
     <section className="flex flex-col w-full h-full">
       <div className="flex w-full grow items-stretch ">
-        <div className="flex flex-col basis-3/12 grow w-full h-full border-r p-4 text-blue-700">
+        <div className="flex flex-col basis-3/12 grow w-full h-full border m-8 rounded-xl p-4 text-blue-700 space-y-4">
           <Link
             to="/profile"
             className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "

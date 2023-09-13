@@ -46,7 +46,7 @@ export default () => {
 
   return (
     <>
-      <div className="h-full overflow-auto bg-gray-100 flex flex-col py-8">
+      <div className="h-full bg-gray-100 flex flex-col py-8">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-8 text-3xl text-center font-medium">Sign up</h1>

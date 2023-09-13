@@ -55,8 +55,8 @@ export default () => {
     return <Link {...props} component={Link} />;
   }
   return (
-    <div className="flex w-full h-full items-start relative overflow-auto">
-      <div className="basis-full h-full flex flex-col space-y-4 sm:basis-8/12 py-8 px-4 overflow-auto shrink-0">
+    <div className="flex w-full h-full items-start relative basis-full shrink-0 ">
+      <div className="basis-full h-full flex flex-col space-y-4 sm:basis-8/12 py-8 px-4  shrink-0">
         <Breadcrumbs
           separator="›"
           aria-label="breadcrumb"
@@ -103,7 +103,7 @@ export default () => {
           </FormControl>
         </div>
         <div className="jobs-list w-full h-full flex flex-col space-y-4">
-          {services.map((item, index) => (
+          {services.slice(10).map((item, index) => (
             <div key={index}>
               <Link to={`/service/${item._id}`}>
                 <div className="w-full h-full flex flex-col items-center justify-center bg-white">

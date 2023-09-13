@@ -41,7 +41,7 @@ function App() {
   const [tabValue, setTabValue] = React.useState("1");
   const [user, setUser] = useLocalStorage("user", null);
   return (
-    <div className="flex flex-col w-screen h-screen overflow-auto ">
+    <div className="flex flex-col w-full h-full">
       <TopNav />
       <Routes>
         <Route
