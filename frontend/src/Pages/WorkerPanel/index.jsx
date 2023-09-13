@@ -48,7 +48,7 @@ export default () => {
   }
   return (
     <div className="flex w-full h-full items-start relative overflow-auto">
-      <div className="basis-full h-full flex flex-col space-y-4 sm:basis-8/12 py-8 px-4">
+      <div className="basis-full h-full flex flex-col space-y-4 sm:basis-8/12 py-8 px-4 overflow-auto shrink-0">
         <Breadcrumbs
           separator="›"
           aria-label="breadcrumb"
@@ -169,8 +169,14 @@ export default () => {
           ))}
         </div>
       </div>
-      <div className="absolute sm:sticky top-16  w-full sm:w-auto sm:grow py-8 px-4 -translate-x-full opacity-0 sm:opacity-100 sm:translate-x-0 ">
-        <div className="flex flex-col">
+      <div className="overflow-auto basis-4/12 flex flex-col absolute sm:static h-full w-full sm:w-auto py-8 px-8 -translate-x-full opacity-0 sm:opacity-100 sm:translate-x-0 ">
+        <div className="flex flex-col space-y-2">
+          <Link
+            className="flex material-button self-start shrink-0"
+            to="/postService"
+          >
+            <Icon fontSize="inherit">add</Icon> Post Service
+          </Link>{" "}
           <div className="font-bold text-xl">Filters</div>
           <div className="mt-4"></div>
           <div className="font-bold mb-2">Sort By</div>

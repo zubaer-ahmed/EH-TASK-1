@@ -87,7 +87,7 @@ async function addTemplates() {
       firstName: "firstName1",
       lastName: "lastName1",
       jwt: "jwt1",
-      role: "user",
+      roles: ["customer"],
     },
     {
       email: "email2",
@@ -95,7 +95,7 @@ async function addTemplates() {
       firstName: "firstName2",
       lastName: "lastName2",
       jwt: "jwt2",
-      role: "worker",
+      roles: ["worker"],
     },
     {
       email: "email3",
@@ -103,7 +103,7 @@ async function addTemplates() {
       firstName: "firstName3",
       lastName: "lastName3",
       jwt: "jwt3",
-      role: "admin",
+      roles: ["admin"],
     },
     {
       email: "email1",
@@ -111,7 +111,7 @@ async function addTemplates() {
       firstName: "firstName1",
       lastName: "lastName1",
       jwt: "jwt1",
-      role: "user",
+      roles: ["customer"],
     },
     {
       email: "email2",
@@ -119,7 +119,7 @@ async function addTemplates() {
       firstName: "firstName2",
       lastName: "lastName2",
       jwt: "jwt2",
-      role: "worker",
+      roles: ["worker"],
     },
     {
       email: "email1",
@@ -127,7 +127,7 @@ async function addTemplates() {
       firstName: "firstName1",
       lastName: "lastName1",
       jwt: "jwt1",
-      role: "user",
+      roles: ["customer"],
     },
     {
       email: "email2",
@@ -135,7 +135,7 @@ async function addTemplates() {
       firstName: "firstName2",
       lastName: "lastName2",
       jwt: "jwt2",
-      role: "worker",
+      roles: ["worker"],
     },
   ];
 
