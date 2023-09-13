@@ -102,45 +102,21 @@ export default () => {
             </Select>
           </FormControl>
         </div>
-        <div className="jobs-list w-full h-full flex flex-col ">
+        <div className="jobs-list w-full h-full flex flex-col space-y-4">
           {services.map((item, index) => (
             <div key={index}>
               <Link to={`/service/${item._id}`}>
-                <div className="w-full h-full flex flex-col items-center justify-center">
-                  <div className="flex w-full h-full justify-center border rounded-lg shadow-sm p-4 mb-4 bg-opacity-50  space-x-4">
+                <div className="w-full h-full flex flex-col items-center justify-center bg-white">
+                  <div className="flex w-full h-full justify-center border rounded-lg shadow-sm p-4 button bg-opacity-50  space-x-4">
                     <img
                       src={"/noimage.svg"}
                       alt=""
-                      className="w-28 h-28 object-cover"
+                      className="w-28 h-28 object-cover self-start"
                     />
                     <div className="w-full h-full flex flex-col justify-center space-y-1">
                       <h3 className="text-xl font-bold text-blue-600">
                         {item.title}
                       </h3>
-                      <div className="flex items-center text-sm text-gray-500 space-x-1">
-                        <Icon fontSize="inherit">access_time</Icon>
-                        <div>
-                          {new Date(
-                            item.availabilityStartTime
-                          ).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit",
-                          })}{" "}
-                          -{" "}
-                          {new Date(
-                            item.availabilityEndTime
-                          ).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit",
-                          })}
-                        </div>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-500 space-x-1">
-                        <PlaceIcon fontSize="inherit" />
-                        <div>{item.locations}</div>
-                      </div>
                       <div className="flex items-center space-x-2 text-sm">
                         <div className="rounded px-1 bg-green-500 text-white">
                           4.6
@@ -169,6 +145,34 @@ export default () => {
                           ( 223 Ratings )
                         </div>
                       </div>
+                      <div className="flex items-center text-sm text-gray-500 space-x-1">
+                        <Icon fontSize="inherit">access_time</Icon>
+                        <div>
+                          {new Date(
+                            item.availabilityStartTime
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                          })}{" "}
+                          -{" "}
+                          {new Date(
+                            item.availabilityEndTime
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                          })}
+                        </div>
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500 space-x-1">
+                        <PlaceIcon fontSize="inherit" />
+                        <div>{item.locations.join(". ")}</div>
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500 space-x-1">
+                        <Icon fontSize="inherit">attach_money</Icon>
+                        <div>{item.cost} USD</div>
+                      </div>
                       <div className="flex items-center text-gray-500 space-x-1">
                         <Icon fontSize="inherit">description</Icon>
                         <div>{item.description}</div>
@@ -193,12 +197,6 @@ export default () => {
       </div>
       <div className="overflow-auto basis-4/12 flex flex-col absolute sm:static h-full w-full sm:w-auto py-8 px-8 -translate-x-full opacity-0 sm:opacity-100 sm:translate-x-0 ">
         <div className="flex flex-col space-y-2">
-          <div
-            className="flex material-button self-start shrink-0"
-            onClick={() => navigate("/postJob")}
-          >
-            <Icon fontSize="inherit">add</Icon> Post Job
-          </div>
           <div className="font-bold text-xl">Filters</div>
           <div className="mt-4"></div>
           <div className="font-bold mb-2">Sort By</div>

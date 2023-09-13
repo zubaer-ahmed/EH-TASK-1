@@ -21,6 +21,8 @@ const TopNav = () => {
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
+  React.useEffect(() => {}, []);
+
   return (
     <>
       <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white/50 backdrop-blur-md space-y-8 z-10">
@@ -106,6 +108,16 @@ const TopNav = () => {
             </form>
           </li>
           <div className="grow"></div>
+          {user?.roles.includes("customer") && (
+            <Link className="flex button space-x-2 h-10 px-3" to="/postJob">
+              <Icon fontSize="inherit">add</Icon> Post Job
+            </Link>
+          )}
+          {user?.roles.includes("worker") && (
+            <Link className="flex button space-x-2 h-10 px-3" to="/postJob">
+              <Icon fontSize="inherit">add</Icon> Post Service
+            </Link>
+          )}
           <li className="hidden sm:block">
             <FormControl fullWidth size="small">
               <InputLabel id="demo-simple-select-label">Language</InputLabel>
@@ -124,20 +136,20 @@ const TopNav = () => {
                     <MenuItem key={index} value={item}>
                       <div className="flex items-center space-x-2">
                         <ReactCountryFlag countryCode={item} svg />
-                        <div>{item}</div>
+                        <div>{item.toUpperCase()}</div>
                       </div>
                     </MenuItem>
                   ))}
               </Select>
             </FormControl>
           </li>
-          <li className={"hidden sm:block" + (user && "hidden")}>
+          <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
             <Link className="material-button" to="/login">
               Login
             </Link>
           </li>
-          <li className={"hidden sm:block" + (user && "hidden")}>
-            <Link className="" to="/register">
+          <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
+            <Link className="button h-10 px-3" to="/register">
               Register
             </Link>
           </li>
@@ -181,6 +193,13 @@ const TopNav = () => {
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
+                    to="/admin"
+                  >
+                    <Icon fontSize="inherit">tag</Icon>
+                    <div>Admin Panel</div>
+                  </Link>
+                  <Link
+                    className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/logout"
                   >
                     <Icon fontSize="inherit">logout</Icon>
@@ -190,7 +209,9 @@ const TopNav = () => {
               }
             >
               <div
-                className="text-xs flex items-center space-x-2"
+                className={`text-xs items-center space-x-2 h-10 px-3 ${
+                  !user ? "hidden" : "button flex "
+                }`}
                 onClick={visible ? hide : show}
               >
                 <div className="hidden sm:block">{user?.firstName}</div>

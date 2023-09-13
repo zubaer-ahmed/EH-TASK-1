@@ -1,6 +1,7 @@
 import { useLocalStorage } from "@/Hooks/useLocalStorage";
 import AdminPanel from "./Pages/AdminPanel";
 import PostJob from "./Pages/PostJob";
+import PostService from "./Pages/PostService";
 import Settings from "./Pages/Settings";
 import Worker from "./Pages/WorkerPanel";
 import Customer from "./Pages/Customer";
@@ -15,6 +16,8 @@ import Reviews from "./Pages/AdminPanel/Comments/Reviews";
 import Suggestions from "./Pages/AdminPanel/Comments/Suggestions";
 import Questions from "./Pages/AdminPanel/Comments/Questions";
 import CommentById from "./Pages/AdminPanel/Comments/CommentById";
+import JobById from "./Pages/JobById";
+import ServiceById from "./Pages/ServiceById";
 import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import NotFound from "./Pages/NotFound";
@@ -48,8 +51,8 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
-        <Route path="job/:slug" element={<CommentById />} />
-        <Route path="service/:slug" element={<CommentById />} />
+        <Route path="job/:slug" element={<JobById />} />
+        <Route path="service/:slug" element={<ServiceById />} />
         <Route
           path="settings"
           element={
@@ -69,6 +72,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="customer" element={<Customer />} />
         <Route path="postJob" element={<PostJob />} />
+        <Route path="postService" element={<PostService />} />
         <Route
           path="worker"
           element={

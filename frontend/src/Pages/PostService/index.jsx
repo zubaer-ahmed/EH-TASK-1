@@ -1,4 +1,3 @@
-import Icon from "@mui/material/Icon";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,10 +12,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import { useHelpers } from "@/Hooks/useHelpers";
 
 export default () => {
-  const { getLocation } = useHelpers();
   const [serviceCategory, setServiceCategory] = React.useState("");
   const [job, setJob] = React.useState({
     title: "",
@@ -60,7 +57,9 @@ export default () => {
           </div>
           <div className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div className="w-full">
-              <h3 className="mb-4 text-xl font-bold text-blue-600">Post Job</h3>
+              <h3 className="mb-4 text-xl font-bold text-blue-600">
+                Post Service
+              </h3>
               <div className="w-full bg-gray-200 rounded-full">
                 <div className=" w-1/3 p-1 text-xs font-medium leading-none text-center text-blue-100 bg-blue-600 rounded-full ">
                   Step 1
@@ -71,7 +70,7 @@ export default () => {
                   currentForm != 0 && "hidden"
                 }`}
               >
-                <div className="mt-4">
+                <div className="mt-4 mb-4">
                   <label className="text-gray-500 font-medium block text-sm">
                     Title
                   </label>
@@ -82,10 +81,10 @@ export default () => {
                     }}
                     type="text"
                     className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
-                    placeholder="Title of the Job"
+                    placeholder="Title of the Service"
                   />
                 </div>
-                <div className="mt-4">
+                <div className="mb-4">
                   <label className="text-gray-500 font-medium block mb-2 text-sm">
                     Description
                   </label>
@@ -97,47 +96,26 @@ export default () => {
                     type="text"
                     rows="3"
                     className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
-                    placeholder="Description of the Job"
+                    placeholder="Description of the Service"
                   />
                 </div>
-                <div className="mt-4"></div>
-                <label className="text-gray-500 font-medium block text-sm">
-                  Job Location
-                </label>{" "}
-                <div className="relative w-full">
-                  <div className="absolute inset-y-0 flex items-center pr-1 right-0">
-                    <div
-                      className="button p-2 rounded-full cursor-pointer"
-                      onClick={async () => {
-                        const location = await getLocation();
-                        setJob({
-                          ...job,
-                          location:
-                            "lat: " +
-                            location.latitude +
-                            " long: " +
-                            +location.longitude,
-                        });
-                      }}
-                    >
-                      <Icon fontSize="inherit">my_location</Icon>
-                    </div>
-                  </div>
+                <div className="mb-4">
+                  <label className="text-gray-500 font-medium block text-sm">
+                    Job Location
+                  </label>
                   <input
                     value={job.location}
                     onChange={(event) => {
                       setJob({ ...job, location: event.target.value });
                     }}
                     type="text"
-                    id="simple-search"
-                    className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 pr-10 p-2.5  "
-                    placeholder="Location for the Job"
-                    required
+                    className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+                    placeholder="Address Line"
                   />
                 </div>
-                <div className="mt-4"></div>
                 <label className="text-gray-500 font-medium block mb-2 text-sm">
-                  Appointment Time
+                  {" "}
+                  Appointment Time{" "}
                 </label>
                 <div className="mb-4 space-y-4">
                   <LocalizationProvider
@@ -146,7 +124,7 @@ export default () => {
                   >
                     <DatePicker
                       className="w-full"
-                      label="Date"
+                      label="Controlled picker"
                       value={job.date}
                       onChange={(newValue) => {
                         setJob({
@@ -163,7 +141,6 @@ export default () => {
 
                     <TimePicker
                       value={job.time}
-                      label="Time"
                       onChange={(newValue) => {
                         setJob({
                           ...job,
@@ -180,43 +157,42 @@ export default () => {
                     />
                   </LocalizationProvider>
                 </div>
-                <div className="mt-4"></div>
-                <label className="text-gray-500 font-medium block mb-2 text-sm">
-                  Job Category
-                </label>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="demo-simple-select-label">
-                    Select One
-                  </InputLabel>
-                  <Select
-                    className="w-full"
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    label="Select One"
-                    value={job.category}
-                    onChange={(event) => {
-                      setJob({ ...job, category: event.target.value });
-                    }}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {services.map((item, index) => (
-                      <MenuItem key={index} value={item}>
-                        {item}
+                <div className="mb-4">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="demo-simple-select-label">
+                      Job Category
+                    </InputLabel>
+                    <Select
+                      className="w-full"
+                      labelId="demo-select-small-label"
+                      id="demo-select-small"
+                      label="Job Category"
+                      value={job.category}
+                      onChange={(event) => {
+                        setJob({ ...job, category: event.target.value });
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
                       </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <div className="mt-4"></div>
-                <label className="text-gray-500 font-medium block mb-2 text-sm">
-                  Contact Number
-                </label>
-                <input
-                  className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
-                  placeholder="Contact Number"
-                  type="number"
-                />
+                      {services.map((item, index) => (
+                        <MenuItem key={index} value={item}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="mb-4">
+                  <label className="text-gray-500 font-medium block mb-2 text-sm">
+                    Contact Number
+                  </label>
+                  <input
+                    className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+                    placeholder="Contact Number"
+                    type="number"
+                  />
+                </div>
               </div>
 
               {/* form 2 */}

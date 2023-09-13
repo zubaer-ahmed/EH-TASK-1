@@ -13,6 +13,13 @@ const Service = mongoose.model(
     availabilityStartTime: String, // Date ISO String
     availabilityEndTime: String, // Date ISO String
     maxResponseTime: Number, // milliseconds
+    rating: Number, // float
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
     status: Number, // 0,1
     locations: [
       {

@@ -8,7 +8,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   return (
     // top-14 because TopNav's height is h-14
-    <nav className="top-14 w-20 h-full border-r bg-white space-y-8 shrink-0 -z-10">
+    <nav className="top-14 w-20 h-full border-r bg-white space-y-8 shrink-0 z-10">
       <div className="flex flex-col h-full">
         <div className="flex-1 flex flex-col h-full">
           <ul className="px-4 text-sm font-medium flex-1 space-y-2 py-4">

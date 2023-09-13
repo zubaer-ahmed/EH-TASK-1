@@ -76,7 +76,7 @@ const Service = () => {
     { editable: true, field: "lastName", headerName: "Last Name", width: 250 },
     { editable: true, field: "email", headerName: "Email", width: 250 },
     { editable: true, field: "password", headerName: "Password", width: 250 },
-    { editable: true, field: "role", headerName: "Role", width: 250 },
+    { editable: true, field: "roles", headerName: "Roles", width: 250 },
     {
       field: "actions",
       type: "actions",
