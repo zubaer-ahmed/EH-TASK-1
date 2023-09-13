@@ -15,7 +15,6 @@ const Comment = mongoose.model(
       senderId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true,
       },
       commentType: {
         type: String,

@@ -14,7 +14,11 @@ const AuthProvider = ({ children }) => {
   };
 
   // call this function to sign out logged in user
-  const logout = () => {
+  const logout = async () => {
+    await fetch(import.meta.env.VITE_BASE_URL + "/api/users/logout", {
+      method: "GET",
+      credentials: "include",
+    });
     setUser(null);
     // navigate("/", { replace: true });
   };

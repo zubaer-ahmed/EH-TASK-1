@@ -1,4 +1,6 @@
 ### USER ENDPOINTS
+GET http://localhost:8000/api/users/logout
+### 
 GET http://localhost:8000/api/users/getSelf
 ###
 GET http://localhost:8000/api/users/getUsers

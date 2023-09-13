@@ -15,7 +15,7 @@ function CommentById() {
   }, []);
   async function fetchComment() {
     const fetchedJob = await (
-      await fetch("http://localhost:8000/api/job/getJob/" + slug)
+      await fetch(import.meta.env.VITE_BASE_URL + "/api/job/getJob/" + slug)
     ).json();
     setJob(fetchedJob);
     console.log(fetchedJob);

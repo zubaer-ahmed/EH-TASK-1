@@ -1,3 +1,4 @@
+const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 var bodyParser = require("body-parser");
@@ -36,12 +37,20 @@ app.use("/api/services", servicesRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/workers", workerRoute);
 
-app.use("/", async (req, res) => {
-  return res.redirect(`http://localhost:5173${req.url}`);
+// app.use("/", async (req, res) => {
+//   return res.redirect(`http://localhost:5173${req.url}`);
 
-  await proxyRequest(req, res, "http://localhost:5173");
-  console.log("Proxied: ", req.url);
+//   await proxyRequest(req, res, "http://localhost:5173");
+//   console.log("Proxied: ", req.url);
+// });
+
+app.use(express.static(path.join(__dirname, "dist")));
+
+// Serve 'index.html' for all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
+
 // Server Listen Along with Database
 app.listen(PORT, (error) => {
   if (!error) console.log("Listening on http://localhost:" + PORT);

@@ -30,7 +30,7 @@ const Service = () => {
   };
 
   const handleDeleteClick = (id) => async () => {
-    await fetch("http://localhost:8000/api/users/deleteUser", {
+    await fetch(import.meta.env.VITE_BASE_URL + "/api/users/deleteUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(users.find((row) => row.id == id)),
@@ -54,11 +54,14 @@ const Service = () => {
   const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setUsers(users.map((row) => (row.id == newRow.id ? updatedRow : row)));
-    let res = await fetch("http://localhost:8000/api/users/updateUser", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newRow),
-    });
+    let res = await fetch(
+      import.meta.env.VITE_BASE_URL + "/api/users/updateUser",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newRow),
+      }
+    );
 
     return updatedRow;
   };
@@ -119,7 +122,7 @@ const Service = () => {
   React.useEffect(() => {
     (async () => {
       let fetchedJobs = await (
-        await fetch("http://localhost:8000/api/users/getUsers")
+        await fetch(import.meta.env.VITE_BASE_URL + "/api/users/getUsers")
       ).json();
       setUsers(fetchedJobs.map((e, i) => ({ ...e, id: i })));
       console.log("users fetched");
@@ -142,7 +145,7 @@ const Service = () => {
               users.filter((row) => !rowSelectionModel.includes(row.id))
             );
             rowSelectionModel.forEach((id) => {
-              fetch("http://localhost:8000/api/users/deleteUser", {
+              fetch(import.meta.env.VITE_BASE_URL + "/api/users/deleteUser", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(users.find((row) => row.id == id)),

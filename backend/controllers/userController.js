@@ -88,6 +88,11 @@ const login = async (req, res) => {
   res.send(user);
 };
 
+const logout = async (req, res) => {
+  res.cookie("jwt", "");
+  res.send({ status: "success" });
+};
+
 // Export of all methods as object
 module.exports = {
   getUsers,
@@ -97,4 +102,5 @@ module.exports = {
   auth,
   register,
   login,
+  logout,
 };

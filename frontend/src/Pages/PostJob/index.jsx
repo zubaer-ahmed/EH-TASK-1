@@ -34,17 +34,20 @@ export default () => {
   async function submitForm() {
     setTimeout(async () => {
       console.log(job);
-      let res = await fetch("http://localhost:8000/api/jobs/createJob", {
-        method: "POST",
-        credentials: "include", // Required to allow setting of imcomming cookies
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...job,
-          appointmentDate: job.appointmentDate.toISOString(),
-        }),
-      });
+      let res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/jobs/createJob",
+        {
+          method: "POST",
+          credentials: "include", // Required to allow setting of imcomming cookies
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...job,
+            appointmentDate: job.appointmentDate.toISOString(),
+          }),
+        }
+      );
     }, 100);
   }
   return (

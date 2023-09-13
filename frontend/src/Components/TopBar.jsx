@@ -25,7 +25,7 @@ const TopNav = () => {
 
   return (
     <>
-      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white/50 backdrop-blur-md space-y-8 z-10">
+      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white/50 backdrop-blur-md space-y-8 z-20">
         <ul className="flex items-center h-full space-x-2 px-4 font-medium overflow-x-auto">
           <li>
             <div className="h-full flex items-center justify-center">
@@ -108,14 +108,14 @@ const TopNav = () => {
             </form>
           </li>
           <div className="grow"></div>
-          {user?.roles.includes("customer") && (
+          {user?.roles?.includes("customer") && (
             <Link className="flex button space-x-2 h-10 px-3" to="/postJob">
-              <Icon fontSize="inherit">add</Icon> Post Job
+              Post a Job
             </Link>
           )}
-          {user?.roles.includes("worker") && (
+          {user?.roles?.includes("worker") && (
             <Link className="flex button space-x-2 h-10 px-3" to="/postService">
-              <Icon fontSize="inherit">add</Icon> Post Service
+              Post a Service
             </Link>
           )}
           <li className="hidden sm:block">

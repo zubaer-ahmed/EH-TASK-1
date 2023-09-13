@@ -1,8 +1,12 @@
 import { useAuth } from "@/Hooks/useAuth";
+import React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 export default () => {
   const { logout } = useAuth();
-  logout();
+  React.useEffect(() => {
+    logout();
+    return () => {};
+  }, []);
   const navigate = useNavigate();
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center space-y-4 grow ">

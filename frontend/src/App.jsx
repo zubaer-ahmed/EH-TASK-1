@@ -34,7 +34,7 @@ import Register from "./Pages/Register";
 import Logout from "./Pages/Logout";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
-import Footer from "./Components/footer";
+import Footer from "./Components/Footer";
 import FAQ from "./Pages/Guest/FAQ/FAQ";
 
 function App() {
@@ -43,13 +43,13 @@ function App() {
   const { user, setUser, fetchUser } = useAuth();
   React.useEffect(() => {
     (async () => {
-      fetchUser();
+      if (user) fetchUser();
       window.fetchUser = fetchUser;
     })();
     return () => {};
-  });
+  }, []);
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="relative flex flex-col w-full h-full">
       <TopNav />
       <Routes>
         <Route

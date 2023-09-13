@@ -20,20 +20,25 @@ export default () => {
     if (user.password != user.passwordConfirmation)
       return showErrorMessage("Password confirmation doesn't match");
 
-    let res = await fetch("http://localhost:8000/api/users/register", {
-      method: "POST",
-      credentials: "include", // Required to allow setting of imcomming cookies
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
+    let res = await fetch(
+      import.meta.env.VITE_BASE_URL + "/api/users/register",
+      {
+        method: "POST",
+        credentials: "include", // Required to allow setting of imcomming cookies
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }
+    );
     let responseJSON = await res.json();
     console.log("response", responseJSON);
     if (res.status != 200) {
       return showErrorMessage(responseJSON?.error);
     }
     localStorage.jwt = responseJSON.jwt;
+    await fetchUser(); // load extra details of users like, order history
+
     navigate("/");
   }
   function showErrorMessage(msg) {

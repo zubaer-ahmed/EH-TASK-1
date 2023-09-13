@@ -16,7 +16,7 @@ export default () => {
     if (user.email != "admin" && (!user.email || !user.password))
       return showErrorMessage("Please fill in all the fields");
 
-    let res = await fetch("http://localhost:8000/api/users/login", {
+    let res = await fetch(import.meta.env.VITE_BASE_URL + "/api/users/login", {
       method: "POST",
       credentials: "include", // Required to allow setting of cookies
       headers: {
@@ -31,6 +31,7 @@ export default () => {
     }
     localStorage.jwt = responseJSON.jwt;
     authLogin(responseJSON);
+    await fetchUser(); // load extra details of users like, order history
     navigate("/");
   }
   function showErrorMessage(msg) {
@@ -225,10 +226,11 @@ export default () => {
 
                 <p className="mt-6 text-sm text-center text-gray-400">
                   Don&#x27;t have an account yet?{" "}
-                  <Link to="/register">
-                    <a className="text-blue-500 focus:outline-none focus:underline hover:underline">
-                      Sign up
-                    </a>
+                  <Link
+                    to="/register"
+                    className="text-blue-500 focus:outline-none focus:underline hover:underline"
+                  >
+                    Sign up
                   </Link>
                   .
                 </p>

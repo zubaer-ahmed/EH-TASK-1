@@ -13,15 +13,18 @@ function CommentById() {
   async function sendReply() {
     if (!localStorage.jwt) alert("Log in first");
     const fetchedComment = await (
-      await fetch("http://localhost:8000/api/comments/replyComment/" + slug, {
-        method: "POST",
-        credentials: "include",
-        withCredentials: true, // this includes local cookies in request
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...comment, text: replyText }),
-      })
+      await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/comments/replyComment/" + slug,
+        {
+          method: "POST",
+          credentials: "include",
+          withCredentials: true, // this includes local cookies in request
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...comment, text: replyText }),
+        }
+      )
     ).json();
     await fetchComment();
   }
@@ -31,7 +34,9 @@ function CommentById() {
   }, []);
   async function fetchComment() {
     const fetchedComment = await (
-      await fetch("http://localhost:8000/api/comments/getComment/" + slug)
+      await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/comments/getComment/" + slug
+      )
     ).json();
     setComment(fetchedComment);
     console.log(fetchedComment);

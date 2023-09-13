@@ -21,9 +21,10 @@ export default () => {
     "Price Ascending",
     "Price Descending",
   ]);
-  const [limit, setLimit] = React.useState(5);
+  const [limit, setLimit] = React.useState(10);
   const [limits, setLimits] = React.useState([5, 10, 20, 50]);
   const { user, setUser } = useAuth();
+
   return (
     <section className="flex flex-col w-full h-full">
       <div className="flex w-full grow items-stretch p-4">
@@ -50,8 +51,9 @@ export default () => {
             <div className="text-gray-500 font-bold">Cancelled</div>
           </Link>
         </div>
-        <div className="flex flex-col basis-9/12 grow w-full h-full">
+        <div className="relative flex flex-col basis-9/12 grow w-full h-full">
           <div className="flex items-center space-x-2 rounded px-4 border w-full h-16 p-2 sticky top-[4.5rem] bg-white z-10 shadow">
+            {/* .25 * 18 = 4.5 */} {/* top-18 */}
             <div className="font-bold ">Sort By</div>
             <FormControl size="small">
               <InputLabel id="demo-simple-select-label">Select</InputLabel>

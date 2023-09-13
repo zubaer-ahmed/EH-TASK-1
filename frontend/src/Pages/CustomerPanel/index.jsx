@@ -44,7 +44,7 @@ export default () => {
   }, []);
   async function fetchJobs() {
     const fetchedArray = await (
-      await fetch("http://localhost:8000/api/services/getServices")
+      await fetch(import.meta.env.VITE_BASE_URL + "/api/services/getServices")
     ).json();
     setServices(fetchedArray);
     console.log(fetchedArray);

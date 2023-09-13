@@ -87,6 +87,14 @@ async function addTemplates() {
 
   let initializerUsers = [
     {
+      email: "admin@gmail.com",
+      password: "pass3_hash",
+      firstName: "John",
+      lastName: "Doe",
+      jwt: "jwt3",
+      roles: ["admin", "customer", "worker"],
+    },
+    {
       email: "email1@gmail.com",
       password: "pass1_hash",
       firstName: "firstName1",
@@ -101,14 +109,6 @@ async function addTemplates() {
       lastName: "lastName2",
       jwt: "jwt2",
       roles: ["worker"],
-    },
-    {
-      email: "admin@gmail.com",
-      password: "pass3_hash",
-      firstName: "John",
-      lastName: "Doe",
-      jwt: "jwt3",
-      roles: ["admin", "customer", "worker"],
     },
     {
       email: "email1@gmail.com",
@@ -155,15 +155,6 @@ async function addTemplates() {
       "suggestion",
       "question",
     ];
-    for (const item of comments) {
-      const newComment = new Comment({
-        sourceJobId: await Job.findOne({}),
-        senderId: await User.findOne({ email: "admin@gmail.com" }),
-        commentType: item,
-        text: "template " + item,
-      });
-      await newComment.save();
-    }
     initializerJobs.forEach(async (item) => {
       const newJob = new Job({
         ...item,
@@ -178,6 +169,15 @@ async function addTemplates() {
       });
       await newService.save();
     });
+    for (const item of comments) {
+      const newComment = new Comment({
+        sourceJobId: await Job.findOne({}),
+        senderId: await User.findOne({ email: "admin@gmail.com" }),
+        commentType: item,
+        text: "template " + item,
+      });
+      await newComment.save();
+    }
     let initializerOrders = await Service.find({});
     initializerOrders.forEach(async (item) => {
       const newOrder = new Order({
