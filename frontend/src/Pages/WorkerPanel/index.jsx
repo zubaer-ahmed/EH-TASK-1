@@ -19,7 +19,7 @@ import {
 } from "react-router-dom";
 import PlaceIcon from "@mui/icons-material/Place";
 import * as React from "react";
-import ProductCard from "../../Components/PRoductCard";
+import ProductCard from "@/Components/ProductCard";
 
 export default () => {
   const navigate = useNavigate();

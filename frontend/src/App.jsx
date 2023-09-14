@@ -37,8 +37,11 @@ import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
 import Footer from "./Components/Footer";
 import FAQ from "./Pages/Guest/FAQ/FAQ";
+import './i18n';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [tabValue, setTabValue] = React.useState("1");
   const { user, setUser, fetchUser } = useAuth();
@@ -47,7 +50,7 @@ function App() {
       if (user) fetchUser();
       window.fetchUser = fetchUser;
     })();
-    return () => {};
+    return () => { };
   }, []);
   return (
     <div className="relative flex flex-col w-full h-full">
@@ -113,10 +116,9 @@ function App() {
                   onChange={(event, newValue) => {
                     setTabValue(newValue);
                     navigate(
-                      `/admin/comments/${
-                        newValue == 1
-                          ? "reviews"
-                          : newValue == 2
+                      `/admin/comments/${newValue == 1
+                        ? "reviews"
+                        : newValue == 2
                           ? "suggestions"
                           : "questions"
                       }`

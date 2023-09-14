@@ -11,17 +11,22 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 const TopNav = () => {
+  const { t, i18n } = useTranslation();
+
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const [visible, setVisible] = React.useState(false);
-  const [language, setLanguage] = React.useState("gb");
-  const languages = ["gb", "bd", "jp"];
+  const [language, setLanguage] = React.useState("bn-BD");
+  const languages = ["en-US", "bn-BD"];
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    i18n.changeLanguage('bn-BD');
+  }, []);
 
   return (
     <>
@@ -111,12 +116,12 @@ const TopNav = () => {
           <div className="hidden sm:flex space-x-2 ">
             {user?.roles?.includes("customer") && (
               <Link className=" button space-x-2 h-10 px-3" to="/postJob">
-                Post a Job
+                {t('postjob')}
               </Link>
             )}
             {user?.roles?.includes("worker") && (
               <Link className=" button space-x-2 h-10 px-3" to="/postService">
-                Post a Service
+                {t('postservice')}
               </Link>
             )}
           </div>
@@ -131,13 +136,14 @@ const TopNav = () => {
                 value={language}
                 onChange={({ target: { value } }) => {
                   setLanguage(value);
+                  i18n.changeLanguage(value);
                 }}
               >
                 {languages &&
                   languages.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       <div className="flex items-center space-x-2">
-                        <ReactCountryFlag countryCode={item} svg />
+                        <ReactCountryFlag countryCode={item.split("-")[1]} svg />
                         <div>{item.toUpperCase()}</div>
                       </div>
                     </MenuItem>
@@ -218,9 +224,8 @@ const TopNav = () => {
               }
             >
               <div
-                className={`text-xs items-center space-x-2 h-10 px-3 border-0 sm:border ${
-                  !user ? "hidden" : "button flex"
-                }`}
+                className={`text-xs items-center space-x-2 h-10 px-3 border-0 sm:border ${!user ? "hidden" : "button flex"
+                  }`}
                 onClick={visible ? hide : show}
               >
                 <div className="">{user?.firstName}</div>
