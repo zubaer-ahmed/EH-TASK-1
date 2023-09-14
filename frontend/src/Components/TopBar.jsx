@@ -136,7 +136,7 @@ const TopNav = () => {
                 value={language}
                 onChange={({ target: { value } }) => {
                   setLanguage(value);
-                  i18n.changeLanguage(value);
+                  i18n.changeLanguage(value.split("-")[0]);
                 }}
               >
                 {languages &&
