@@ -1,6 +1,6 @@
 import Chip from "@mui/material/Chip";
 import Icon from "@mui/material/Icon";
-import { useAuth } from "@/Hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import {
   Checkbox,
   FormControl,
@@ -84,12 +84,12 @@ export default () => {
                     onDelete={handleDelete(item)}
                   />
                 ))) || (
-                <Chip
-                  label="Default"
-                  onClick={handleClick}
-                  onDelete={handleDelete(item)}
-                />
-              )}
+                  <Chip
+                    label="Default"
+                    onClick={handleClick}
+                    onDelete={handleDelete(item)}
+                  />
+                )}
             </div>
             <FormControl fullWidth size="small">
               <InputLabel id="demo-simple-select-label">Roles</InputLabel>

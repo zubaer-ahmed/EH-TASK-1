@@ -2,9 +2,9 @@ import * as React from "react";
 import { Link, Routes, Route, useNavigate, Outlet } from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import Icon from "@mui/material/Icon";
-import { useAuth } from "@/Hooks/useAuth";
-import { useLocalStorage } from "@/Hooks/useLocalStorage";
-import SideBar from "@/Components/SideBar";
+import { useAuth } from "../../Hooks/useAuth";
+import { useLocalStorage } from "../../Hooks/useLocalStorage";
+import SideBar from "../../Components/SideBar";
 
 import {
   Checkbox,
@@ -13,7 +13,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import PaymentGatewayForm from "@/Components/PaymentGatewayForm";
+import PaymentGatewayForm from "../../Components/PaymentGatewayForm";
 export default () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [sortType, setSortType] = React.useState("");

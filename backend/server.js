@@ -13,14 +13,14 @@ const workerRoute = require("./routes/workerRoute.js"); // login, register, etc
 
 // Server Initialization
 const app = express();
-const PORT = 8000;
+const PORT = 8001;
 
 const httpProxy = require("http-proxy");
 const proxy = httpProxy.createProxyServer({}); // for frontend redirects
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // 5173 is the vite dev server default
+    origin: ["http://localhost:8000"], // 8000 is the vite dev server default
     credentials: true,
   })
 );
@@ -38,9 +38,9 @@ app.use("/api/comments", commentRoute);
 app.use("/api/workers", workerRoute);
 
 // app.use("/", async (req, res) => {
-//   return res.redirect(`http://localhost:5173${req.url}`);
+//   return res.redirect(`http://localhost:8000${req.url}`);
 
-//   await proxyRequest(req, res, "http://localhost:5173");
+//   await proxyRequest(req, res, "http://localhost:8000");
 //   console.log("Proxied: ", req.url);
 // });
 

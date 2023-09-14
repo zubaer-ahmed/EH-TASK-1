@@ -1,4 +1,4 @@
-import { useAuth } from "@/Hooks/useAuth";
+import { useAuth } from "./Hooks/useAuth";
 import AdminPanel from "./Pages/AdminPanel";
 import PostJob from "./Pages/PostJob";
 import PostService from "./Pages/PostService";

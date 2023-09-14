@@ -3,7 +3,7 @@ import Icon from "@mui/material/Icon";
 import * as React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
-import { useAuth } from "@/Hooks/useAuth";
+import { useAuth } from "../Hooks/useAuth";
 import {
   Checkbox,
   FormControl,
@@ -20,12 +20,12 @@ const TopNav = () => {
   const { user, setUser } = useAuth();
   const [visible, setVisible] = React.useState(false);
   const [language, setLanguage] = React.useState("bn-BD");
-  const languages = ["en-US", "bn-BD"];
+  const languages = ["en-US", "bn-BD", "ar-SA", "ja-JP"];
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
   React.useEffect(() => {
-    i18n.changeLanguage('bn-BD');
+    i18n.changeLanguage('bn');
   }, []);
 
   return (
@@ -67,7 +67,7 @@ const TopNav = () => {
           <li className="hidden sm:block">
             <form className="flex items-center">
               <label htmlFor="simple-search" className="sr-only">
-                Search
+                {t("SEARCH")}
               </label>
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -116,18 +116,18 @@ const TopNav = () => {
           <div className="hidden sm:flex space-x-2 ">
             {user?.roles?.includes("customer") && (
               <Link className=" button space-x-2 h-10 px-3" to="/postJob">
-                {t('postjob')}
+                {t('POST_JOB')}
               </Link>
             )}
             {user?.roles?.includes("worker") && (
               <Link className=" button space-x-2 h-10 px-3" to="/postService">
-                {t('postservice')}
+                {t('POST_SERVICE')}
               </Link>
             )}
           </div>
           <li className="hidden sm:block">
             <FormControl fullWidth size="small">
-              <InputLabel id="demo-simple-select-label">Language</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t("LANGUAGE")}</InputLabel>
               <Select
                 className="w-full"
                 labelId="demo-select-small-label"
@@ -176,49 +176,49 @@ const TopNav = () => {
                     to="/profile"
                   >
                     <Icon fontSize="inherit">person</Icon>
-                    <div>Profile</div>
+                    <div>{t("PROFILE")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/orders"
                   >
                     <Icon fontSize="inherit">shopping_cart</Icon>
-                    <div>Orders</div>
+                    <div>{t("ORDERS")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/settings"
                   >
                     <Icon fontSize="inherit">settings</Icon>
-                    <div>Settings</div>
+                    <div>{t("SETTINGS")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/search"
                   >
                     <Icon fontSize="inherit">search</Icon>
-                    <div>Search</div>
+                    <div>{t("SEARCH")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/language"
                   >
                     <Icon fontSize="inherit">language</Icon>
-                    <div>Language</div>
+                    <div>{t("LANGUAGE")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/admin"
                   >
                     <Icon fontSize="inherit">tag</Icon>
-                    <div>Admin Panel</div>
+                    <div>{t("ADMIN_PANEL")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/logout"
                   >
                     <Icon fontSize="inherit">logout</Icon>
-                    <div>Logout</div>
+                    <div>{t("LOGOUT")}</div>
                   </Link>
                 </div>
               }

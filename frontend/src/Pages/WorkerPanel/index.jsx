@@ -1,4 +1,4 @@
-import { useLocalStorage } from "@/Hooks/useLocalStorage";
+import { useLocalStorage } from "../../Hooks/useLocalStorage";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Checkbox from "@mui/material/Checkbox";
@@ -19,7 +19,7 @@ import {
 } from "react-router-dom";
 import PlaceIcon from "@mui/icons-material/Place";
 import * as React from "react";
-import ProductCard from "@/Components/ProductCard";
+import ProductCard from "../../Components/ProductCard";
 
 export default () => {
   const navigate = useNavigate();

@@ -2,8 +2,8 @@ import * as React from "react";
 import { Link, Routes, Route, useNavigate, Outlet } from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import Icon from "@mui/material/Icon";
-import { useAuth } from "@/Hooks/useAuth";
-import SideBar from "@/Components/SideBar";
+import { useAuth } from "../../Hooks/useAuth";
+import SideBar from "../../Components/SideBar";
 
 import {
   Checkbox,
