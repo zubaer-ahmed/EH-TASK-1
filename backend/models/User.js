@@ -8,6 +8,13 @@ const User = mongoose.model(
       password: String,
       firstName: String,
       lastName: String,
+      fullName: {
+        type: String,
+        get: function () {
+          return `${this.firstName} ${this.lastName}`;
+        },
+      },
+      title: String,
       jwt: String,
       roles: {
         type: Array,

@@ -3,6 +3,7 @@ import AdminPanel from "./Pages/AdminPanel";
 import PostJob from "./Pages/PostJob";
 import PostService from "./Pages/PostService";
 import Orders from "./Pages/Orders";
+import Checkout from "./Pages/Checkout";
 import Settings from "./Pages/Settings";
 import Worker from "./Pages/WorkerPanel";
 import Customer from "./Pages/Customer";
@@ -61,6 +62,7 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
+        <Route path="checkout" element={<Checkout />} />
         <Route path="orders" element={<Orders />} />
         <Route path="job/:slug" element={<JobById />} />
         <Route path="service/:slug" element={<ServiceById />} />

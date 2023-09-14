@@ -19,11 +19,14 @@ import {
 } from "react-router-dom";
 import PlaceIcon from "@mui/icons-material/Place";
 import * as React from "react";
+import ProductCard from "../../Components/PRoductCard";
 
 export default () => {
   const navigate = useNavigate();
   const [services, setServices] = React.useState([]);
   const [user, setUser] = useLocalStorage("user", null);
+  const [globalState, setGlobalState] = useLocalStorage("globalState", {});
+
   React.useEffect(() => {
     // setUser({ name: "name" });
     console.log(user);
@@ -40,13 +43,14 @@ export default () => {
   const [sortType, setSortType] = React.useState("");
   React.useEffect(() => {
     fetchJobs();
-    return () => {};
+    return () => { };
   }, []);
   async function fetchJobs() {
     const fetchedArray = await (
       await fetch(import.meta.env.VITE_BASE_URL + "/api/services/getServices")
     ).json();
     setServices(fetchedArray);
+    setGlobalState({ ...globalState, services: fetchedArray });
     console.log(fetchedArray);
   }
   const location = useLocation();
@@ -107,17 +111,17 @@ export default () => {
             <div key={index}>
               <Link to={`/service/${item._id}`}>
                 <div className="w-full h-full flex flex-col items-center justify-center bg-white">
-                  <div className="flex w-full h-full justify-center border rounded-lg shadow-sm p-4 button bg-opacity-50  space-x-4">
+                  {/* <div className="flex w-full h-full justify-center border rounded-lg shadow-sm p-4 button bg-opacity-50  space-x-4 flex-wrap sm:flex-nowrap">
                     <img
                       src={"/noimage.svg"}
                       alt=""
-                      className="w-28 h-28 object-cover self-start"
+                      className="w-full sm:w-28 h-28 object-cover self-start"
                     />
                     <div className="w-full h-full flex flex-col justify-center space-y-1">
-                      <h3 className="text-xl font-bold text-blue-600">
+                      <h3 className="text-lg font-bold text-blue-600">
                         {item.title}
                       </h3>
-                      <div className="flex items-center space-x-2 text-sm">
+                      <div className="flex items-center space-x-2 text-xs">
                         <div className="rounded px-1 bg-green-500 text-white">
                           4.6
                         </div>
@@ -145,7 +149,7 @@ export default () => {
                           ( 223 Ratings )
                         </div>
                       </div>
-                      <div className="flex items-center text-sm text-gray-500 space-x-1">
+                      <div className="flex items-center text-xs text-gray-500 space-x-1">
                         <Icon fontSize="inherit">access_time</Icon>
                         <div>
                           {new Date(
@@ -165,15 +169,15 @@ export default () => {
                           })}
                         </div>
                       </div>
-                      <div className="flex items-center text-sm text-gray-500 space-x-1">
+                      <div className="flex items-center text-xs text-gray-500 space-x-1">
                         <PlaceIcon fontSize="inherit" />
                         <div>{item.locations.join(". ")}</div>
                       </div>
-                      <div className="flex items-center text-sm text-gray-500 space-x-1">
+                      <div className="flex items-center text-xs text-gray-500 space-x-1">
                         <Icon fontSize="inherit">attach_money</Icon>
                         <div>{item.cost} USD</div>
                       </div>
-                      <div className="flex items-center text-gray-500 space-x-1">
+                      <div className="flex text-xs items-center text-gray-500 space-x-1">
                         <Icon fontSize="inherit">description</Icon>
                         <div>{item.description}</div>
                       </div>
@@ -188,7 +192,8 @@ export default () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+                  <ProductCard object={{ ...item }} />
                 </div>
               </Link>
             </div>
@@ -228,7 +233,7 @@ export default () => {
           <div className="font-bold ">More Services Like This</div>
           {services.slice(0, 5).map((item, index) => (
             <Link to={`/service/${item._id}`} key={index}>
-              <div className="text-blue-600 text-sm flex">
+              <div className="text-blue-600 text-xs flex">
                 <div>{item.title + " - " + item.description}</div>
               </div>
             </Link>

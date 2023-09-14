@@ -2,12 +2,12 @@ const models = require("../models");
 
 // Methods to be executed on routes
 const getServices = async (req, res) => {
-  return res.json(await models.Service.find({}));
+  return res.json(await models.Service.find({}).populate("worker"));
 };
 
 const getService = async (req, res) => {
   const comment = await models.Service.findOne({ _id: req.params.id }).populate(
-    "employer"
+    "worker"
   );
 
   return res.json(comment);

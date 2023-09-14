@@ -2,13 +2,16 @@ import Icon from "@mui/material/Icon";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useParams } from "react-router-dom";
+import { useLocalStorage } from "../../Hooks/useLocalStorage";
 
-function CommentById() {
+function ServiceById() {
   // Access the "slug" parameter from the URL
   const { slug } = useParams();
+  const serviceId = slug;
   const [replyText, setReplyText] = React.useState("");
   const [job, setJob] = React.useState(null);
   const navigate = useNavigate();
+  const [globalState, setGlobalState] = useLocalStorage("globalState", {});
 
   return (
     <div className="flex w-full h-full p-4 overflow-auto items-start">
@@ -32,7 +35,22 @@ function CommentById() {
               <Icon fontSize="inherit">attach_money</Icon> <div>Cost</div>
             </div>
             <div className="flex space-x-2">
-              <div className="button p-2">
+              <div
+                className="button p-2"
+                onClick={() => {
+                  setGlobalState({
+                    ...globalState,
+                    cart: {
+                      items: [
+                        globalState.services.find(
+                          (item) => item._id == serviceId
+                        ),
+                      ],
+                    },
+                  });
+                  navigate("/checkout");
+                }}
+              >
                 <Icon fontSize="inherit">shopping_cart</Icon>{" "}
                 <div>Order Now</div>
               </div>
@@ -177,4 +195,4 @@ function CommentById() {
   );
 }
 
-export default CommentById;
+export default ServiceById;

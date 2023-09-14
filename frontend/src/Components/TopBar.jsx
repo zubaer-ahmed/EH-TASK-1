@@ -108,16 +108,18 @@ const TopNav = () => {
             </form>
           </li>
           <div className="grow"></div>
-          {user?.roles?.includes("customer") && (
-            <Link className="flex button space-x-2 h-10 px-3" to="/postJob">
-              Post a Job
-            </Link>
-          )}
-          {user?.roles?.includes("worker") && (
-            <Link className="flex button space-x-2 h-10 px-3" to="/postService">
-              Post a Service
-            </Link>
-          )}
+          <div className="hidden sm:flex space-x-2 ">
+            {user?.roles?.includes("customer") && (
+              <Link className=" button space-x-2 h-10 px-3" to="/postJob">
+                Post a Job
+              </Link>
+            )}
+            {user?.roles?.includes("worker") && (
+              <Link className=" button space-x-2 h-10 px-3" to="/postService">
+                Post a Service
+              </Link>
+            )}
+          </div>
           <li className="hidden sm:block">
             <FormControl fullWidth size="small">
               <InputLabel id="demo-simple-select-label">Language</InputLabel>
@@ -160,7 +162,7 @@ const TopNav = () => {
               visible={visible}
               content={
                 <div
-                  className="flex flex-col bg-white border w-64 p-4 shadow-lg"
+                  className="flex flex-col bg-white w-64 p-4 shadow-lg"
                   onClick={hide}
                 >
                   <Link
@@ -216,12 +218,12 @@ const TopNav = () => {
               }
             >
               <div
-                className={`text-xs items-center space-x-2 h-10 px-3 ${
-                  !user ? "hidden" : "button flex "
+                className={`text-xs items-center space-x-2 h-10 px-3 border-0 sm:border ${
+                  !user ? "hidden" : "button flex"
                 }`}
                 onClick={visible ? hide : show}
               >
-                <div className="hidden sm:block">{user?.firstName}</div>
+                <div className="">{user?.firstName}</div>
                 <img
                   src={"noimage.svg"}
                   alt=""

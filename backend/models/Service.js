@@ -10,6 +10,7 @@ const Service = mongoose.model(
       },
       title: String,
       description: String,
+      category: String,
       cost: Number,
       availabilityStartTime: String, // Date ISO String
       availabilityEndTime: String, // Date ISO String

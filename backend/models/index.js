@@ -55,7 +55,7 @@ async function addTemplates() {
   let initializerServices = [
     {
       title: "Plumber",
-      description: "Plumber Required",
+      description: "Plumbing Service",
       cost: 400,
       availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
       availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
@@ -65,7 +65,7 @@ async function addTemplates() {
     },
     {
       title: "Electrician",
-      description: "Electrician Required",
+      description: "Electrics Service",
       cost: 400,
       availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
       availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
@@ -75,7 +75,17 @@ async function addTemplates() {
     },
     {
       title: "Wifi Provider",
-      description: "Wifi Provider Required",
+      description: "Wifi Service",
+      cost: 400,
+      availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
+      availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
+      maxResponseTime: 30 * 60 * 1000, // milliseconds
+      status: 1, // 0,1
+      locations: ["Mohakhali, Dhaka", "Cantonment", "Mirpur"],
+    },
+    {
+      title: "Cleaner",
+      description: "Cleaning Service",
       cost: 400,
       availabilityStartTime: new Date("2023-09-11T15:30:00.000Z"),
       availabilityEndTime: new Date("2023-09-11T15:30:00.000Z"),
@@ -87,6 +97,7 @@ async function addTemplates() {
 
   let initializerUsers = [
     {
+      title: "AdminTitle",
       email: "admin@gmail.com",
       password: "pass3_hash",
       firstName: "John",
@@ -95,6 +106,7 @@ async function addTemplates() {
       roles: ["admin", "customer", "worker"],
     },
     {
+      title: "WorkerTitle",
       email: "email1@gmail.com",
       password: "pass1_hash",
       firstName: "firstName1",
@@ -103,6 +115,7 @@ async function addTemplates() {
       roles: ["customer"],
     },
     {
+      title: "CompanyTitle",
       email: "email2@yahoo.com",
       password: "pass2_hash",
       firstName: "firstName2",
@@ -111,6 +124,7 @@ async function addTemplates() {
       roles: ["worker"],
     },
     {
+      title: "IndividualTitle",
       email: "email1@gmail.com",
       password: "pass1_hash",
       firstName: "firstName1",
@@ -119,6 +133,7 @@ async function addTemplates() {
       roles: ["customer"],
     },
     {
+      title: "IndividualTitle",
       email: "email2@yahoo.com",
       password: "pass2_hash",
       firstName: "firstName2",
@@ -127,6 +142,7 @@ async function addTemplates() {
       roles: ["worker"],
     },
     {
+      title: "IndividualTitle",
       email: "email1@gmail.com",
       password: "pass1_hash",
       firstName: "firstName1",
@@ -135,6 +151,7 @@ async function addTemplates() {
       roles: ["customer"],
     },
     {
+      title: "IndividualTitle",
       email: "email2@yahoo.com",
       password: "pass2_hash",
       firstName: "firstName2",
