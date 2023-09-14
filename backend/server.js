@@ -52,7 +52,7 @@ app.get("*", (req, res) => {
 });
 
 // Server Listen Along with Database
-app.listen(PORT, (error) => {
+app.listen(PORT, "127.0.0.1", (error) => {
   if (!error) console.log("Listening on http://localhost:" + PORT);
   else console.log("Error occurred, server can't start", error);
 });
