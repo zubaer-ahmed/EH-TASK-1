@@ -116,7 +116,7 @@ export default () => {
       <div className="bg-white h-full">
         <div className="flex justify-center h-screen">
           <div
-            className="hidden bg-cover lg:block lg:w-2/3"
+            className="hidden bg-cover lg:block lg:w-3/6"
             style={{
               backgroundImage:
                 "url(https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHdvcmtlcnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1470&q=80)",
@@ -137,7 +137,7 @@ export default () => {
             </div>
           </div>
 
-          <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+        <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-3/6">
             <div className="flex-1">
               <div className="text-center">
                 <div className="flex justify-center mx-auto">

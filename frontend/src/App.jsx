@@ -37,8 +37,11 @@ import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
 import Footer from "./Components/Footer";
 import FAQ from "./Pages/Guest/FAQ/FAQ";
+import Contact from "./Pages/Guest/Contact";
 import './i18n';
 import { useTranslation } from 'react-i18next';
+import Blog from "./Pages/Guest/Blog";
+import Details from "./Pages/Guest/Blog/details";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -89,6 +92,9 @@ function App() {
         <Route path="customer" element={<Customer />} />
         <Route path="postJob" element={<PostJob />} />
         <Route path="FAQ" element={<FAQ />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="blogs" element={<Blog />} />
+        <Route path="blogs/details" element={<Details />} />
         <Route path="postService" element={<PostService />} />
         <Route
           path="worker"
