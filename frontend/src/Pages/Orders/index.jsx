@@ -23,7 +23,13 @@ export default () => {
   ]);
   const [limit, setLimit] = React.useState(10);
   const [limits, setLimits] = React.useState([5, 10, 20, 50]);
-  const { user, setUser } = useAuth();
+  const { user, setUser, fetchUser } = useAuth();
+
+  React.useEffect(() => {
+    fetchUser();
+    // console.log(new Date(user?.orders[0].updatedAt) - new Date(user?.orders[1].updatedAt))
+    return () => { };
+  }, [])
 
   return (
     <section className="flex flex-col w-full h-full">
@@ -100,7 +106,7 @@ export default () => {
           <div className="my-2"></div>
           <div className="flex flex-col space-y-4">
             {user &&
-              user?.orders?.map((item, index) => (
+              user?.orders.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))?.map((item, index) => (
                 <Link to={`/service/${item.service._id}`} key={index}>
                   <div className="w-full h-full flex flex-col items-center justify-center bg-white">
                     <div className="flex w-full h-full justify-center border rounded-lg shadow-sm p-4 button bg-opacity-50  space-x-4">
@@ -118,7 +124,7 @@ export default () => {
                           <div>
                             Status:{" "}
                             {(() => {
-                              switch (item.service.status) {
+                              switch (item.status) {
                                 case -1:
                                   return "Cancelled";
                                 case 0:

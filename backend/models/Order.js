@@ -8,11 +8,15 @@ const Order = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+      orderType: String,
       service: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Service",
       },
-      amount: Number,
+      job: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+      },
       status: Number,
       statusText: String,
     },

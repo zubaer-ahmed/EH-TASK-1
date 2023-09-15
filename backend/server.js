@@ -10,6 +10,7 @@ const jobRoute = require("./routes/jobRoute.js"); // login, register, etc
 const servicesRoute = require("./routes/serviceRoute.js"); // login, register, etc
 const commentRoute = require("./routes/commentRoute.js"); // login, register, etc
 const workerRoute = require("./routes/workerRoute.js"); // login, register, etc
+const ordersRoute = require("./routes/orderRoute.js"); // login, register, etc
 
 // Server Initialization
 const app = express();
@@ -20,7 +21,10 @@ const proxy = httpProxy.createProxyServer({}); // for frontend redirects
 
 app.use(
   cors({
-    origin: ["http://localhost:8000"], // 8000 is the vite dev server default
+    origin: [
+      "http://localhost:8000",
+      "https://eh-project-one--zubaerahmed1.repl.co",
+    ], // 8000 is the vite dev server default
     credentials: true,
   })
 );
@@ -36,6 +40,7 @@ app.use("/api/jobs", jobRoute);
 app.use("/api/services", servicesRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/workers", workerRoute);
+app.use("/api/orders", ordersRoute);
 
 // app.use("/", async (req, res) => {
 //   return res.redirect(`http://localhost:8000${req.url}`);

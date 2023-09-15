@@ -172,42 +172,43 @@ async function addTemplates() {
       "suggestion",
       "question",
     ];
-    initializerJobs.forEach(async (item) => {
-      const newJob = new Job({
-        ...item,
-        employer: await User.findOne({ email: "admin@gmail.com" }),
-      });
-      await newJob.save();
-    });
-    initializerServices.forEach(async (item) => {
-      const newService = new Service({
-        ...item,
-        worker: await User.findOne({ email: "admin@gmail.com" }),
-      });
-      await newService.save();
-    });
-    for (const item of comments) {
-      const newComment = new Comment({
-        sourceJobId: await Job.findOne({}),
-        senderId: await User.findOne({ email: "admin@gmail.com" }),
-        commentType: item,
-        text: "template " + item,
-      });
-      await newComment.save();
-    }
-    let initializerOrders = await Service.find({});
-    initializerOrders.forEach(async (item) => {
-      const newOrder = new Order({
-        user: await User.findOne({ email: "admin@gmail.com" }),
-        service: item,
-        amount: 1,
-      });
-      await newOrder.save();
 
-      await User.updateOne(
-        { email: "admin@gmail.com" },
-        { $push: { orders: newOrder._id } }
-      );
-    });
+    // let initializerOrders = await Service.find({}).limit(1);
+    // initializerOrders.forEach(async (item) => {
+    //   const newOrder = new Order({
+    //     user: await User.findOne({ email: "admin@gmail.com" }),
+    //     service: item,
+    //     amount: 1,
+    //   });
+    //   await newOrder.save();
+
+    //   await User.updateOne(
+    //     { email: "admin@gmail.com" },
+    //     { $push: { orders: newOrder._id } }
+    //   );
+    // });
   });
+  initializerJobs.slice(0, 2).forEach(async (item) => {
+    const newJob = new Job({
+      ...item,
+      employer: await User.findOne({ email: "admin@gmail.com" }),
+    });
+    await newJob.save();
+  });
+  initializerServices.slice(0, 2).forEach(async (item) => {
+    const newService = new Service({
+      ...item,
+      worker: await User.findOne({ email: "admin@gmail.com" }),
+    });
+    await newService.save();
+  });
+  for (const item of initializerComments.slice(0, 2)) {
+    const newComment = new Comment({
+      sourceJobId: await Job.findOne({}),
+      senderId: await User.findOne({ email: "admin@gmail.com" }),
+      commentType: item,
+      text: "template " + item,
+    });
+    await newComment.save();
+  }
 }

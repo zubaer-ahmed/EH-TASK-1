@@ -60,7 +60,40 @@ export default () => {
   }
   return (
     <div className="flex w-full h-full items-start relative basis-full shrink-0 ">
+
       <div className="basis-full h-full flex flex-col space-y-4 sm:basis-8/12 py-8 px-4  shrink-0">
+        {/* <div className="flex flex-wrap flex-col sm:flex-row  w-full text-blue-700 space-y-2 sm:space-y-0 items-center ">
+          <div className="basis-full sm:basis-1/3 aspect-video p-2 w-full  flex items-center justify-center max-w-xs">
+            <div className="border rounded w-full h-full flex items-center justify-center text-4xl flex-col max-w-xs hover:shadow">
+              <Icon fontSize="inherit">explore</Icon>
+              <div className="text-base font-bold">Explore Jobs</div>
+            </div>
+          </div>
+          <div className="basis-full sm:basis-1/3 aspect-video p-2 w-full  flex items-center justify-center max-w-xs">
+            <div className="border rounded w-full h-full flex items-center justify-center text-4xl flex-col max-w-xs hover:shadow">
+              <Icon fontSize="inherit">explore</Icon>
+              <div className="text-base font-bold">Explore Services</div>
+            </div>
+          </div>
+          <div className="basis-full sm:basis-1/3 aspect-video p-2 w-full  flex items-center justify-center max-w-xs">
+            <div className="border rounded w-full h-full flex items-center justify-center text-4xl flex-col max-w-xs hover:shadow">
+              <Icon fontSize="inherit">star</Icon>
+              <div className="text-base font-bold">My Jobs</div>
+            </div>
+          </div>
+          <div className="basis-full sm:basis-1/3 aspect-video p-2 w-full  flex items-center justify-center max-w-xs">
+            <div className="border rounded w-full h-full flex items-center justify-center text-4xl flex-col max-w-xs hover:shadow">
+              <Icon fontSize="inherit">star</Icon>
+              <div className="text-base font-bold">My Services</div>
+            </div>
+          </div>
+          <div className="basis-full sm:basis-1/3 aspect-video p-2 w-full  flex items-center justify-center max-w-xs">
+            <div className="border rounded w-full h-full flex items-center justify-center text-4xl flex-col max-w-xs hover:shadow">
+              <Icon fontSize="inherit">star</Icon>
+              <div className="text-base font-bold">My Services</div>
+            </div>
+          </div>
+        </div> */}
         <Breadcrumbs
           separator="›"
           aria-label="breadcrumb"
@@ -107,7 +140,7 @@ export default () => {
           </FormControl>
         </div>
         <div className="jobs-list w-full h-full flex flex-col space-y-4">
-          {services.slice(10).map((item, index) => (
+          {services.slice(0, 10).map((item, index) => (
             <div key={index}>
               <Link to={`/service/${item._id}`}>
                 <div className="w-full h-full flex flex-col items-center justify-center bg-white">

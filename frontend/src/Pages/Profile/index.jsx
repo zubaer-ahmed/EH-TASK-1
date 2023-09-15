@@ -113,7 +113,7 @@ export default () => {
                 {roles &&
                   roles.map((item, index) => (
                     <MenuItem key={index} value={item}>
-                      <Checkbox checked={user.roles.indexOf(item) > -1} />
+                      <Checkbox defaultChecked={user.roles.indexOf(item) > -1} />
                       {item}
                     </MenuItem>
                   ))}

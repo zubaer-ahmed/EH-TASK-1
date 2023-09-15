@@ -71,7 +71,7 @@ export default () => {
           </Link>
           {pathnames.map((value, index) => {
             const last = index === pathnames.length - 1;
-            const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+            const to = ``;
 
             return last ? (
               <div key={to}>{breadcrumbNameMap[to]}</div>
@@ -107,7 +107,7 @@ export default () => {
           </FormControl>
         </div>
         <div className="jobs-list w-full h-full flex flex-col space-y-4">
-          {services.slice(10).map((item, index) => (
+          {services.slice(0, 10).map((item, index) => (
             <div key={index}>
               <Link to={`/service/${item._id}`}>
                 <div className="w-full h-full flex flex-col items-center justify-center bg-white">
