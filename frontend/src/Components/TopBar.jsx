@@ -3,7 +3,7 @@ import Icon from "@mui/material/Icon";
 import * as React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
-import { useAuth } from "@/Hooks/useAuth";
+import { useAuth } from "../Hooks/useAuth";
 import {
   Checkbox,
   FormControl,
@@ -11,19 +11,26 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 const TopNav = () => {
+  const { t, i18n } = useTranslation();
+
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const [visible, setVisible] = React.useState(false);
-  const [language, setLanguage] = React.useState("gb");
-  const languages = ["gb", "bd", "jp"];
+  const [language, setLanguage] = React.useState("bn-BD");
+  const languages = ["en-US", "bn-BD", "ar-SA", "ja-JP"];
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
+  React.useEffect(() => {
+    i18n.changeLanguage('bn');
+  }, []);
+
   return (
     <>
-      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white/50 backdrop-blur-md space-y-8 z-10">
+      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white/50 backdrop-blur-md space-y-8 z-20">
         <ul className="flex items-center h-full space-x-2 px-4 font-medium overflow-x-auto">
           <li>
             <div className="h-full flex items-center justify-center">
@@ -60,7 +67,7 @@ const TopNav = () => {
           <li className="hidden sm:block">
             <form className="flex items-center">
               <label htmlFor="simple-search" className="sr-only">
-                Search
+                {t("SEARCH")}
               </label>
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -106,9 +113,21 @@ const TopNav = () => {
             </form>
           </li>
           <div className="grow"></div>
+          <div className="hidden sm:flex space-x-2 ">
+            {user?.roles?.includes("customer") && (
+              <Link className=" button space-x-2 h-10 px-3" to="/postJob">
+                {t('POST_JOB')}
+              </Link>
+            )}
+            {user?.roles?.includes("worker") && (
+              <Link className=" button space-x-2 h-10 px-3" to="/postService">
+                {t('POST_SERVICE')}
+              </Link>
+            )}
+          </div>
           <li className="hidden sm:block">
             <FormControl fullWidth size="small">
-              <InputLabel id="demo-simple-select-label">Language</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t("LANGUAGE")}</InputLabel>
               <Select
                 className="w-full"
                 labelId="demo-select-small-label"
@@ -117,27 +136,28 @@ const TopNav = () => {
                 value={language}
                 onChange={({ target: { value } }) => {
                   setLanguage(value);
+                  i18n.changeLanguage(value.split("-")[0]);
                 }}
               >
                 {languages &&
                   languages.map((item, index) => (
                     <MenuItem key={index} value={item}>
                       <div className="flex items-center space-x-2">
-                        <ReactCountryFlag countryCode={item} svg />
-                        <div>{item}</div>
+                        <ReactCountryFlag countryCode={item.split("-")[1]} svg />
+                        <div>{item.toUpperCase()}</div>
                       </div>
                     </MenuItem>
                   ))}
               </Select>
             </FormControl>
           </li>
-          <li className={"hidden sm:block" + (user && "hidden")}>
+          <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
             <Link className="material-button" to="/login">
               Login
             </Link>
           </li>
-          <li className={"hidden sm:block" + (user && "hidden")}>
-            <Link className="" to="/register">
+          <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
+            <Link className="button h-10 px-3" to="/register">
               Register
             </Link>
           </li>
@@ -148,7 +168,7 @@ const TopNav = () => {
               visible={visible}
               content={
                 <div
-                  className="flex flex-col bg-white border w-64 p-4 shadow-lg"
+                  className="flex flex-col bg-white w-64 p-4 shadow-lg"
                   onClick={hide}
                 >
                   <Link
@@ -156,44 +176,59 @@ const TopNav = () => {
                     to="/profile"
                   >
                     <Icon fontSize="inherit">person</Icon>
-                    <div>Profile</div>
+                    <div>{t("PROFILE")}</div>
+                  </Link>
+                  <Link
+                    className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
+                    to="/orders"
+                  >
+                    <Icon fontSize="inherit">shopping_cart</Icon>
+                    <div>{t("ORDERS")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/settings"
                   >
                     <Icon fontSize="inherit">settings</Icon>
-                    <div>Settings</div>
+                    <div>{t("SETTINGS")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/search"
                   >
                     <Icon fontSize="inherit">search</Icon>
-                    <div>Search</div>
+                    <div>{t("SEARCH")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/language"
                   >
                     <Icon fontSize="inherit">language</Icon>
-                    <div>Language</div>
+                    <div>{t("LANGUAGE")}</div>
+                  </Link>
+                  <Link
+                    className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
+                    to="/admin"
+                  >
+                    <Icon fontSize="inherit">tag</Icon>
+                    <div>{t("ADMIN_PANEL")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
                     to="/logout"
                   >
                     <Icon fontSize="inherit">logout</Icon>
-                    <div>Logout</div>
+                    <div>{t("LOGOUT")}</div>
                   </Link>
                 </div>
               }
             >
               <div
-                className="text-xs flex items-center space-x-2"
+                className={`text-xs items-center space-x-2 h-10 px-3 border-0 sm:border ${!user ? "hidden" : "button flex"
+                  }`}
                 onClick={visible ? hide : show}
               >
-                <div className="hidden sm:block">{user?.firstName}</div>
+                <div className="">{user?.firstName}</div>
                 <img
                   src={"noimage.svg"}
                   alt=""

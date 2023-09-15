@@ -118,7 +118,7 @@ const Service = () => {
   React.useEffect(() => {
     (async () => {
       let fetchedJobs = await (
-        await fetch("http://localhost:8000/api/jobs/getJobs")
+        await fetch(import.meta.env.VITE_BASE_URL + "/api/jobs/getJobs")
       ).json();
       setUsers(fetchedJobs.map((e, i) => ({ ...e, id: i })));
       console.log("users fetched");

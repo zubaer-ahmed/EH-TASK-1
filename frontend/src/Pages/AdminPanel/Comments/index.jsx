@@ -68,7 +68,7 @@ export default function IconLabelTabs() {
   React.useEffect(() => {
     (async () => {
       let fetchedJobs = await (
-        await fetch("http://localhost:8000/api/reviews/getReviews")
+        await fetch(import.meta.env.VITE_BASE_URL + "/api/reviews/getReviews")
       ).json();
       setComments(fetchedJobs.map((e, i) => ({ ...e, id: i })));
       console.log(comments);

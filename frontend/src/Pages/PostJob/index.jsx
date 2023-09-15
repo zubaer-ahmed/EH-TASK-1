@@ -1,3 +1,4 @@
+import Icon from "@mui/material/Icon";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,8 +13,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useParams } from "react-router-dom";
+import { useHelpers } from "../../Hooks/useHelpers";
 
 export default () => {
+  const { getLocation } = useHelpers();
   const [serviceCategory, setServiceCategory] = React.useState("");
   const [job, setJob] = React.useState({
     title: "",
@@ -31,17 +34,20 @@ export default () => {
   async function submitForm() {
     setTimeout(async () => {
       console.log(job);
-      let res = await fetch("http://localhost:8000/api/jobs/createJob", {
-        method: "POST",
-        credentials: "include", // Required to allow setting of imcomming cookies
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...job,
-          appointmentDate: job.appointmentDate.toISOString(),
-        }),
-      });
+      let res = await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/jobs/createJob",
+        {
+          method: "POST",
+          credentials: "include", // Required to allow setting of imcomming cookies
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...job,
+            appointmentDate: job.appointmentDate.toISOString(),
+          }),
+        }
+      );
     }, 100);
   }
   return (
@@ -64,11 +70,10 @@ export default () => {
                 </div>
               </div>
               <div
-                className={`form-1 flex flex-col ${
-                  currentForm != 0 && "hidden"
-                }`}
+                className={`form-1 flex flex-col ${currentForm != 0 && "hidden"
+                  }`}
               >
-                <div className="mt-4 mb-4">
+                <div className="mt-4">
                   <label className="text-gray-500 font-medium block text-sm">
                     Title
                   </label>
@@ -82,7 +87,7 @@ export default () => {
                     placeholder="Title of the Job"
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mt-4">
                   <label className="text-gray-500 font-medium block mb-2 text-sm">
                     Description
                   </label>
@@ -97,23 +102,44 @@ export default () => {
                     placeholder="Description of the Job"
                   />
                 </div>
-                <div className="mb-4">
-                  <label className="text-gray-500 font-medium block text-sm">
-                    Job Location
-                  </label>
+                <div className="mt-4"></div>
+                <label className="text-gray-500 font-medium block text-sm">
+                  Job Location
+                </label>{" "}
+                <div className="relative w-full">
+                  <div className="absolute inset-y-0 flex items-center pr-1 right-0">
+                    <div
+                      className="button p-2 rounded-full cursor-pointer"
+                      onClick={async () => {
+                        const location = await getLocation();
+                        setJob({
+                          ...job,
+                          location:
+                            "lat: " +
+                            location.latitude +
+                            " long: " +
+                            +location.longitude,
+                        });
+                      }}
+                    >
+                      <Icon fontSize="inherit">my_location</Icon>
+                    </div>
+                  </div>
                   <input
                     value={job.location}
                     onChange={(event) => {
                       setJob({ ...job, location: event.target.value });
                     }}
                     type="text"
-                    className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
-                    placeholder="Address Line"
+                    id="simple-search"
+                    className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 pr-10 p-2.5  "
+                    placeholder="Location for the Job"
+                    required
                   />
                 </div>
+                <div className="mt-4"></div>
                 <label className="text-gray-500 font-medium block mb-2 text-sm">
-                  {" "}
-                  Appointment Time{" "}
+                  Appointment Time
                 </label>
                 <div className="mb-4 space-y-4">
                   <LocalizationProvider
@@ -122,7 +148,7 @@ export default () => {
                   >
                     <DatePicker
                       className="w-full"
-                      label="Controlled picker"
+                      label="Date"
                       value={job.date}
                       onChange={(newValue) => {
                         setJob({
@@ -130,8 +156,8 @@ export default () => {
                           date: newValue,
                           appointmentDate: new Date(
                             newValue.$d?.toDateString() +
-                              " " +
-                              job.time?.$d?.toTimeString()
+                            " " +
+                            job.time?.$d?.toTimeString()
                           ),
                         });
                       }}
@@ -139,14 +165,15 @@ export default () => {
 
                     <TimePicker
                       value={job.time}
+                      label="Time"
                       onChange={(newValue) => {
                         setJob({
                           ...job,
                           time: newValue,
                           appointmentDate: new Date(
                             job.date?.$d?.toDateString() +
-                              " " +
-                              newValue.$d?.toTimeString()
+                            " " +
+                            newValue.$d?.toTimeString()
                           ),
                         });
                       }}
@@ -155,49 +182,49 @@ export default () => {
                     />
                   </LocalizationProvider>
                 </div>
-                <div className="mb-4">
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="demo-simple-select-label">
-                      Job Category
-                    </InputLabel>
-                    <Select
-                      className="w-full"
-                      labelId="demo-select-small-label"
-                      id="demo-select-small"
-                      label="Job Category"
-                      value={job.category}
-                      onChange={(event) => {
-                        setJob({ ...job, category: event.target.value });
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
+                <div className="mt-4"></div>
+                <label className="text-gray-500 font-medium block mb-2 text-sm">
+                  Job Category
+                </label>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Select One
+                  </InputLabel>
+                  <Select
+                    className="w-full"
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    label="Select One"
+                    value={job.category}
+                    onChange={(event) => {
+                      setJob({ ...job, category: event.target.value });
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {services.map((item, index) => (
+                      <MenuItem key={index} value={item}>
+                        {item}
                       </MenuItem>
-                      {services.map((item, index) => (
-                        <MenuItem key={index} value={item}>
-                          {item}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="mb-4">
-                  <label className="text-gray-500 font-medium block mb-2 text-sm">
-                    Contact Number
-                  </label>
-                  <input
-                    className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
-                    placeholder="Contact Number"
-                    type="number"
-                  />
-                </div>
+                    ))}
+                  </Select>
+                </FormControl>
+                <div className="mt-4"></div>
+                <label className="text-gray-500 font-medium block mb-2 text-sm">
+                  Contact Number
+                </label>
+                <input
+                  className=" w-full px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600 "
+                  placeholder="Contact Number"
+                  type="number"
+                />
               </div>
 
               {/* form 2 */}
               <div
-                className={`form-2 flex flex-col ${
-                  currentForm != 1 && "hidden"
-                }`}
+                className={`form-2 flex flex-col ${currentForm != 1 && "hidden"
+                  }`}
               >
                 <div className="mt-4 mb-4">
                   <label className="text-gray-500 font-medium block text-sm">
@@ -232,9 +259,8 @@ export default () => {
               </div>
               <div className="flex">
                 <button
-                  className={`${
-                    currentForm == 0 && "hidden"
-                  } px-6 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none `}
+                  className={`${currentForm == 0 && "hidden"
+                    } px-6 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none `}
                   href="#"
                   onClick={() => {
                     setCurrentForm(currentForm - 1);

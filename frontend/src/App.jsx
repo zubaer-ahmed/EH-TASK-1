@@ -1,6 +1,9 @@
-import { useLocalStorage } from "@/Hooks/useLocalStorage";
+import { useAuth } from "./Hooks/useAuth";
 import AdminPanel from "./Pages/AdminPanel";
 import PostJob from "./Pages/PostJob";
+import PostService from "./Pages/PostService";
+import Orders from "./Pages/Orders";
+import Checkout from "./Pages/Checkout";
 import Settings from "./Pages/Settings";
 import Worker from "./Pages/WorkerPanel";
 import Customer from "./Pages/Customer";
@@ -15,6 +18,8 @@ import Reviews from "./Pages/AdminPanel/Comments/Reviews";
 import Suggestions from "./Pages/AdminPanel/Comments/Suggestions";
 import Questions from "./Pages/AdminPanel/Comments/Questions";
 import CommentById from "./Pages/AdminPanel/Comments/CommentById";
+import JobById from "./Pages/JobById";
+import ServiceById from "./Pages/ServiceById";
 import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import NotFound from "./Pages/NotFound";
@@ -30,16 +35,26 @@ import Register from "./Pages/Register";
 import Logout from "./Pages/Logout";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
-import Footer from "./Components/footer";
+import Footer from "./Components/Footer";
 import FAQ from "./Pages/Guest/FAQ/FAQ";
 import Contact from "./Pages/Guest/Contact";
+import './i18n';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [tabValue, setTabValue] = React.useState("1");
-  const [user, setUser] = useLocalStorage("user", null);
+  const { user, setUser, fetchUser } = useAuth();
+  React.useEffect(() => {
+    (async () => {
+      if (user) fetchUser();
+      window.fetchUser = fetchUser;
+    })();
+    return () => { };
+  }, []);
   return (
-    <div className="flex flex-col w-screen h-screen overflow-auto ">
+    <div className="relative flex flex-col w-full h-full">
       <TopNav />
       <Routes>
         <Route
@@ -51,8 +66,10 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
-        <Route path="job/:slug" element={<CommentById />} />
-        <Route path="service/:slug" element={<CommentById />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="job/:slug" element={<JobById />} />
+        <Route path="service/:slug" element={<ServiceById />} />
         <Route
           path="settings"
           element={
@@ -74,6 +91,7 @@ function App() {
         <Route path="postJob" element={<PostJob />} />
         <Route path="FAQ" element={<FAQ />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="postService" element={<PostService />} />
         <Route
           path="worker"
           element={
@@ -83,20 +101,7 @@ function App() {
           }
         />
         <Route path="register" element={<Register />} />
-        <Route
-          path="admin"
-          element={
-            <div className="relative flex w-full h-full  overflow-auto">
-              <Sidebar />
-              <Outlet />
-            </div>
-          }
-        >
-          <Route
-            path="profile
-          "
-            element={<AdminPanel />}
-          />
+        <Route path="admin" element={<AdminPanel />}>
           <Route path="" element={<AdminProfile />} />
           <Route path="profile" element={<AdminProfile />} />
           <Route path="users" element={<Users />} />
@@ -113,10 +118,9 @@ function App() {
                   onChange={(event, newValue) => {
                     setTabValue(newValue);
                     navigate(
-                      `/admin/comments/${
-                        newValue == 1
-                          ? "reviews"
-                          : newValue == 2
+                      `/admin/comments/${newValue == 1
+                        ? "reviews"
+                        : newValue == 2
                           ? "suggestions"
                           : "questions"
                       }`
@@ -141,7 +145,7 @@ function App() {
         <Route path="logout" element={<Logout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

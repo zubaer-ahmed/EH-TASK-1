@@ -1,6 +1,6 @@
 import Chip from "@mui/material/Chip";
 import Icon from "@mui/material/Icon";
-import { useAuth } from "@/Hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import {
   Checkbox,
   FormControl,
@@ -14,14 +14,33 @@ export default () => {
     console.info("You clicked the Chip.");
   };
 
-  const handleDelete = () => {
-    console.info("You clicked the delete icon.");
+  const handleDelete = (chipToDelete) => () => {
+    setUser({
+      ...user,
+      roles: user.roles.filter((chip) => chip != chipToDelete),
+    });
   };
+
   const roles = ["customer", "worker", "admin"];
+
+  async function updateProfile() {
+    let res = await (
+      await fetch(import.meta.env.VITE_BASE_URL + "/api/users/updateUser", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      })
+    ).json();
+    console.log(res);
+  }
   return (
     <div className="flex flex-col items-center w-full h-full overflow-auto py-8">
       <div className="text-3xl font-bold my-4">
-        {(user.roles && user.roles[0].replace(/^\w/, (c) => c.toUpperCase())) ||
+        {(user?.roles.length > 0 &&
+          user.roles[0].replace(/^\w/, (c) => c.toUpperCase())) ||
           "User"}{" "}
         Profile
       </div>
@@ -36,7 +55,7 @@ export default () => {
             <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
           </svg>
         </div>
-        <p className="text-gray-700  mt-4 ">
+        <div className="text-gray-700  mt-4 ">
           <div className="flex flex-col">
             <span className="">
               <a
@@ -51,25 +70,26 @@ export default () => {
               </div>
             </span>
           </div>
-        </p>
+        </div>
         <div className="mt-8 max-w-lg mx-auto">
           <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
             <div className="font-medium">Roles</div>
             <div className="flex space-x-2">
               {(user.roles &&
-                user.roles.map((item) => (
+                user.roles.map((item, index) => (
                   <Chip
+                    key={index}
                     label={item}
                     onClick={handleClick}
-                    onDelete={handleDelete}
+                    onDelete={handleDelete(item)}
                   />
                 ))) || (
-                <Chip
-                  label="Default"
-                  onClick={handleClick}
-                  onDelete={handleDelete}
-                />
-              )}
+                  <Chip
+                    label="Default"
+                    onClick={handleClick}
+                    onDelete={handleDelete(item)}
+                  />
+                )}
             </div>
             <FormControl fullWidth size="small">
               <InputLabel id="demo-simple-select-label">Roles</InputLabel>
@@ -169,7 +189,10 @@ export default () => {
                 />
               </div>
             </div>
-            <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+            <button
+              className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+              onClick={updateProfile}
+            >
               Update
             </button>
           </form>

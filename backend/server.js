@@ -1,3 +1,4 @@
+const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 var bodyParser = require("body-parser");
@@ -12,14 +13,14 @@ const workerRoute = require("./routes/workerRoute.js"); // login, register, etc
 
 // Server Initialization
 const app = express();
-const PORT = 8000;
+const PORT = 8001;
 
 const httpProxy = require("http-proxy");
 const proxy = httpProxy.createProxyServer({}); // for frontend redirects
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // 5173 is the vite dev server default
+    origin: ["http://localhost:8000"], // 8000 is the vite dev server default
     credentials: true,
   })
 );
@@ -36,14 +37,22 @@ app.use("/api/services", servicesRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/workers", workerRoute);
 
-app.use("/", async (req, res) => {
-  return res.redirect(`http://localhost:5173${req.url}`);
+// app.use("/", async (req, res) => {
+//   return res.redirect(`http://localhost:8000${req.url}`);
 
-  await proxyRequest(req, res, "http://localhost:5173");
-  console.log("Proxied: ", req.url);
+//   await proxyRequest(req, res, "http://localhost:8000");
+//   console.log("Proxied: ", req.url);
+// });
+
+app.use(express.static(path.join(__dirname, "dist")));
+
+// Serve 'index.html' for all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
+
 // Server Listen Along with Database
-app.listen(PORT, (error) => {
+app.listen(PORT, "127.0.0.1", (error) => {
   if (!error) console.log("Listening on http://localhost:" + PORT);
   else console.log("Error occurred, server can't start", error);
 });

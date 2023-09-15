@@ -12,7 +12,9 @@ export default () => {
   }, []);
   async function fetchComment() {
     const fetchedJobs = await (
-      await fetch("http://localhost:8000/api/comments/getComments/suggestion")
+      await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/comments/getComments/suggestion"
+      )
     ).json();
     setComments(fetchedJobs);
   }
