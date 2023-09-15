@@ -1,6 +1,7 @@
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Features from "../Guest/Features/Features";
 import FeaturedCategory from "../Guest/FeaturedCategory";
+import HIW from "../Guest/HIW";
 
 export default () => {
   return (
@@ -43,8 +44,9 @@ export default () => {
         </div>
       </div>
     </section>
-    <FeaturedCategory/>
+    <HIW/>
     <Features/>
+    <FeaturedCategory/>
     </>
   );
 };

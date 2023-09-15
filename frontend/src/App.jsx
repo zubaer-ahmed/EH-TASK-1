@@ -32,6 +32,7 @@ import { ProtectedRoute } from "./Components/ProtectedRoute";
 import Profile from "./Pages/Profile";
 import Footer from "./Components/footer";
 import FAQ from "./Pages/Guest/FAQ/FAQ";
+import Contact from "./Pages/Guest/Contact";
 
 function App() {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ function App() {
         <Route path="customer" element={<Customer />} />
         <Route path="postJob" element={<PostJob />} />
         <Route path="FAQ" element={<FAQ />} />
+        <Route path="contact" element={<Contact />} />
         <Route
           path="worker"
           element={
