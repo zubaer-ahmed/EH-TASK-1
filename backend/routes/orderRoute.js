@@ -11,8 +11,12 @@ const router = Router();
 router.use(express.json());
 
 // Requests
-router.get("/getOrders", orderController.getOrders);
+router.get("/getAllOrders", orderController.getAllOrders);
+router.get("/getOrders", auth, orderController.getOrders);
+router.get("/getAcceptedOrders", auth, orderController.getAcceptedOrders);
 router.get("/getOrder/:id", orderController.getOrder);
+router.get("/acceptOrder/:id", auth, orderController.acceptOrder);
+router.get("/markDone/:id", auth, orderController.markDone);
 router.post("/updateOrder", orderController.updateOrder);
 router.post("/postOrder", auth, orderController.postOrder);
 router.post("/deleteOrder", orderController.deleteOrder);

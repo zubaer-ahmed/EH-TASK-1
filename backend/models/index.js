@@ -9,6 +9,7 @@ const Service = require("./Service");
 const Comment = require("./Comment");
 const Order = require("./Order");
 
+const services = import("../../frontend/src/Data/services.js");
 // only for development phase
 let connectionString =
   "mongodb+srv://root:root@cluster0.l2biux6.mongodb.net/?retryWrites=true&w=majority";
@@ -188,27 +189,28 @@ async function addTemplates() {
     //   );
     // });
   });
-  initializerJobs.slice(0, 2).forEach(async (item) => {
-    const newJob = new Job({
-      ...item,
-      employer: await User.findOne({ email: "admin@gmail.com" }),
-    });
-    await newJob.save();
-  });
-  initializerServices.slice(0, 2).forEach(async (item) => {
+  // initializerJobs.slice(0, 2).forEach(async (item) => {
+  //   const newJob = new Job({
+  //     ...item,
+  //     employer: await User.findOne({ email: "admin@gmail.com" }),
+  //   });
+  //   await newJob.save();
+  // });
+  let initServices = await services;
+  initServices.default.forEach(async (item) => {
     const newService = new Service({
       ...item,
       worker: await User.findOne({ email: "admin@gmail.com" }),
     });
     await newService.save();
   });
-  for (const item of initializerComments.slice(0, 2)) {
-    const newComment = new Comment({
-      sourceJobId: await Job.findOne({}),
-      senderId: await User.findOne({ email: "admin@gmail.com" }),
-      commentType: item,
-      text: "template " + item,
-    });
-    await newComment.save();
-  }
+  // for (const item of initializerComments.slice(0, 2)) {
+  //   const newComment = new Comment({
+  //     sourceJobId: await Job.findOne({}),
+  //     senderId: await User.findOne({ email: "admin@gmail.com" }),
+  //     commentType: item,
+  //     text: "template " + item,
+  //   });
+  //   await newComment.save();
+  // }
 }

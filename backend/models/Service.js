@@ -4,33 +4,19 @@ const Service = mongoose.model(
   "Service",
   new mongoose.Schema(
     {
-      worker: {
+      uploader: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // must be User of role "worker"
+        ref: "User",
       },
-      title: String,
-      description: String,
-      category: String,
-      cost: Number,
-      availabilityStartTime: String, // Date ISO String
-      availabilityEndTime: String, // Date ISO String
-      maxResponseTime: Number, // milliseconds
-      rating: Number, // float
-      comments: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Comment",
-        },
-      ],
-      status: Number, // 0,1
-      locations: [
-        {
-          type: String,
-        },
-      ],
+      id: String,
+      name: String,
+      price: Number,
+      imageSrc: String,
+      options: Object,
     },
     {
-      timestamps: true, // This option adds 'createdAt' and 'updatedAt' fields
+      minimize: false,
+      timestamps: true,
     }
   )
 );

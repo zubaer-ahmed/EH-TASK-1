@@ -1,14 +1,25 @@
 import Chip from "@mui/material/Chip";
 import Icon from "@mui/material/Icon";
+import * as React from "react";
 import { useAuth } from "../../Hooks/useAuth";
 import {
+  Autocomplete,
+  Box,
   Checkbox,
   FormControl,
   InputLabel,
+  ListItemText,
   MenuItem,
+  Modal,
   Select,
+  TextField,
+  Typography,
 } from "@mui/material";
-export default () => {
+import servicesList from '../../Data/services';
+
+export default function Page() {
+  const [open, setOpen] = React.useState(false);
+  const [services, setServices] = React.useState([]);
   const { user, setUser } = useAuth();
   const handleClick = () => {
     console.info("You clicked the Chip.");
@@ -45,6 +56,7 @@ export default () => {
         Profile
       </div>
       <div className="px-4 text-gray-600 md:px-8">
+
         <div className="relative w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
           <svg
             className="absolute w-12 h-12 text-gray-400 left-6 top-5"
@@ -62,7 +74,7 @@ export default () => {
                 href="#"
                 className="text-2xl text-indigo-600 hover:text-indigo-500"
               >
-                Alex Mask
+                {user.firstName + " " + user.lastName}
               </a>
               <div className="flex text-sm items-center">
                 <Icon fontSize="inherit">place</Icon>
@@ -102,23 +114,47 @@ export default () => {
                 renderValue={(selected) => selected.join(", ")}
                 value={user.roles}
                 onChange={({ target: { value } }) => {
-                  if (value)
-                    setUser({
-                      ...user,
-                      roles:
-                        typeof value === "string" ? value.split(",") : value,
-                    });
+                  setUser({
+                    ...user,
+                    roles: value,
+                  });
                 }}
               >
                 {roles &&
                   roles.map((item, index) => (
                     <MenuItem key={index} value={item}>
-                      <Checkbox defaultChecked={user.roles.indexOf(item) > -1} />
-                      {item}
+                      <Checkbox checked={user.roles.indexOf(item) > -1} />
+                      <ListItemText primary={item} />
                     </MenuItem>
                   ))}
               </Select>
             </FormControl>
+
+            <div>
+              <label className="font-medium">Title</label>
+              <input
+                type="text"
+                placeholder="Professional Totle ..."
+                value={user.title || ""}
+                onChange={(e) => {
+                  setUser({ ...user, title: e.target.value });
+                }}
+                className="w-full mt-2 pl-[1.5rem] pr-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="font-medium">Bio</label>
+              <textarea
+                rows={3}
+                type="text"
+                placeholder="Bio ..."
+                value={user.bio || ""}
+                onChange={(e) => {
+                  setUser({ ...user, title: e.target.value });
+                }}
+                className="w-full mt-2 pl-[1.5rem] pr-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+            </div>
             <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
               <div>
                 <label className="font-medium">First name</label>
@@ -189,6 +225,74 @@ export default () => {
                 />
               </div>
             </div>
+
+            <div className="flex flex-col border ">
+              <div className="p-4">
+                Skills
+              </div>
+              <div className="divider w-full bg-zinc-600/25 h-[1px]"></div>
+              <div className="p-4 flex flex-wrap gap-2 items-center">
+                {(user.skills &&
+                  user.skills.map((item, index) => (
+                    <Chip
+                      key={index}
+                      label={item.name}
+                      onClick={handleClick}
+                      onDelete={
+                        ((toDelete) => () => {
+                          setUser({ ...user, skills: user.skills.filter(item => item != toDelete) })
+                        })(item)
+                      }
+                    />
+                  )))}
+
+                <div
+                  className="inline self-start px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg "
+                  onClick={() => setOpen(true)}
+                >
+                  Add Skills
+                </div>
+                <Modal
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded shadow-md w-full max-w-sm">
+                    <div className="flex flex-col border ">
+                      <div className="p-4">
+                        Skills
+                      </div>
+                      <div className="divider w-full bg-zinc-600/25 h-[1px]"></div>
+                      <div className="p-4">
+                        <Autocomplete
+                          multiple
+                          id="tags-outlined"
+                          options={servicesList}
+                          value={user.skills}
+                          onChange={(e, newList) => { setUser({ ...user, skills: newList }); }}
+                          getOptionLabel={(option) => option.name}
+                          filterSelectedOptions
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Search Skills"
+                              placeholder="Favorites"
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="divider w-full bg-zinc-600/25 h-[1px]"></div>
+                      <div className="p-4 flex">
+                        <div className="grow"></div>
+                        <div className="button p-2 px-4" onClick={(e) => { setOpen(false) }}>Save</div>
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
+              </div>
+            </div>
+
             <button
               className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               onClick={updateProfile}
@@ -196,8 +300,8 @@ export default () => {
               Update
             </button>
           </form>
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 };

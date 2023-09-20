@@ -8,19 +8,24 @@ const Order = mongoose.model(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-      orderType: String,
-      service: {
+      provider: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Service",
+        ref: "User",
       },
-      job: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Job",
+      serviceId: String,
+      description: String,
+      time: String,
+      location: String,
+      data: {
+        type: Object,
+        default: {},
       },
+      step: Number,
       status: Number,
       statusText: String,
     },
     {
+      minimize: false,
       timestamps: true, // This option adds 'createdAt' and 'updatedAt' fields
     }
   )

@@ -173,9 +173,9 @@ const Footer = () => {
           </div>
           <div className="bg-indigo-600">
             <div className="container mx-auto px-5 py-4">
-              <p className="text-center text-sm capitalize text-black">
+              <p className="text-center text-sm capitalize text-white">
                 © 2023 All rights reserved by{" "}
-                <span className="text-black">Engineer Hut</span>
+                <span className="text-white">Engineer Hut</span>
               </p>
             </div>
           </div>

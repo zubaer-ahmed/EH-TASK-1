@@ -29,6 +29,7 @@ const Comment = mongoose.model(
       ],
     },
     {
+      minimize: false,
       timestamps: true, // This option adds 'createdAt' and 'updatedAt' fields
     }
   )

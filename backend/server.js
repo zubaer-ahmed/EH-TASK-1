@@ -1,3 +1,5 @@
+var exceptionHandler = require("express-exception-handler");
+exceptionHandler.handle();
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const express = require("express");
@@ -5,26 +7,23 @@ var bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 // Local Modules
-const userRoute = require("./routes/userRoute.js"); // login, register, etc
-const jobRoute = require("./routes/jobRoute.js"); // login, register, etc
-const servicesRoute = require("./routes/serviceRoute.js"); // login, register, etc
-const commentRoute = require("./routes/commentRoute.js"); // login, register, etc
-const workerRoute = require("./routes/workerRoute.js"); // login, register, etc
-const ordersRoute = require("./routes/orderRoute.js"); // login, register, etc
-
+const userRoute = require("./routes/userRoute.js");
+const jobRoute = require("./routes/jobRoute.js");
+const servicesRoute = require("./routes/serviceRoute.js");
+const commentRoute = require("./routes/commentRoute.js");
+const workerRoute = require("./routes/workerRoute.js");
+const ordersRoute = require("./routes/orderRoute.js");
+const models = require("./models");
 // Server Initialization
 const app = express();
 const PORT = 8001;
-
-const httpProxy = require("http-proxy");
-const proxy = httpProxy.createProxyServer({}); // for frontend redirects
 
 app.use(
   cors({
     origin: [
       "http://localhost:8000",
-      "https://eh-project-one--zubaerahmed1.repl.co",
-    ], // 8000 is the vite dev server default
+      "https://eh-projects--zubaerahmed1.repl.co",
+    ], // 8000 is the vite dev server port
     credentials: true,
   })
 );
@@ -41,13 +40,18 @@ app.use("/api/services", servicesRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/workers", workerRoute);
 app.use("/api/orders", ordersRoute);
+app.get("/api/getObjectId", (req, res) =>
+  res.send(new models.mongoose.Types.ObjectId().toString())
+);
 
-// app.use("/", async (req, res) => {
-//   return res.redirect(`http://localhost:8000${req.url}`);
-
-//   await proxyRequest(req, res, "http://localhost:8000");
-//   console.log("Proxied: ", req.url);
-// });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err?.message); // Log the error for debugging purposes
+  // Set an appropriate status code based on the error type
+  const statusCode = err.statusCode || 500;
+  // Send an error response to the client
+  res.status(statusCode).json({ error: err.message });
+});
 
 app.use(express.static(path.join(__dirname, "dist")));
 
@@ -62,34 +66,3 @@ app.listen(PORT, "127.0.0.1", (error) => {
   else console.log("Error occurred, server can't start", error);
 });
 const resolvers = {};
-
-function proxyRequest(req, res, target) {
-  return new Promise((resolve, reject) => {
-    const requestId = uuidv4(); // Generate a unique identifier for the request
-    req.requestId = requestId;
-    resolvers[requestId] = resolve;
-    proxy.web(req, res, { target, requestId }, (error) => {
-      delete resolvers[requestId];
-      reject(error);
-    });
-  });
-}
-
-proxy.on("proxyRes", function (proxyRes, req, res) {
-  // console.log(Object.keys(resolvers).length);
-  if (resolvers[req.requestId]) {
-    resolvers[req.requestId]();
-    delete resolvers[req.requestId];
-  }
-});
-proxy.on("proxyReq", function (proxyReq, req, res) {
-  // Set a timeout for the proxy request
-  const timeout = setTimeout(function () {
-    // Abort the proxy request if it takes too long
-    // proxyReq.abort();
-    if (resolvers[req.requestId]) {
-      resolvers[req.requestId]();
-      delete resolvers[req.requestId];
-    }
-  }, 5000); // Adjust the timeout value as needed
-});

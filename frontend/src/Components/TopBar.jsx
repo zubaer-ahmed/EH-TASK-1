@@ -1,7 +1,7 @@
 import ReactCountryFlag from "react-country-flag";
 import Icon from "@mui/material/Icon";
 import * as React from "react";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useLocation, Link, Routes, Route, useNavigate } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import { useAuth } from "../Hooks/useAuth";
 import {
@@ -15,22 +15,23 @@ import { useTranslation } from 'react-i18next';
 
 const TopNav = () => {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
 
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const [visible, setVisible] = React.useState(false);
-  const [language, setLanguage] = React.useState("bn-BD");
+  const [language, setLanguage] = React.useState("en-US");
   const languages = ["en-US", "bn-BD", "ar-SA", "ja-JP"];
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
   React.useEffect(() => {
-    i18n.changeLanguage('bn');
-  }, []);
+    i18n.changeLanguage(language.split("-")[0]);
+  }, [language]);
 
   return (
     <>
-      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white/50 backdrop-blur-md space-y-8 z-20">
+      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white space-y-8 z-20">
         <ul className="flex items-center h-full space-x-2 px-4 font-medium overflow-x-auto">
           <li>
             <div className="h-full flex items-center justify-center">
@@ -114,16 +115,15 @@ const TopNav = () => {
           </li>
           <div className="grow"></div>
           <div className="hidden sm:flex space-x-2 ">
-            {user?.roles?.includes("customer") && (
-              <Link className=" button space-x-2 h-10 px-3" to="/postJob">
-                {t('POST_JOB')}
+            {!user?.roles?.includes("worker") && (
+              <Link className=" button space-x-2 h-10 px-3" to="/registerWorker">
+                JOIN US
               </Link>
-            )}
-            {user?.roles?.includes("worker") && (
-              <Link className=" button space-x-2 h-10 px-3" to="/postService">
-                {t('POST_SERVICE')}
+            ) ||
+              <Link className="flex items-center text-blue-500 hover:underline space-x-2 h-10 px-3" to="/jobs">
+                FIND WORK
               </Link>
-            )}
+            }
           </div>
           <li className="hidden sm:block">
             <FormControl fullWidth size="small">
@@ -152,7 +152,7 @@ const TopNav = () => {
             </FormControl>
           </li>
           <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
-            <Link className="material-button" to="/login">
+            <Link className="button bg-blue-500 text-white h-10 px-3" to="/login">
               Login
             </Link>
           </li>
@@ -172,15 +172,15 @@ const TopNav = () => {
                   onClick={hide}
                 >
                   <Link
-                    className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
-                    to="/profile"
+                    className={`${location.pathname == "/settings/profile" && "bg-gray-200"} flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded`}
+                    to="/settings/profile"
                   >
                     <Icon fontSize="inherit">person</Icon>
                     <div>{t("PROFILE")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
-                    to="/orders"
+                    to="/orders/user"
                   >
                     <Icon fontSize="inherit">shopping_cart</Icon>
                     <div>{t("ORDERS")}</div>
@@ -230,15 +230,15 @@ const TopNav = () => {
               >
                 <div className="">{user?.firstName}</div>
                 <img
-                  src={"noimage.svg"}
+                  src={"/noimage.svg"}
                   alt=""
                   className="w-8 h-8 rounded-full"
                 />
               </div>
             </Tippy>
           </li>
-        </ul>
-      </nav>
+        </ul >
+      </nav >
     </>
   );
 };

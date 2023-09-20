@@ -4,6 +4,7 @@ const User = mongoose.model(
   "User",
   new mongoose.Schema(
     {
+      phone: String,
       email: String,
       password: String,
       firstName: String,
@@ -15,10 +16,15 @@ const User = mongoose.model(
         },
       },
       title: String,
+      bio: String,
       jwt: String,
       roles: {
         type: Array,
         default: ["default"],
+      },
+      skills: {
+        type: Array,
+        default: [],
       },
       comments: [
         {
@@ -32,8 +38,18 @@ const User = mongoose.model(
           ref: "Order",
         },
       ],
+      verificationStatus: { type: Number, default: 0 },
+      documents: {
+        documentType: String,
+        name: String,
+        dateOfBirth: String,
+        pictures: [String],
+        selfie: String,
+        default: {},
+      },
     },
     {
+      minimize: false,
       timestamps: true, // This option adds 'createdAt' and 'updatedAt' fields
     }
   )

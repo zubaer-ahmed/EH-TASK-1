@@ -1,9 +1,18 @@
+
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import * as React from "react";
 import { Link, Routes, Route, useNavigate, Outlet } from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import Icon from "@mui/material/Icon";
 import { useAuth } from "../../Hooks/useAuth";
-import SideBar from "../../Components/SideBar";
+import OrdersSideBar from "../../Components/OrdersSideBar";
+import { useParams } from "react-router-dom";
+import services from '../../Data/services';
 
 import {
   Checkbox,
@@ -11,178 +20,236 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@mui/material";
-export default () => {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
-  const [sortType, setSortType] = React.useState("");
-  const [sortTypes, setSortTypes] = React.useState([
-    "Name Ascending",
-    "Name Descending",
-    "Price Ascending",
-    "Price Descending",
-  ]);
-  const [limit, setLimit] = React.useState(10);
-  const [limits, setLimits] = React.useState([5, 10, 20, 50]);
+import { DatePicker, LocalizationProvider, TimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { DataGrid } from '@mui/x-data-grid';
+export default function Page() {
+  const { slug: orderId, slug2: mode } = useParams();
   const { user, setUser, fetchUser } = useAuth();
-
+  const [allOrders, setAllOrders] = React.useState([]);
+  const [allJobs, setAllJobs] = React.useState([]);
+  const [order, setOrder] = React.useState(null);
+  const service = React.useMemo(() => services.find(item => item.id == order?.serviceId), [order])
+  const steps = ['Order Received', 'Provider Selected', 'Delivered'];
+  const [activeStep, setActiveStep] = React.useState(1);
+  const [skipped, setSkipped] = React.useState(new Set());
   React.useEffect(() => {
-    fetchUser();
-    // console.log(new Date(user?.orders[0].updatedAt) - new Date(user?.orders[1].updatedAt))
+    (async () => {
+      let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/orders/getOrder/${orderId}`, {
+        method: "GET",
+        credentials: "include",
+      })).json()
+      let allOrdersList = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/orders/getOrders`, {
+        method: "GET",
+        credentials: "include",
+      })).json()
+      console.log("all", allOrdersList);
+      setOrder(res);
+      setAllOrders(allOrdersList);
+    })();
+    console.log("slug", orderId)
     return () => { };
-  }, [])
+  }, [orderId])
+
+  const columns = [
+    {
+      field: "id", headerName: "Index",
+      valueFormatter: ({ value }) => value + 1,
+    },
+    {
+      sortComparator: (v1, v2) => (new Date(v1.time) - new Date(v2.time)),
+      field: "data", headerName: "Data", flex: 1, renderCell: (params) => {
+        const order = params.value;
+        return (<div className="w-full p-2 flex items-center sm:flex-row flex-col ">
+
+          <div className="h-20 w-20 sm:mr-10 inline-flex items-center justify-center flex-shrink-0 ">
+            <img
+              src={services.find(item => item.id == order?.serviceId).imageSrc || `${"https://firebasestorage.googleapis.com/v0/b/thecaffeinecode.appspot.com/o/Tcc_img%2Flogo.png?alt=media&token=5e5738c4-8ffd-44f9-b47a-57d07e0b7939"}`} />
+          </div>
+          <div className="flex-grow sm:text-left mt-6 sm:mt-0">
+            <div className="my-4"></div>
+            {order.provider && (
+              <>
+                <label className="block mb-2 text-xl font-bold text-gray-900">Provider</label>
+                <div className="flex">{order.provider.email}</div>
+              </>
+            )}
+            <div className="my-4"></div>
+            <Stepper activeStep={order?.step + 1}>
+              {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+            <h1 className="text-black text-2xl title-font font-bold my-2">{services.find(item => item.id == order?.serviceId).name}</h1>
+            <div className="flex gap-2">
+              <label className="block text-sm font-bold text-gray-900">Time: </label>
+              <div>{new Date(order.time).toLocaleString()}</div>
+            </div>
+            <div className="my-2"></div>
+            <div className="flex gap-2">
+              <label className="block text-sm font-bold text-gray-900">Location:</label>
+              <div>{order.location}</div>
+            </div>
+            <div className="my-2"></div>
+
+
+            <Link to={`/orders/user/${order._id}`} className="mt-3 text-indigo-500 inline-flex items-center">View
+              <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </Link>
+          </div>
+        </div>)
+      },
+    },
+
+  ];
 
   return (
     <section className="flex flex-col w-full h-full">
       <div className="flex w-full grow items-stretch p-4">
-        <div className="flex flex-col basis-3/12 grow w-full h-full border mx-8 rounded-xl p-4 text-blue-700 space-y-4">
-          <Link
-            to="/profile"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
-          >
-            <Icon fontSize="inherit">info</Icon>
-            <div className="text-gray-500 font-bold">Completed</div>
-          </Link>
-          <Link
-            to="/billing"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
-          >
-            <Icon fontSize="inherit">payment</Icon>
-            <div className="text-gray-500 font-bold">Ongoing</div>
-          </Link>
-          <Link
-            to="/appearance"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
-          >
-            <Icon fontSize="inherit">brush</Icon>
-            <div className="text-gray-500 font-bold">Cancelled</div>
-          </Link>
-        </div>
+        <OrdersSideBar />
+
         <div className="relative flex flex-col basis-9/12 grow w-full h-full">
-          <div className="flex items-center space-x-2 rounded px-4 border w-full h-16 p-2 sticky top-[4.5rem] bg-white z-10 shadow">
-            {/* .25 * 18 = 4.5 */} {/* top-18 */}
-            <div className="font-bold ">Sort By</div>
-            <FormControl size="small">
-              <InputLabel id="demo-simple-select-label">Select</InputLabel>
-              <Select
-                className="w-40"
-                label="Sort By"
-                value={sortType}
-                onChange={(event) => {
-                  setSortType(event.target.value);
-                }}
-              >
-                <MenuItem value="">
-                  <em>Select One</em>
-                </MenuItem>
-                {sortTypes.map((item, index) => (
-                  <MenuItem key={index} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <div className="font-bold ">Limit</div>
-            <FormControl size="small">
-              <InputLabel id="demo-simple-select-label">Select</InputLabel>
-              <Select
-                className="w-40"
-                label="Sort By"
-                value={limit}
-                onChange={(event) => {
-                  setSortType(event.target.value);
-                }}
-              >
-                <MenuItem value="">
-                  <em>Select One</em>
-                </MenuItem>
-                {limits.map((item, index) => (
-                  <MenuItem key={index} value={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="my-2"></div>
-          <div className="flex flex-col space-y-4">
-            {user &&
-              user?.orders.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))?.map((item, index) => (
-                <Link to={`/service/${item.service._id}`} key={index}>
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-white">
-                    <div className="flex w-full h-full justify-center border rounded-lg shadow-sm p-4 button bg-opacity-50  space-x-4">
-                      <img
-                        src={"/noimage.svg"}
-                        alt=""
-                        className="w-28 h-28 object-cover self-start"
-                      />
-                      <div className="w-full h-full flex flex-col justify-center space-y-1">
-                        <h3 className="text-xl font-bold text-blue-600">
-                          {item.service.title}
-                        </h3>
-                        <div className="flex items-center text-sm text-gray-500 space-x-1">
-                          <Icon fontSize="inherit">check</Icon>
-                          <div>
-                            Status:{" "}
-                            {(() => {
-                              switch (item.status) {
-                                case -1:
-                                  return "Cancelled";
-                                case 0:
-                                  return "Ongoing";
-                                case 1:
-                                  return "Complete";
-                              }
-                            })()}
-                          </div>
-                        </div>{" "}
-                        <div className="flex items-center text-sm text-gray-500 space-x-1">
-                          <Icon fontSize="inherit">access_time</Icon>
-                          <div>Appointment At: </div>
-                          <div>
-                            {new Date(
-                              item.service.availabilityStartTime
-                            ).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              second: "2-digit",
-                            })}{" "}
-                            -{" "}
-                            {new Date(
-                              item.service.availabilityEndTime
-                            ).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              second: "2-digit",
-                            })}
-                          </div>
-                        </div>
-                        <div className="flex items-center text-sm text-gray-500 space-x-1">
-                          <Icon fontSize="inherit">place</Icon>
-                          <div>{item.service.locations.join(". ")}</div>
-                        </div>
-                        <div className="flex items-center text-sm text-gray-500 space-x-1">
-                          <Icon fontSize="inherit">access_time</Icon>
-                          <div>Location: </div>
-                          <div>
-                            {new Date(item.service.createdAt).toLocaleString()}
-                          </div>
-                        </div>
-                        <div className="flex space-x-2">
-                          <div className="p-2 border border-gray-500 font-medium self-start flex items-center space-x-1 bg-white hover:bg-green-100 hover:shadow-lg rounded">
-                            <Icon fontSize="inherit">launch</Icon>
-                            <div>View</div>
-                          </div>
-                          <div className="p-2 border border-gray-500 text-white font-medium self-start flex items-center space-x-1 bg-red-600 hover:bg-green-400 hover:shadow-lg rounded">
-                            <Icon fontSize="inherit">cancel</Icon>
-                            <div>Cancel</div>
-                          </div>
-                        </div>
+          {orderId && order && (
+            <div className="flex flex-col space-y-4">
+              <div className="my-2"></div>
+              <Stepper activeStep={order?.step + 1}>
+                {steps.map((label, index) => {
+                  const stepProps = {};
+                  const labelProps = {};
+                  return (
+                    <Step key={label} {...stepProps}>
+                      <StepLabel {...labelProps}>{label}</StepLabel>
+                    </Step>
+                  );
+                })}
+              </Stepper>
+              <div className="my-4"></div>
+              {order.provider && (
+                <>
+                  <label className="block mb-2 text-xl font-bold text-gray-900">Provider</label>
+                  <div className="flex">{order.provider.email}</div>
+                </>
+              )}
+              <div className="my-4"></div>
+              <div className="p-4 bg-white flex items-center mx-auto border-b  mb-10 border-gray-200 rounded-lg sm:flex-row flex-col border">
+                <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center flex-shrink-0 sm:self-start">
+                  <img
+                    src={`${service.imageSrc || "https://firebasestorage.googleapis.com/v0/b/thecaffeinecode.appspot.com/o/Tcc_img%2Flogo.png?alt=media&token=5e5738c4-8ffd-44f9-b47a-57d07e0b7939"}`} />
+                </div>
+                <div className="flex-grow sm:text-left  mt-6 sm:mt-0">
+                  <h1 className="text-black text-2xl title-font font-bold mb-2">{service.name}</h1>
+                  <p className="leading-relaxed text-base">{service.desciption}Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
+                  <div className="py-4">
+                    <div className=" inline-block mr-2" >
+                      <div className="flex  pr-2 h-full items-center">
+                        <svg className="text-yellow-500 w-6 h-6 mr-1" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" />
+                          <circle cx="12" cy="12" r="9" />
+                          <path d="M9 12l2 2l4 -4" />
+                        </svg>
+                        <p className="title-font font-medium">Item1</p>
+                      </div>
+                    </div>
+                    <div className=" inline-block mr-2" >
+                      <div className="flex  pr-2 h-full items-center">
+                        <svg className="text-gray-500 w-6 h-6 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10" />
+                          <line x1="15" y1="9" x2="9" y2="15" />
+                          <line x1="9" y1="9" x2="15" y2="15" />
+                        </svg>
+                        <p className="title-font font-medium">Item2</p>
                       </div>
                     </div>
                   </div>
-                </Link>
-              ))}
-          </div>
+
+                  {/* info */}
+                  <div className="flex flex-col w-full my-4">
+                    <div className="">
+                      <label className="block text-sm font-bold text-gray-900">Details</label>
+                      <div>{order.description}</div>
+                    </div>
+                    <div className="my-2"></div>
+                    {service.options?.map((item, index) => {
+                      return (<div key={index}>
+                        {(() => {
+                          if (item.type == "input#text") {
+                            return (
+                              <div className="">
+                                <label className="block text-sm font-bold text-gray-900">{index + 1 + ". " + item.title}</label>
+                                <div>{order?.data[index]}</div>
+                              </div>
+                            )
+                          }
+                          if (item.type == "select") {
+                            return (
+                              <div className="">
+                                <label className="block text-sm font-bold text-gray-900">{index + 1 + ". " + item.title}</label>
+                                <div>{order?.data[index]}</div>
+                              </div>
+                            )
+                          }
+                        })()}
+                        <div className="my-2"></div>
+                      </div>)
+                    })}
+
+                    <div className="">
+                      <label className="block text-sm font-bold text-gray-900">Time</label>
+                      <div>{new Date(order.time).toLocaleString()}</div>
+                    </div>
+                    <div className="my-2"></div>
+                  </div>
+
+                  <div className="md:flex font-bold text-gray-800">
+                    <div className="w-1/2">
+                      <h2 className="text-gray-500">Title</h2>
+                      <p >description</p>
+                    </div>
+                    <div className="w-1/2">
+                      <h2 className="text-gray-500">Title</h2>
+                      <p>description</p>
+                    </div>
+                  </div>
+                  <a className="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )
+            ||
+            allOrders?.length > 0 && (
+              <div className="flex flex-col p-4">
+
+                <div className="h-full w-full">
+                  <DataGrid
+                    getRowHeight={() => 'auto'}
+                    columns={columns}
+                    rows={allOrders.map((item, index) => ({ id: index, data: item }))}
+                    initialState={{
+                      pagination: { paginationModel: { pageSize: 5 } },
+                    }}
+                    pageSizeOptions={[5, 10, 50, 100]}
+                    disableRowSelectionOnClick
+                  />
+                </div>
+
+              </div>
+            )}
+
         </div>
       </div>
     </section>

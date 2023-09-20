@@ -15,9 +15,8 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/admin/profile"
-                className={`${
-                  location.pathname == "/admin/profile" && "bg-gray-200"
-                } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                className={`${location.pathname == "/admin/profile" && "bg-gray-200"
+                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div className="text-gray-500">
                   <svg
@@ -38,9 +37,8 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/admin/users"
-                className={`${
-                  location.pathname == "/admin/users" && "bg-gray-200"
-                } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                className={`${location.pathname == "/admin/users" && "bg-gray-200"
+                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div className="text-gray-500">
                   <svg
@@ -60,9 +58,8 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/admin/services"
-                className={`${
-                  location.pathname == "/admin/services" && "bg-gray-200"
-                } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                className={`${location.pathname == "/admin/services" && "bg-gray-200"
+                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div className="text-gray-500">
                   <svg
@@ -85,9 +82,8 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/admin/jobs"
-                className={`${
-                  location.pathname == "/admin/jobs" && "bg-gray-200"
-                } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                className={`${location.pathname == "/admin/jobs" && "bg-gray-200"
+                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div className="text-gray-500">
                   <svg
@@ -107,9 +103,8 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/admin/comments"
-                className={`${
-                  location.pathname == "/admin/comments" && "bg-gray-200"
-                } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                className={`${location.pathname == "/admin/comments" && "bg-gray-200"
+                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div className="text-gray-500">
                   <svg
@@ -136,9 +131,8 @@ const Sidebar = () => {
                   navigate("/logout");
                 }}
                 to="/logout"
-                className={`${
-                  location.pathname == "/logout" && "bg-gray-200"
-                } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                className={`${location.pathname == "/logout" && "bg-gray-200"
+                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div>
                   <svg

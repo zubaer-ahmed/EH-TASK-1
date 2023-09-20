@@ -1,5 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+import services from "../../../Data/services";
+
+
 const FeaturedCategory = () => {
   return (
     <>
@@ -14,112 +18,18 @@ const FeaturedCategory = () => {
             </p>
           </div>
           <div className="flex flex-wrap -m-4 text-center">
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/103565/air-conditioner.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">AC Service</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/136398/painting-roller-outline.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">Painting</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/490758/fridge-2.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">Refrigerator Service</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/308733/moving-house-house-moving-move-house-move-in.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">House Shifting</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/287614/cleaning-mop.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">Cleaning</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/5095/plumber.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">Plumber</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                <img
-                  src="https://www.svgrepo.com/show/423670/worker-architecture.svg"
-                  className="h-12 mx-auto"
-                  alt=""
-                />
-                <p className="leading-relaxed mt-2">Electrician</p>
-              </div>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <Link>
+            {services.map((service, index) => (
+              <Link to={`/service/${service.id}`} key={index} className="p-4 md:w-1/5 sm:w-1/2 w-full">
                 <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
                   <img
-                    src="https://www.svgrepo.com/show/322769/mechanic-garage.svg"
+                    src={service.imageSrc}
                     className="h-12 mx-auto"
                     alt=""
                   />
-                  <p className="leading-relaxed mt-2">Mechanic</p>
+                  <p className="leading-relaxed mt-2">{service.name}</p>
                 </div>
               </Link>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <Link>
-                <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                  <img
-                    src="https://www.svgrepo.com/show/70134/social-worker.svg"
-                    className="h-12 mx-auto"
-                    alt=""
-                  />
-                  <p className="leading-relaxed mt-2">Maid Service</p>
-                </div>
-              </Link>
-            </div>
-            <div className="p-4 md:w-1/5 sm:w-1/2 w-full">
-              <Link>
-                <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
-                  <img
-                    src="https://www.svgrepo.com/show/480999/delivery.svg"
-                    className="h-12 mx-auto"
-                    alt=""
-                  />
-                  <p className="leading-relaxed mt-2">Home Delivery</p>
-                </div>
-              </Link>
-            </div>
+            ))}
           </div>
         </div>
       </section>
