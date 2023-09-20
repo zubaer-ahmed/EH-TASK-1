@@ -122,12 +122,12 @@ const Footer = () => {
                     </a>
                   </li>
                   <li className="mt-3">
-                    <Link
+                    <a
                       href={"/FAQ"}
                       className="cursor-pointer text-gray-500 hover:text-black"
                     >
                       FAQ
-                    </Link>
+                    </a>
                   </li>
                 </nav>
               </div>
@@ -137,12 +137,12 @@ const Footer = () => {
                 </h2>
                 <nav className="mb-10 list-none">
                   <li className="mt-3">
-                    <Link
-                      href={"/ContactUs"}
+                    <a
+                      href={"/contact"}
                       className="cursor-pointer text-gray-500 hover:text-black"
                     >
                       Send a Message
-                    </Link>
+                    </a>
                   </li>
                   <li className="mt-3">
                     <a className="cursor-pointer text-gray-500 hover:text-black">
