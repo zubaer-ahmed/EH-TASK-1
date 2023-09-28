@@ -74,7 +74,8 @@ export default function Page() {
     if (suggestions)
       res = suggestions;
     if (selectedCategory && selectedCategory != "all")
-      setServices(res.filter((s) => s.category.includes(selectedCategory)));
+      res = res.filter((s) => s.category.includes(selectedCategory));
+    setServices(res)
   }, [selectedCategory])
 
   const handleInputChange = async (e) => {

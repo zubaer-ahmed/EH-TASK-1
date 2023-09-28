@@ -35,10 +35,7 @@ const AuthProvider = ({ children }) => {
         throw new Error(fetchedUser.error);
         return;
       }
-      if (!persistInLocalStorage)
-        setNonPersist(fetchedUser);
-      else
-        setUser(fetchedUser);
+      setUser(fetchedUser);
       await new Promise(resolve => setTimeout(resolve, 0));
       return fetchedUser;
     } catch (e) {

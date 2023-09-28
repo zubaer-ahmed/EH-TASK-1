@@ -98,7 +98,7 @@ export default function Page() {
             </Link>
             <Link to={"/chats"}>
               <Typography variant="h5" className="text-gray-700">
-                Chats {lastPath}
+                Chats
               </Typography>
             </Link>
             <IconButton>

@@ -48,7 +48,7 @@ const Footer = lazy(() => import("./Components/Footer"));
 const FAQ = lazy(() => import("./Pages/Guest/FAQ/FAQ"));
 const Contact = lazy(() => import("./Pages/Guest/Contact"));
 const Blog = lazy(() => import("./Pages/Guest/Blog"));
-const Details = lazy(() => import("./Pages/Guest/Blog/details"));
+const Details = lazy(() => import("./Pages/Guest/Blog/Details"));
 const Profile = lazy(() => import('./Pages/Profile'));
 const Jobs = lazy(() => import('./Pages/Jobs'));
 import './i18n';

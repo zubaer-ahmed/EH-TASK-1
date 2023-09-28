@@ -51,8 +51,8 @@ export default function Page() {
     <div className="flex flex-col items-center w-full h-full overflow-auto py-8">
       <div className="flex">
         <div className="basis-4/12">
-          <div className="flex flex-col items-center">
-            People
+          <div className="flex flex-col items-center whitespace-nowrap h-screen">
+            No Notifications
           </div>
         </div>
         <div className="basis-8/12"></div>
