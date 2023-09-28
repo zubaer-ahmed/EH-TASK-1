@@ -1,10 +1,11 @@
 import { createContext, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const [user, setUser, setNonPersist] = useLocalStorage("user", null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
@@ -22,7 +23,7 @@ const AuthProvider = ({ children }) => {
     setUser(null);
     // navigate("/", { replace: true });
   };
-  const fetchUser = async () => {
+  const fetchUser = async (persistInLocalStorage = true) => {
     let res, fetchedUser;
     try {
       res = await fetch(import.meta.env.VITE_BASE_URL + "/api/users/getSelf", {
@@ -30,16 +31,43 @@ const AuthProvider = ({ children }) => {
         credentials: "include",
       });
       fetchedUser = await res.json();
-      setUser(fetchedUser);
+      if (res.status != 200) {
+        throw new Error(fetchedUser.error);
+        return;
+      }
+      if (!persistInLocalStorage)
+        setNonPersist(fetchedUser);
+      else
+        setUser(fetchedUser);
+      await new Promise(resolve => setTimeout(resolve, 0));
+      return fetchedUser;
     } catch (e) {
       console.log(e);
-      return [e, res, fetchedUser];
+      await new Promise(resolve => setTimeout(resolve, 0));
+      await logout();
+      navigate("/login");
+      return null;
+    }
+  };
+  const getUser = async () => {
+    let res, fetchedUser;
+    try {
+      res = await fetch(import.meta.env.VITE_BASE_URL + "/api/users/getSelf", {
+        method: "GET",
+        credentials: "include",
+      });
+      fetchedUser = await res.json();
+      return fetchedUser;
+    } catch (e) {
+      console.log(e);
+      return null;
     }
   };
 
   const value = useMemo(
     () => ({
       user,
+      getUser,
       setUser,
       fetchUser,
       login,
@@ -47,7 +75,14 @@ const AuthProvider = ({ children }) => {
     }),
     [user]
   );
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{
+    user,
+    setUser,
+    getUser,
+    fetchUser,
+    login,
+    logout,
+  }}>{children}</AuthContext.Provider>;
 };
 
 function useAuth() {

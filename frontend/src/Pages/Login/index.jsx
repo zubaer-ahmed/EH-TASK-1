@@ -3,26 +3,26 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 
 export default () => {
-  const { login: localStorageLogin } = useAuth();
+  const { fetchUser, login: localStorageLogin } = useAuth();
+
   const navigate = useNavigate();
-  const [user, setUser] = React.useState({
+  const [tempUser, setTempUser] = React.useState({
+    loginMode: "password",
+    mode: "phone",
     email: "admin",
     password: "",
   });
   async function handleSubmit(event) {
     event.preventDefault();
-    console.log(user);
-    clearErrors();
-    if (user.email != "admin" && (!user.email || !user.password))
-      return showErrorMessage("Please fill in all the fields");
-
+    console.log(tempUser);
+    clearErrors()
     let res = await fetch(import.meta.env.VITE_BASE_URL + "/api/users/login", {
       method: "POST",
       credentials: "include", // Required to allow setting of cookies
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(tempUser),
     });
     let responseJSON = await res.json();
     console.log("response", responseJSON);
@@ -30,8 +30,8 @@ export default () => {
       return showErrorMessage(responseJSON?.error);
     }
     localStorage.jwt = responseJSON.jwt;
-    localStorageLogin(responseJSON);
     await fetchUser(); // load extra details of users like, order history
+
     const previousUrl = localStorage.getItem('previousUrl') || null;
     localStorage.removeItem('previousUrl'); // Remove after use
     if (previousUrl) return navigate(previousUrl);
@@ -45,77 +45,12 @@ export default () => {
     document.querySelector("#login-error").classList.add("hidden");
   }
 
+  function validEmail(email) {
+    var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+    return emailRegex.test(email);
+  }
   return (
     <>
-      {/*<div className="h-full grow overflow-auto bg-gray-100 flex flex-col py-8">
-        <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-            <h1 className="mb-8 text-3xl text-center font-medium">Login</h1>
-            <div
-              id="login-error"
-              className="text-sm p-2 rounded bg-red-100 border my-4 text-red-500 text-center hidden"
-            ></div>
-            <input
-              type="text"
-              className="border w-full p-3 rounded mb-4"
-              name="email"
-              placeholder="Email"
-              value={user.email}
-              onChange={(event) => {
-                setUser({ ...user, email: event.target.value });
-              }}
-            />
-
-            <input
-              type="password"
-              className="border w-full p-3 rounded mb-4"
-              name="password"
-              placeholder="Password"
-              value={user.password}
-              onChange={(event) => {
-                setUser({ ...user, password: event.target.value });
-              }}
-            />
-
-            <button
-              type="submit"
-              className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-600 focus:outline-none my-1"
-              onClick={handleSubmit}
-            >
-              Login
-            </button>
-
-            <div className="text-center text-sm text-grey-dark mt-4">
-              By using the application, you agree to the
-              <a
-                className="no-underline border-b border-grey-dark text-grey-dark"
-                href="#"
-              >
-                Terms of Service
-              </a>{" "}
-              and
-              <a
-                className="no-underline border-b border-grey-dark text-grey-dark"
-                href="#"
-              >
-                Privacy Policy
-              </a>
-            </div>
-          </div>
-
-          <div className="text-grey-dark mt-6">
-            Don't have an account?{" "}
-            <Link
-              className="no-underline border-b border-blue text-blue"
-              to="/login"
-            >
-              Sign Up
-            </Link>
-            .
-          </div>
-        </div>
-      </div>*/}
-
       <div className="bg-white h-full">
         <div className="flex justify-center h-screen">
           <div
@@ -168,55 +103,72 @@ export default () => {
               ></div>
               <div className="mt-8">
                 <form>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block mb-2 text-sm text-gray-600 "
-                    >
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="engineerhut@example.com"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.email}
-                      onChange={(event) => {
-                        setUser({ ...user, email: event.target.value });
-                      }}
-                    />
-                  </div>
-
-                  <div className="mt-6">
-                    <div className="flex justify-between mb-2">
-                      <label
-                        htmlFor="password"
-                        className="text-sm text-gray-600"
-                      >
-                        Password
-                      </label>
-                      <a
-                        href="#"
-                        className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
-                      >
-                        Forgot password?
-                      </a>
+                  {tempUser.mode == "email" && (
+                    <div>
+                      <label htmlFor="email" className="block mb-2 text-sm text-gray-600 ">Email Address</label>
+                      <input type="email" name="email" placeholder="Email Address" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                        value={tempUser.email || ""}
+                        onChange={(event) => { setTempUser({ ...tempUser, email: event.target.value }) }}
+                      />
+                      <div onClick={() => setTempUser({ ...tempUser, mode: "phone" })} className="inline hover:underline text-blue-500 text-sm">Use Phone Number Instead</div>
                     </div>
+                  ) || (
+                      <div>
+                        <label htmlFor="phone" className="block mb-2 text-sm text-gray-600 ">Phone Address</label>
+                        <input type="tel" name="phone" placeholder="Phone Address" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                          value={tempUser.phone || ""}
+                          onChange={(event) => { setTempUser({ ...tempUser, phone: event.target.value }) }}
+                        />
+                        <div onClick={() => setTempUser({ ...tempUser, mode: "email" })} className="inline hover:underline text-blue-500 text-sm">Use Email Instead</div>
+                      </div>
+                    )}
 
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Your Password"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.password}
-                      onChange={(event) => {
-                        setUser({ ...user, password: event.target.value });
+                  {tempUser.loginMode == "password" && (
+                    <div className="mt-6">
+                      <div className="flex justify-between">
+                        <label htmlFor="password" className="text-sm text-gray-600">Password</label>
+                        <a href="#" className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Forgot password?</a>
+                      </div>
+                      <input
+                        type="password" name="password" id="password" placeholder="Your Password"
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                        value={tempUser.password}
+                        onChange={(event) => {
+                          setTempUser({ ...tempUser, password: event.target.value });
+                        }}
+                      />
+                      <a onClick={async () => {
+                        console.log("sendLoginOTP", import.meta.env.VITE_BASE_URL + `/api/users/sendLoginOTP?email=${tempUser.email}&phone=${tempUser.phone}`);
+                        let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/users/sendLoginOTP?email=${tempUser.email}&phone=${tempUser.phone}`)).json();
+                        console.log("sendLoginOTP", res);
+                        setTempUser({ ...tempUser, loginMode: "otp" });
                       }}
-                    />
-                  </div>
-
+                        className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
+                      >Use OTP to login</a>
+                    </div>
+                  ) || (
+                      <div className="mt-6">
+                        <label htmlFor="password" className="text-sm text-gray-600">OTP Code</label>
+                        <input
+                          type="text" name="otp" id="text" placeholder="OTP Code"
+                          className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                          value={tempUser.loginOTP || ""}
+                          onChange={(event) => {
+                            setTempUser({ ...tempUser, loginOTP: event.target.value });
+                          }}
+                        />
+                        <div className="flex justify-between">
+                          <a onClick={() => setTempUser({ ...tempUser, loginMode: "password" })}
+                            className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
+                          >Use Password</a>
+                          <a onClick={async () => {
+                            let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/users/sendLoginOTP?email=${tempUser.email}&phone=${tempUser.phone}`)).json();
+                            console.log("sendLoginOTP", res);
+                            setTempUser({ ...tempUser, loginMode: "otp" });
+                          }} className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Sent to {tempUser.email || tempUser.phone}. Resend? (32 sec)</a>
+                        </div>
+                      </div>
+                    )}
                   <div className="mt-6">
                     <button
                       className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
@@ -240,8 +192,8 @@ export default () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 };

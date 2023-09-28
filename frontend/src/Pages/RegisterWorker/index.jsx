@@ -63,7 +63,7 @@ export default function Page() {
   return (
     <div className="flex flex-col bg-white h-full w-full items-center py-12">
       <div className="flex flex-col w-full max-w-lg p-4">
-        <Stepper activeStep={user.verificationStatus + 1} >
+        <Stepper activeStep={user.documentsVerificationStatus + 1} >
           {steps.map((label, index) => {
             const stepProps = {};
             const labelProps = {};
@@ -74,7 +74,7 @@ export default function Page() {
             );
           })}
         </Stepper>
-        {user.verificationStatus == 0 && (
+        {user.documentsVerificationStatus == 0 && (
           <div className="flex flex-col w-full ">
             <div className="my-4"></div>
             <div className="">
@@ -195,7 +195,7 @@ export default function Page() {
             </div>
           </div>
         )
-          || user.verificationStatus == 1 &&
+          || user.documentsVerificationStatus == 1 &&
           (
             <div className="flex flex-col w-full ">
               <div className="text-4xl text-center text-blue-500 p-6">Your Application is under review. You will be notified through email once it is approved</div>

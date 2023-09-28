@@ -6,7 +6,6 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 import { useLocalStorage } from "../../Hooks/useLocalStorage";
-import services from "../../Data/services";
 import { Select, MenuItem, FormControl, FormHelperText, TextField, Button, InputBase, IconButton, Divider, Container, Modal } from "@mui/material";
 import { DatePicker, LocalizationProvider, StaticDatePicker, StaticTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,7 +20,6 @@ function ServiceById() {
   const { user, setUser } = useAuth();
   const { globalState, setGlobalState } = useGlobalState();
   const { slug: serviceId } = useParams();
-  const [service, setService] = React.useState(services.find(item => item.id == serviceId));
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({});
@@ -30,13 +28,18 @@ function ServiceById() {
   const [userLocation, setUserLocation] = React.useState(user?.location);
   const { getLocation } = useHelpers();
   const [open, setOpen] = React.useState(false);
+  const [services, setServices] = React.useState([]);
+  const [service, setService] = React.useState(services.find(item => item.id == serviceId));
+
   React.useEffect(() => {
-    setGlobalState({ ...globalState, hello: "world" });
     (async () => {
+      setServices(await (await fetch(import.meta.env.VITE_BASE_URL + `/api/services/getServices`)).json());
       setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2))
-    })()
-    return () => { };
+    })();
   }, [])
+  React.useEffect(() => {
+    setService(services.find(item => item.id == serviceId));
+  }, [services])
   async function submitForm() {
     try {
       console.log("data", JSON.stringify({ serviceId: service.id, data, description, time }));
@@ -50,7 +53,7 @@ function ServiceById() {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ serviceId: service.id, data, description, time, location: userLocation })
+        body: JSON.stringify({ serviceId: service.id, service: service._id, data, description, time, location: userLocation })
       })).json();
       console.log("result", res)
       return res._id;
@@ -62,7 +65,7 @@ function ServiceById() {
   }
 
 
-  return (
+  return (service &&
     <div className="flex flex-col w-full h-full p-4 max-w-xl self-center py-8 my-8">
       <Modal
         open={open}
@@ -134,7 +137,7 @@ function ServiceById() {
           value={userLocation || ""}
         ></InputBase>
         <IconButton>
-          <Icon >search</Icon>
+          <Icon>search</Icon>
         </IconButton>
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
         <IconButton onClick={async () => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}>

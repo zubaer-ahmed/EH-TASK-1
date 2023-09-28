@@ -13,13 +13,31 @@ const auth = async (req, res, next) => {
     jwtToken = jwtCookie;
   }
   if (!jwtToken) return res.status(401).json({ error: "No token provided" });
-  console.log("jwt:", jwtToken.slice(0, 10) + "...");
   let decoded = await verifyTokenSync(jwtToken, developmentSecretKey);
+  console.log("logged in:", decoded.email);
   if (!decoded) return res.status(401).json({ error: "Invalid token" });
-  req.user = await models.User.findOne({ email: decoded.email }).populate({
-    path: "orders",
-    options: { limit: 5 },
-  });
+  const conditions = [];
+  if (decoded.email) {
+    conditions.push({ email: decoded.email });
+  }
+  if (decoded.phone) {
+    conditions.push({ phone: decoded.phone });
+  }
+  req.user = await models.User.findOne({
+    $or: conditions,
+  })
+    .populate({
+      path: "orders",
+      options: { limit: 5 },
+    })
+    .populate({
+      path: "conversations",
+      options: { limit: 20 },
+      populate: {
+        path: "users",
+        options: { limit: 20 },
+      },
+    });
   if (!req.user) {
     return res.status(401).json({ error: "User does not exist" });
   }

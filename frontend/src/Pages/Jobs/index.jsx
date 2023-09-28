@@ -43,22 +43,15 @@ export default function Page() {
   const [sortType, setSortType] = React.useState("");
   React.useEffect(() => {
     (async () => {
-      fetchJobs();
       const fetchedObject = await (
-        await fetch(import.meta.env.VITE_BASE_URL + `/api/orders/getAllOrders/${orderId}`)
+        await fetch(import.meta.env.VITE_BASE_URL + `/api/orders/getAllOrders`)
       ).json();
-      setOrder(fetchedObject);
+      setJobs(fetchedObject);
     })()
 
     return () => { };
   }, [orderId]);
-  async function fetchJobs() {
-    const fetchedArray = await (
-      await fetch(import.meta.env.VITE_BASE_URL + "/api/jobs/getJobs")
-    ).json();
-    setJobs(fetchedArray);
-    console.log("jobs", fetchedArray);
-  }
+
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
   function LinkRouter(props) {

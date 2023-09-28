@@ -39,7 +39,7 @@ const Component = (props) => {
         localStorage.jwt = responseJSON.jwt;
         localStorageLogin(responseJSON);
         await fetchUser(); // load extra details of users like, order history
-        setGlobalState({ ...globalState, showLogin: false })
+        setGlobalState(() => ({ ...globalState, showLogin: false }))
     }
     async function handleRegisterSubmit(event) {
         event.preventDefault();

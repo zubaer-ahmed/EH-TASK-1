@@ -10,6 +10,7 @@ const search = async (req, res) => {
   const services = await models.Service.find({
     name: { $regex: req.params.keyword, $options: "i" },
   });
+  console.log(req.params.keyword);
   return res.json(services);
 };
 const getService = async (req, res) => {

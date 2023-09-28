@@ -4,8 +4,8 @@ const User = mongoose.model(
   "User",
   new mongoose.Schema(
     {
-      phone: String,
       email: String,
+      phone: String,
       password: String,
       firstName: String,
       lastName: String,
@@ -20,7 +20,7 @@ const User = mongoose.model(
       jwt: String,
       roles: {
         type: Array,
-        default: ["default"],
+        default: ["customer"],
       },
       skills: {
         type: Array,
@@ -38,7 +38,13 @@ const User = mongoose.model(
           ref: "Order",
         },
       ],
+      documentsVerificationStatus: { type: Number, default: 0 },
       verificationStatus: { type: Number, default: 0 },
+      loginOTP: String,
+      phoneVerified: { type: Boolean, default: false },
+      phoneVerificationCode: String,
+      emailVerified: { type: Boolean, default: false },
+      emailVerificationCode: String,
       documents: {
         documentType: String,
         name: String,
@@ -47,6 +53,13 @@ const User = mongoose.model(
         selfie: String,
         default: {},
       },
+      conversations: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Conversation",
+          default: [],
+        },
+      ],
     },
     {
       minimize: false,

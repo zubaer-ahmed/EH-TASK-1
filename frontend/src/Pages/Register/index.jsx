@@ -1,26 +1,17 @@
 import React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Hooks/useAuth";
+import { Step, StepLabel, Stepper } from "@mui/material";
 
 export default function Page() {
+  const { user, setUser, fetchUser, logout, login: localStorageLogin } = useAuth();
   const navigate = useNavigate();
-  const [user, setUser] = React.useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-  });
+  const [tempUser, setTempUser] = React.useState({ mode: "phone" });
   async function handleSubmit(event) {
     event.preventDefault();
-    console.log(user);
-    // clearErrors();
-    // if (!user.email || !user.password)
-    //   return showErrorMessage("Please fill in all the fields");
-
-    // if (user.password != user.passwordConfirmation)
-    //   return showErrorMessage("Password confirmation doesn't match");
-
-    let res = await fetch(
+    clearErrors()
+    await logout();
+    let res = await (await fetch(
       import.meta.env.VITE_BASE_URL + "/api/users/register",
       {
         method: "POST",
@@ -28,17 +19,55 @@ export default function Page() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(tempUser),
       }
-    );
-    let responseJSON = await res.json();
-    console.log("response", responseJSON);
-    if (res.status != 200) {
-      // return showErrorMessage(responseJSON?.error);
+    )).json();
+    console.log("register", res);
+    localStorageLogin(res);
+    await fetchUser();
+  }
+  async function handleSubmit2(event) {
+    event.preventDefault();
+    clearErrors()
+    let res = await (await fetch(
+      import.meta.env.VITE_BASE_URL + "/api/users/verify",
+      {
+        method: "POST",
+        credentials: "include", // Required to allow setting of imcomming cookies
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tempUser),
+      }
+    )).json(); if (res.error) {
+      return showErrorMessage(res?.error);
     }
-    localStorage.jwt = responseJSON.jwt;
-    await fetchUser(); // load extra details of users like, order history
+    console.log("verify", res)
+    await fetchUser();
+  }
+  async function handleSubmit3(event) {
+    event.preventDefault();
+    clearErrors()
+    let res = await (await fetch(
+      import.meta.env.VITE_BASE_URL + "/api/users/updateUser",
+      {
+        method: "POST",
+        credentials: "include", // Required to allow setting of imcomming cookies
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...tempUser, _id: user._id }),
+      }
+    )).json(); if (res.error) {
+      return showErrorMessage(res?.error);
+    }
+    console.log("requestbody", { ...tempUser, _id: user._id })
+    console.log("update", res)
+    await fetchUser();
 
+    onUserRegistered();
+  }
+  function onUserRegistered() {
     const previousUrl = localStorage.getItem('previousUrl') || null;
     localStorage.removeItem('previousUrl'); // Remove after use
     if (previousUrl) return history.push(previousUrl);
@@ -51,103 +80,10 @@ export default function Page() {
   function clearErrors() {
     document.querySelector("#signup-error").classList.add("hidden");
   }
+  const steps = ['Fill in Details', 'Verify Contact', 'Start Using Services'];
 
   return (
     <>
-      {/*<div className="h-full overflow-auto bg-gray-100 flex flex-col py-8">
-      <div className="h-full bg-gray-100 flex flex-col py-8">
-        <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-            <h1 className="mb-8 text-3xl text-center font-medium">Sign up</h1>
-            <div
-              id="signup-error"
-              className="text-sm p-2 rounded bg-red-100 border my-4 text-red-500 text-center hidden"
-            ></div>
-            <input
-              type="text"
-              className="border w-full p-3 rounded mb-4"
-              name="firstname"
-              placeholder="First Name"
-              value={user.firstName}
-              onChange={(event) => {
-                setUser({ ...user, firstName: event.target.value });
-              }}
-            />
-            <input
-              type="text"
-              className="border w-full p-3 rounded mb-4"
-              name="lastname"
-              placeholder="Last Name"
-              value={user.lastName}
-              onChange={(event) => {
-                setUser({ ...user, lastName: event.target.value });
-              }}
-            />
-
-            <input
-              type="text"
-              className="border w-full p-3 rounded mb-4"
-              name="email"
-              placeholder="Email"
-              value={user.email}
-              onChange={(event) => {
-                setUser({ ...user, email: event.target.value });
-              }}
-            />
-
-            <input
-              type="password"
-              className="border w-full p-3 rounded mb-4"
-              name="password"
-              placeholder="Password"
-              value={user.password}
-              onChange={(event) => {
-                setUser({ ...user, password: event.target.value });
-              }}
-            />
-            <input
-              type="password"
-              className="border w-full p-3 rounded mb-4"
-              name="confirm_password"
-              placeholder="Confirm Password"
-              value={user.passwordConfirmation}
-              onChange={(event) => {
-                setUser({ ...user, passwordConfirmation: event.target.value });
-              }}
-            />
-
-            <button
-              type="submit"
-              className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-600 focus:outline-none my-1"
-              onClick={handleSubmit}
-            >
-              Create Account
-            </button>
-
-            <div className="text-center text-sm text-gray-700 mt-4">
-              By signing up, you agree to the{" "}
-              <a className="no-underline border-b text-gray-700" href="#">
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a className="no-underline border-b text-gray-700" href="#">
-                Privacy Policy
-              </a>
-            </div>
-          </div>
-
-          <div className="text-gray-700 mt-6">
-            Already have an account?{" "}
-            <Link
-              className="no-underline border-b border-blue text-blue"
-              to="/login"
-            >
-              Log in
-            </Link>
-            .
-          </div>
-        </div>
-      </div>*/}
       <div className="bg-white h-full">
         <div className="flex justify-center h-screen">
           <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-3/6">
@@ -159,81 +95,124 @@ export default function Page() {
 
                 <p className="mt-3 text-dark-500">Sing up and connect with us</p>
               </div>
-
+              <div className="mt-8" />
+              <Stepper activeStep={user && (user.verificationStatus + 1) || 0} >
+                {steps.map((label, index) => {
+                  const stepProps = {};
+                  const labelProps = {};
+                  return (
+                    <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  );
+                })}
+              </Stepper>
+              <div
+                id="signup-error"
+                className="text-sm p-2 rounded bg-red-100 border my-4 text-red-500 text-center hidden"
+              ></div>
               <div className="mt-8">
-                <form>
-                  <div>
-                    <label htmlFor="firstName" className="block mb-2 text-sm text-gray-600 ">First name</label>
-                    <input type="text" name="firstName" id="firstName" placeholder="John" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.firstName}
-                      onChange={(event) => {
-                        setUser({ ...user, firstName: event.target.value });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block mb-2 text-sm text-gray-600 ">First name</label>
-                    <input type="text" name="lastName" id="lastName" placeholder="Doe" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.lastName}
-                      onChange={(event) => {
-                        setUser({ ...user, lastName: event.target.value });
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block mb-2 text-sm text-gray-600 ">Email Address</label>
-                    <input type="email" name="email" id="email" placeholder="engineerhut@example.com" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.email}
-                      onChange={(event) => {
-                        setUser({ ...user, email: event.target.value });
-                      }}
-                    />
-                  </div>
 
-                  <div className="mt-6">
-                    <div className="flex justify-between mb-2">
-                      <label htmlFor="password" className="text-sm text-gray-600">Password</label>
+                {!user && (
+                  <form>
+                    {tempUser.mode == "email" && (
+                      <div>
+                        <label htmlFor="email" className="block mb-2 text-sm text-gray-600 ">Email Address</label>
+                        <input type="email" name="email" placeholder="Email Address" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                          value={tempUser.email || ""}
+                          onChange={(event) => { setTempUser({ ...tempUser, email: event.target.value }) }}
+                        />
+                        <div onClick={() => setTempUser({ ...tempUser, mode: "phone" })} className="inline hover:underline text-blue-500 text-sm">Use Phone Number Instead</div>
+                      </div>
+                    ) || (
+                        <div>
+                          <label htmlFor="phone" className="block mb-2 text-sm text-gray-600 ">Phone Address</label>
+                          <input type="tel" name="phone" placeholder="Phone Address" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                            value={tempUser.phone || ""}
+                            onChange={(event) => { setTempUser({ ...tempUser, phone: event.target.value }) }}
+                          />
+                          <div onClick={() => setTempUser({ ...tempUser, mode: "email" })} className="inline hover:underline text-blue-500 text-sm">Use Email Instead</div>
+                        </div>
+                      )}
+                    <div className="mt-6">
+                      <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                        type="submit"
+                        onClick={handleSubmit}
+                      >
+                        Next
+                      </button>
                     </div>
+                  </form>
+                )}
+                {user && user.verificationStatus == 0 && (
+                  <form>
+                    {user?.phone && (
+                      <div>
+                        <label htmlFor="email" className="block mb-2 text-sm text-gray-600 ">Enter Phone Verification Code</label>
+                        <input type="number" placeholder="Enter Code" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                          value={tempUser.phoneVerificationCode || ""}
+                          onChange={(event) => { setTempUser({ ...tempUser, phoneVerificationCode: event.target.value }) }}
+                        />
+                      </div>
+                    )}
+                    {user?.email && (
+                      <div>
+                        <label htmlFor="email" className="block mb-2 text-sm text-gray-600 ">Enter Email Verification Code</label>
+                        <input type="number" placeholder="Enter Code" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                          value={tempUser.emailVerificationCode || ""}
+                          onChange={(event) => { setTempUser({ ...tempUser, emailVerificationCode: event.target.value }) }}
+                        />
+                      </div>
+                    )}
 
-                    <input
-                      type="password"
-                      name="password"
-                      id="password" placeholder="**********" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.password}
-                      onChange={(event) => {
-                        setUser({ ...user, password: event.target.value });
-                      }}
-                    />
-                  </div>
-
-                  <div className="mt-6">
-                    <div className="flex justify-between mb-2">
-                      <label htmlFor="password" className="text-sm text-gray-600">Confirm Password</label>
+                    <div className="mt-6">
+                      <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                        type="submit"
+                        onClick={handleSubmit2}
+                      >
+                        Next
+                      </button>
                     </div>
-
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      id="confirmPassword" placeholder="**********" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      value={user.passwordConfirmation}
-                      onChange={(event) => {
-                        setUser({ ...user, passwordConfirmation: event.target.value });
-                      }}
+                  </form>
+                ) || user && user.verificationStatus == 1 && (<form>
+                  <div>
+                    <label className="block mb-2 text-sm text-gray-600 ">First Name</label>
+                    <input type="text" placeholder="Enter First Name" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                      value={tempUser.firstName || ""}
+                      onChange={(event) => { setTempUser({ ...tempUser, firstName: event.target.value }) }}
                     />
                   </div>
-
+                  <div>
+                    <label className="block mb-2 text-sm text-gray-600 ">Last Name</label>
+                    <input type="text" placeholder="Enter Last Name" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                      value={tempUser.lastName || ""}
+                      onChange={(event) => { setTempUser({ ...tempUser, lastName: event.target.value }) }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-2 text-sm text-gray-600 ">Password</label>
+                    <input type="password" placeholder="********" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                      value={tempUser.password || ""}
+                      onChange={(event) => { setTempUser({ ...tempUser, password: event.target.value }) }}
+                    />
+                  </div>
                   <div className="mt-6">
                     <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                       type="submit"
-                      onClick={handleSubmit}
+                      onClick={handleSubmit3}
                     >
-                      Create Account
+                      Finish
                     </button>
+                    <div
+                      onClick={onUserRegistered}
+                      className="hover:underline text-blue-500 text-sm cursor-pointer text-center my-2">Skip</div>
                   </div>
+                </form>)
 
-                </form>
+                }
 
-                <p className="mt-6 text-sm text-center text-gray-400">Already have an account? <Link to="/login"><a className="text-blue-500 focus:outline-none focus:underline hover:underline">Sign in</a></Link>.</p>
+
+                <div className="mt-6 text-sm text-center text-gray-400">Already have an account? <Link to="/login"><div className="text-blue-500 focus:outline-none focus:underline hover:underline">Sign in</div></Link>.</div>
               </div>
             </div>
           </div>

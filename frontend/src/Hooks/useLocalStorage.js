@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 
 export const useLocalStorage = (keyName, defaultValue) => {
   const [storedValue, setStoredValue] = useState(() => {
@@ -14,11 +15,35 @@ export const useLocalStorage = (keyName, defaultValue) => {
       return defaultValue;
     }
   });
-  const setValue = (newValue) => {
-    try {
-      window.localStorage.setItem(keyName, JSON.stringify(newValue));
-    } catch (err) {}
-    setStoredValue(newValue);
-  };
-  return [storedValue, setValue];
+  React.useEffect(() => {}, [storedValue]);
+  return [
+    storedValue,
+    function setVal(...args) {
+      setStoredValue(...args);
+      try {
+        window.localStorage.setItem(
+          keyName,
+          JSON.stringify(
+            storedValue,
+            ((obj) => {
+              let cache = [];
+              return (key, value) =>
+                typeof value === "object" && value !== null
+                  ? cache.includes(value)
+                    ? undefined // Duplicate reference found, discard key
+                    : cache.push(value) && value // Store value in our collection
+                  : value;
+            })(),
+            2
+          )
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    function setNonPersist(...args) {
+      setStoredValue(...args);
+      console.log("not persisted");
+    },
+  ];
 };

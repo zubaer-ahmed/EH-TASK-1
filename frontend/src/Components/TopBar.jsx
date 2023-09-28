@@ -5,17 +5,22 @@ import { useLocation, Link, Routes, Route, useNavigate } from "react-router-dom"
 import Tippy from "@tippyjs/react";
 import { useAuth } from "../Hooks/useAuth";
 import {
+  Button,
   Checkbox,
+  Divider,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
 } from "@mui/material";
 import { useTranslation } from 'react-i18next';
+import { useGlobalState } from "../Hooks/useGlobalState";
 
 const TopNav = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const { globalState, setGlobalState } = useGlobalState();
 
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
@@ -26,13 +31,16 @@ const TopNav = () => {
   const hide = () => setVisible(false);
 
   React.useEffect(() => {
-    i18n.changeLanguage(language.split("-")[0]);
+    // i18n.changeLanguage(language.split("-")[0]);
+    setTimeout(() => {
+    }, 5000);
   }, [language]);
+
 
   return (
     <>
-      <nav className="shrink-0 sticky top-0 h-14 w-full border-b bg-white space-y-8 z-20">
-        <ul className="flex items-center h-full space-x-2 px-4 font-medium overflow-x-auto">
+      <nav className="shrink-0 sticky top-0 h-[4.5em] w-full border-b bg-white space-y-8 z-20 ">
+        <ul className="flex items-center h-full space-x-2 px-4 font-medium overflow-x-auto text-sm">
           <li>
             <div className="h-full flex items-center justify-center">
               <Link to="/" className="flex items-center">
@@ -53,66 +61,52 @@ const TopNav = () => {
             </div>
           </li>
           <li></li>
-          {/* <li>
-            <Link to="/profile">Profile</Link>
+
+          <li className={` hidden sm:flex`}>
+            <Select
+              size="small"
+              className=""
+              value={language}
+              onChange={({ target: { value } }) => {
+                setLanguage(value);
+                i18n.changeLanguage(value.split("-")[0]);
+              }}
+            >
+              {languages &&
+                languages.map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    <div className="flex items-center space-x-2">
+                      <ReactCountryFlag countryCode={item.split("-")[1]} svg />
+                      <div>{item.split("-")[0].toUpperCase()}</div>
+                    </div>
+                  </MenuItem>
+                ))}
+            </Select>
           </li>
-           <li>
-            <Link to="/customer">Customer</Link>
-          </li>
-          <li>
-            <Link to="/worker">Worker</Link>
-          </li>
-          <li>
-            <Link to="/admin">Admin</Link>
-          </li> */}
           <li className="hidden sm:block">
             <form className="flex items-center">
               <label htmlFor="simple-search" className="sr-only">
                 {t("SEARCH")}
               </label>
               <div className="relative w-full">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 18 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"
-                    />
-                  </svg>
-                </div>
+
                 <input
                   type="text"
                   id="simple-search"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
-                  placeholder="Search Jobs/Services ..."
+                  className=" border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  "
+                  placeholder="Search Services"
                   required
                 />
+                <div className="absolute inset-y-0 right-0 flex">
+                  <Divider sx={{ height: 28, my: "auto" }} orientation="vertical" />
+                  <IconButton>
+                    <Icon>search</Icon>
+                  </IconButton>
+                </div>
               </div>
-              <button
-                type="submit"
-                className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                <svg
-                  className="w-4 h-4"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-                <span className="sr-only">Search</span>
-              </button>
             </form>
           </li>
+
           <div className="grow"></div>
           <div className="hidden sm:flex space-x-2 ">
             {!user?.roles?.includes("worker") && (
@@ -126,38 +120,24 @@ const TopNav = () => {
             }
           </div>
           <li className="hidden sm:block">
-            <FormControl fullWidth size="small">
-              <InputLabel id="demo-simple-select-label">{t("LANGUAGE")}</InputLabel>
-              <Select
-                className="w-full"
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                label="Language"
-                value={language}
-                onChange={({ target: { value } }) => {
-                  setLanguage(value);
-                  i18n.changeLanguage(value.split("-")[0]);
-                }}
-              >
-                {languages &&
-                  languages.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      <div className="flex items-center space-x-2">
-                        <ReactCountryFlag countryCode={item.split("-")[1]} svg />
-                        <div>{item.toUpperCase()}</div>
-                      </div>
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            <Link to="chats">
+              <IconButton>
+                <Icon className={`${globalState.socket?.connected && "text-blue-500"}`} > chat</Icon>
+              </IconButton>
+            </Link>
+            <Link to="notifications">
+              <IconButton>
+                <Icon>notifications</Icon>
+              </IconButton>
+            </Link>
           </li>
-          <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
-            <Link className="button bg-blue-500 text-white h-10 px-3" to="/login">
+          <li className={` ${(user && "hidden") || " sm:block"}`}>
+            <Link className="font-bold h-10 px-2" to="/login">
               Login
             </Link>
           </li>
           <li className={` ${(user && "hidden") || "hidden sm:block"}`}>
-            <Link className="button h-10 px-3" to="/register">
+            <Link className="font-bold h-10 px-2" to="/register">
               Register
             </Link>
           </li>
@@ -224,16 +204,21 @@ const TopNav = () => {
               }
             >
               <div
-                className={`text-xs items-center space-x-2 h-10 px-3 border-0 sm:border ${!user ? "hidden" : "button flex"
+                className={`${!user ? "hidden" : " flex"
                   }`}
                 onClick={visible ? hide : show}
               >
-                <div className="">{user?.firstName}</div>
-                <img
-                  src={"/noimage.svg"}
-                  alt=""
-                  className="w-8 h-8 rounded-full"
-                />
+                <div className="flex items-center space-x-2 ">
+                  <div className="flex flex-col">
+                    <div className="">{user?.firstName}</div>
+                    {/* <div className="">{user?._id?.slice(0, 5)}...{user?._id?.slice(-5)}</div> */}
+                  </div>
+                  <img
+                    src={"/noimage.svg"}
+                    alt=""
+                    className="w-9 h-9 rounded-full"
+                  />
+                </div>
               </div>
             </Tippy>
           </li>

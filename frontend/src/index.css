@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 /* YouTube icon */
 .animate-focus {
   height: 50px;
@@ -20,7 +28,7 @@
   box-shadow: 0 0 10px #ff4040;
 }
 body {
-  font-family: "Lato", sans-serif;
+  font-family: "Source Sans Pro", "Lato", sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -38,7 +46,7 @@ body {
 .button {
   align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0.25rem;
+  border-radius: 0.3rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
   cursor: pointer;
@@ -61,7 +69,6 @@ body {
 .button:focus {
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-  color: rgba(0, 0, 0, 0.65);
 }
 
 .button:hover {
@@ -72,7 +79,6 @@ body {
   background-color: #f0f0f1;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
-  color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
 }
 .material-button {
@@ -188,4 +194,42 @@ body {
 
 .material-button:disabled::after {
   opacity: 0;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.3) 70%,
+    rgba(255, 255, 255, 0.2) 90%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+/* Loading animation styles */
+.loading::after {
+  content: "";
+  border: 4px solid rgba(255, 255, 255, 0.3); /* Spinner border color and thickness */
+  border-top: 4px solid #ffffff; /* Spinner top border color */
+  border-radius: 50%; /* Creates a circular shape */
+  width: 24px; /* Spinner width */
+  height: 24px; /* Spinner height */
+  animation: spin 1s linear infinite; /* Apply the spin animation */
+}
+
+/* Define the spin animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Initial rotation */
+  }
+  100% {
+    transform: rotate(360deg); /* Full rotation */
+  }
 }

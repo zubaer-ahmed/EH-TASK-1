@@ -31,13 +31,14 @@ router.get(
   userController.revokeWorkerApplication
 );
 router.post("/updateUser", auth, userController.updateUser);
-router.post("/updateUser", userController.updateUser);
 router.post("/deleteUser", userController.deleteUser);
 router.get("/getSelf", auth, userController.getSelf);
 router.post("/register", userController.register);
+router.post("/verify", auth, userController.verify);
 router.post("/login", userController.login);
 router.get("/logout", userController.logout);
 router.get("/search", userController.search);
 router.post("/advancedSearch", userController.advancedSearch);
+router.get("/sendLoginOTP", userController.sendLoginOTP);
 
 module.exports = router;

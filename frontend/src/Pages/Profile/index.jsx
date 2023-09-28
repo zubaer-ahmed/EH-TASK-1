@@ -16,9 +16,11 @@ import {
   Typography,
 } from "@mui/material";
 import servicesList from '../../Data/services';
+import Loading from "../../Components/Loading";
 
 export default function Page() {
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [services, setServices] = React.useState([]);
   const { user, setUser } = useAuth();
   const handleClick = () => {
@@ -35,6 +37,7 @@ export default function Page() {
   const roles = ["customer", "worker", "admin"];
 
   async function updateProfile() {
+    setLoading(true);
     let res = await (
       await fetch(import.meta.env.VITE_BASE_URL + "/api/users/updateUser", {
         method: "POST",
@@ -45,8 +48,11 @@ export default function Page() {
         body: JSON.stringify(user),
       })
     ).json();
+    setLoading(false);
     console.log(res);
   }
+
+  // TODO: fix update call
   return (
     <div className="flex flex-col items-center w-full h-full overflow-auto py-8">
       <div className="text-3xl font-bold my-4">
@@ -294,10 +300,11 @@ export default function Page() {
             </div>
 
             <button
-              className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+              className="relative w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               onClick={updateProfile}
             >
               Update
+              {loading && <div className="loading"></div>}
             </button>
           </form>
         </div >

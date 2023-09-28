@@ -41,7 +41,22 @@ function Page() {
       credentials: "include",
     })).json()
     setOrder(res);
-    console.log("order", order)
+    console.log("order", res)
+  }
+  async function openChat(user2_id) {
+    let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/chats/openChat`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        type: "dm",
+        users: [user._id, user2_id]
+      })
+    })).json()
+    console.log("chat opened", res)
+    return res._id;
   }
 
   React.useEffect(() => {
@@ -52,15 +67,15 @@ function Page() {
   }, [orderId])
   const steps = ['Order Viewed', 'Job Accepted', 'Delivered'];
 
-  return (
+  return (order && (
     <div className="flex w-full h-full p-4 overflow-auto items-start">
       <div className="basis-8/12 flex flex-col space-y-4 ">
         {order && order.provider?._id == user._id &&
-          <div className="flex flex-col w-full h-full p-4 rounded border shadow space-y-4 border-l-4 border-l-blue-500">
-
+          <div className="flex flex-col w-full h-full p-4 rounded border shadow space-y-2 border-l-4 border-l-blue-500">
             <h3 className="text-xl font-bold text-blue-600">
               You accepted this Job
             </h3>
+            <div className="my-4"></div>
             <Stepper activeStep={order?.step + 1}>
               {steps.map((label, index) => {
                 const stepProps = {};
@@ -72,6 +87,14 @@ function Page() {
                 );
               })}
             </Stepper>
+            <div className="my-4"></div>
+            <div className="text-lg font-medium">
+              Show this OTP to the customer: {order.otp || "NULL"}
+            </div>
+            <div className="font-medium">
+              Due in: {((new Date(order.time) - Date.now()) / 1000 / 60).toFixed(2) || "NULL"} minutes
+            </div>
+            <div className="my-4"></div>
             {(order.step == 1 &&
               <div className="flex space-x-2">
                 <Link className="button flex p-2 items-cneter">
@@ -84,7 +107,7 @@ function Page() {
                   <div>Mark as Done</div>
                 </div>
               </div>) || (
-                <div className="text-xl">You finished this job</div>
+                <div className="text-xl">You completed this job</div>
               )}
           </div>
         }
@@ -92,7 +115,7 @@ function Page() {
           <div className="w-full h-full flex flex-col justify-center space-y-1 py-4">
             <div className="flex">
               <h3 className="text-xl font-bold text-blue-600">
-                Current Service Title
+                {order.service.name}
               </h3>
               <div className="grow"></div>
               {!(order && order.provider?._id == user._id) && (<div className="flex space-x-2">
@@ -207,7 +230,7 @@ function Page() {
       <div className="basis-4/12 w-full px-4">
         <div className="w-full h-full rounded border shadow p-4">
           <div className="flex items-center ">
-            <h1 className="text-xl font-bold text-gray-700">Client Name</h1>
+            <h1 className="text-xl font-bold text-gray-700">Client Info</h1>
             <div className="grow"></div>
             <div className="rounded px-1 bg-green-500 text-md text-white mr-1">
               4.6
@@ -231,17 +254,17 @@ function Page() {
             />
             <div className="w-full h-full flex flex-col justify-center space-y-1 p-2">
               <h3 className="text-xl font-bold text-blue-600">
-                Service Provider Title
+                {order.user.firstName + " " + order.user.lastName}
               </h3>
               <div className="flex items-center text-sm text-gray-500 space-x-1">
                 <Icon fontSize="inherit">place</Icon>{" "}
-                <div>Profile Service Area</div>
+                <div>{order.location || "Undefined"}</div>
               </div>
               <div className="flex items-center text-sm text-gray-500 space-x-1">
                 <Icon fontSize="inherit">access_time</Icon> <div>Hotline</div>
               </div>
               <div className="flex space-x-2">
-                <div className="button p-2">Chat</div>
+                <div className="button p-2" onClick={async () => navigate("/chats/" + await openChat(order.user._id))}>Chat</div>
                 <div className="button p-2 bg-green-500 text-white">View</div>
               </div>
             </div>
@@ -249,6 +272,7 @@ function Page() {
         </div>
       </div>
     </div>
+  )
   );
 }
 

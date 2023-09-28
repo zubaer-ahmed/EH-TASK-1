@@ -1,0 +1,74 @@
+[
+  {
+    "id": 20,
+    "name": "Cleaning",
+    "code_number": "CL",
+    "about_services": "HandyMama Professional Cleaning service comes up with a complete solution that makes your home and office sparkle! Our highly trained cleaning professionals will go to your place with all required cleaning equipment, supplies and chemicals to do what they are best at.",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 21,
+    "name": "Disinfection Cleaning",
+    "code_number": "difc",
+    "about_services": "HandyMama is a leading cleaning and handyman services company. We aggregate over 10,000 cleaning jobs every month at hundreds of households and workplaces.\n\nTo fight CoronaVirus, we have provided our teams with quick training, protective equipment, useful contents and other safety information so that they can best prepare themselves to prevent and fight CoronaVirus at the places they work.",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 22,
+    "name": "Handyman Services",
+    "code_number": "hms",
+    "about_services": "Household Wiring to Light & Fan Installation, Fan Servicing to Water Motor Servicing, Generator Installation, Generator Repairing, UPS Repairing, IPS Servicing--Get any kinds of electrical works done by the best professions at very affordable costs.",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 23,
+    "name": "Home Appliance Repair",
+    "code_number": "ha",
+    "about_services": "What to service? Be it AC Servicing & Repairing, AC Shifting, Replacement, Installation, and AC GAS Charge, or Fridge Servicing, Oven Repairing, Geyser Installation & Repairing, Washing Machine Servicing, TV Repairing, Wall TV Installation- HandyMama does it all with 100% guaranteed satisfaction. Book in a minute!",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 24,
+    "name": "Pack & Shift",
+    "code_number": "ps",
+    "about_services": "Whatever you want to pack, move or shift, HandyMama offers you the one-stop solution. We have the complete arrangement for you including but limited to- Electrical, Pluming, AC Shifting and All Other Essential Services! We know what you need while you shift, we have all in place. What all you do is just book, we do the rest and you relax!",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 25,
+    "name": "Painting",
+    "code_number": "pa",
+    "about_services": "Get your home or office painted by the best painting professionals. HandyMama offers you a wide range of services including- Wall plaster work, Power washing, Drywall repair, Waterproofing, Wall Painting, Custom Design Color, Floor coating, Weather coat, Distemper and more.",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 26,
+    "name": "Property Management",
+    "code_number": "PM",
+    "about_services": "",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 27,
+    "name": "Pest Control",
+    "code_number": "PC",
+    "about_services": "",
+    "image": null,
+    "icon": null
+  },
+  {
+    "id": 28,
+    "name": "Interior Solution",
+    "code_number": "INS",
+    "about_services": "All the tasks related to Interior Design and Solution.",
+    "image": null,
+    "icon": null
+  }
+]

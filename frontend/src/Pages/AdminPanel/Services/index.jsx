@@ -45,7 +45,7 @@ export default function Page() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(rows.find((row) => row._id == id)),
     })).json();
-    console.log(id, res)
+    console.log("handledeleteclick", res)
     setRows(rows.filter((row) => row._id !== id));
   };
   const handleRowModesModelChange = (newRowModesModel) => {
@@ -59,12 +59,14 @@ export default function Page() {
 
     const editedRow = rows.find((row) => row._id === id);
     if (editedRow.isNew) {
+      console.log("cancel", rows.length)
       setRows(rows.filter((row) => row._id !== id));
     }
   };
   const processRowUpdate = async (newRow) => {
     console.log("isNew", newRow.isNew);
     const updatedRow = { ...newRow, isNew: false };
+    console.log("update", rows.length)
     setRows(rows.map((row) => (row._id == newRow._id ? updatedRow : row)));
     let res = await fetch(
       updateEndpoint,
@@ -98,6 +100,7 @@ export default function Page() {
           <Button
             onClick={() => {
               const updatedRow = { ...params.row, show: true };
+              console.log("open modal", rows.length)
               setRows(rows.map((row) => (row._id == params.row._id ? updatedRow : row)));
             }}>
             OPEN
@@ -106,10 +109,12 @@ export default function Page() {
             open={params.row.show}
             setOpen={(b) => {
               const updatedRow = { ...params.row, show: b };
+              console.log("modal opened", rows.length)
               setRows(rows.map((row) => (row._id == params.row._id ? updatedRow : row)));
             }}
             onClose={() => {
               const updatedRow = { ...params.row, show: false };
+              console.log("modal closed", rows.length)
               setRows(rows.map((row) => (row._id == params.row._id ? updatedRow : row)));
             }}>
             <div className="w-full max-w-md shadow rounded border bg-white ">
@@ -183,6 +188,10 @@ export default function Page() {
     })();
     return () => { };
   }, []);
+  React.useEffect(() => {
+    console.log("rows", rows.length);
+
+  }, [rows]);
 
   const onFilterChange = React.useCallback((filterModel) => {
     console.log(filterModel);
@@ -237,6 +246,7 @@ function EditToolbar(props) {
 
   const handleClick = async () => {
     const id = await (await fetch(getObjectIdEndpoint)).text();
+    console.log("EditToolbar", rows.length)
     setRows((oldRows) => [{ _id: id, name: '', age: '', isNew: true }, ...oldRows]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -254,7 +264,7 @@ function EditToolbar(props) {
       <div
         className="button p-2"
         onClick={() => {
-          console.log(rowSelectionModel)
+          console.log("rowSelectionModel", rowSelectionModel)
           setRows(
             rows.filter((row) => !rowSelectionModel.includes(row._id))
           );
@@ -277,6 +287,7 @@ function EditToolbar(props) {
           onChange={async (e) => {
             // Implement your search logic here
             const searchText = e.target.value;
+            console.log("search");
             setRows(await (await fetch(searchEndpoint + "?q=" + searchText)).json())
           }}
         />

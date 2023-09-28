@@ -18,9 +18,9 @@ export default function Page() {
 
   const { user, setUser } = useAuth();
   return (
-    <section className="flex flex-col w-full h-full">
-      <div className="flex w-full grow items-stretch ">
-        <div className=" sm:flex flex-col basis-3/12 grow w-full h-full border m-8 rounded-xl p-4 text-blue-700 space-y-4 hidden">
+    <section className="flex flex-col w-full h-full ">
+      <div className="flex w-full grow items-stretch relative">
+        <div className=" sm:flex flex-col basis-3/12 grow w-full h-full border-r border-b p-8 h-screen text-blue-700 space-y-4 hidden sticky top-[4.5em]">
           <Link
             to="/settings/profile"
             className={`${location.pathname == "/settings/profile" && "bg-blue-100"} space-x-2 rounded p-2 hover:bg-gray-100 flex items-center `}

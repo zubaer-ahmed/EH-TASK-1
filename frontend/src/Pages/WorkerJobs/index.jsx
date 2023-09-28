@@ -116,9 +116,10 @@ export default function Page() {
 
   return (
     <section className="flex flex-col w-full h-full">
-      <div className="flex w-full grow items-stretch p-4">
-        <OrdersSideBar />
-
+      <div className="flex w-full grow items-stretch">
+        <div className="basis-3/12 hidden sm:flex flex-col p-6 pb-24 border-r sticky top-[4.5em] h-screen overflow-auto">
+          <OrdersSideBar />
+        </div>
         <div className="relative flex flex-col basis-9/12 grow w-full h-full">
           {orderId && order && (
             <div className="flex flex-col space-y-4">
@@ -232,7 +233,7 @@ export default function Page() {
           )
             ||
             allOrders?.length > 0 && (
-              <div className="flex flex-col p-4">
+              <div className="p-6 w-full">
 
                 <div className="h-full w-full">
                   <DataGrid

@@ -7,6 +7,12 @@ GET http://localhost:8001/api/users/getSelf
 ###
 GET http://localhost:8001/api/users/getUsers
 ###
+GET http://localhost:8001/api/chats/getChats
+###
+GET http://localhost:8001/api/chats/getChat/650e8126efad597cb38d90e7
+###
+# GET http://localhost:8001/api/chats/getChat/650e80b670d10e22af1da32f
+###
 POST http://localhost:8001/api/users/login
 Content-Type: application/json
 
