@@ -11,7 +11,7 @@ const Order = require("./Order");
 const Message = require("./Message");
 const Conversation = require("./Conversation");
 const jwt = require("jsonwebtoken");
-const services = import("../../frontend/src/Data/services.js");
+const services = require("../../frontend/src/Data/services.json");
 // only for development phase
 let connectionString =
   "mongodb+srv://root:root@cluster0.l2biux6.mongodb.net/?retryWrites=true&w=majority";
@@ -116,15 +116,15 @@ async function addTemplates() {
 
   await User.create(initializerUsers);
 
-  let initServices = await services;
   let usr = await User.findOne({ email: "admin@gmail.com" });
   let usr2 = await User.findOne({ email: "admin@gmail.com" });
-  await Service.create(
-    initServices.default.map((item) => ({
-      ...item,
-      uploader: usr,
-    }))
-  );
+  // let initServices = services;
+  // await Service.create(
+  //   initServices.default.map((item) => ({
+  //     ...item,
+  //     uploader: usr,
+  //   }))
+  // );
 
   let newConv = await Conversation.create({
     code: usr._id + "-" + usr2._id,

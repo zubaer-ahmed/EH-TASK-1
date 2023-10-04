@@ -25,7 +25,7 @@ import {
 import { DatePicker, LocalizationProvider, TimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridOverlay } from '@mui/x-data-grid';
 import { useGlobalState } from '../../Hooks/useGlobalState';
 export default function Page() {
   const { slug: orderId, slug2: mode } = useParams();
@@ -123,7 +123,7 @@ export default function Page() {
         <div className="basis-3/12 shrink-0 hidden sm:flex flex-col p-6 pb-24 border-r sticky top-[4.5em] h-screen overflow-auto">
           <OrdersSideBar />
         </div>
-        <div className="relative flex flex-col basis-full sm:basis-9/12 h-full items-center">
+        <div className="relative flex flex-col basis-full sm:basis-9/12 h-full items-center ">
           {orderId && order && (
             <div className="flex flex-col px-6">
               <Stepper className="py-12 px-4" sx={{}} activeStep={order?.step + 1} orientation={`${breakpoint.sm ? "horizontal" : "vertical"}`}>
@@ -233,11 +233,11 @@ export default function Page() {
               </div>
             </div>
           )
-            ||
-            allOrders?.length > 0 && (
+            || (
               <div className="p-6 w-full">
-                <div className="h-full w-full">
+                <div className="grid w-full">
                   <DataGrid
+                    sx={{ minHeight: '300px' }}
                     getRowHeight={() => 'auto'}
                     columns={columns}
                     rows={allOrders.map((item, index) => ({ id: index, data: item }))}
@@ -257,3 +257,4 @@ export default function Page() {
     </section>
   );
 };
+

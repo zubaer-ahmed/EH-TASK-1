@@ -20,6 +20,8 @@ function ScrollToTop() {
 }
 import Login from "./Pages/Login";
 
+const Search = lazy(() => import("./Pages/Search"));
+const Category = lazy(() => import("./Pages/Category"));
 const AdminPanel = lazy(() => import("./Pages/AdminPanel"));
 const Chats = lazy(() => import("./Pages/Chats"));
 const ChatById = lazy(() => import("./Pages/ChatById"));
@@ -75,9 +77,9 @@ function App() {
   }, []);
   return (
     <div className="relative flex flex-col w-full h-full">
-      {/* <div className={`text-sm w-full ${globalState.socket?.id ? "bg-green-500" : "bg-red-500"} text-white`}>
+      <div className={`text-sm w-full ${globalState.socket?.id ? "bg-green-500" : "bg-red-500"} text-white`}>
         {globalState.socket?.id || "Not Connected"}
-      </div> */}
+      </div>
       <TopNav />
       <ScrollToTop />
       <Suspense fallback={<Loading />}>
@@ -102,7 +104,9 @@ function App() {
               </Suspense>
             } />
           </Route>
+          <Route path="search" element={<Search />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="category/:slug" element={<Category />} />
           <Route path="service/:slug" element={<ServiceById />} />
           <Route path="orders" element={
             <div className="flex flex-col w-full h-full">

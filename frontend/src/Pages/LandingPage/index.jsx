@@ -2,17 +2,28 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Features from "../Guest/Features/Features";
 import FeaturedCategory from "../Guest/FeaturedCategory";
 import HIW from "../Guest/HIW";
-import { Divider, Icon, IconButton, InputBase } from "@mui/material";
+import { Divider, Icon, IconButton, InputBase, MenuItem, OutlinedInput, Select } from "@mui/material";
 import { useHelpers } from "../../Hooks/useHelpers";
 import React from "react";
-
+import districts from "../../Data/districts_bd.json";
 export default function Page() {
   const [userLocation, setUserLocation] = React.useState("");
   const { getLocation } = useHelpers();
+
+  const [categories, setCategories] = React.useState([
+    { icon: "cleaning_services", name: 'cleaning' },
+    { icon: "pest_control", name: 'bug-control' },
+    { icon: "build", name: 'repair' },
+    { icon: "power", name: 'electrics' },
+    { icon: "food_bank", name: 'households' },
+    { icon: "plumbing", name: 'plumbing' },
+    { icon: "house", name: 'shifting' },
+    { icon: "imagesearch_roller", name: 'painting' },
+  ]);
   return (
     <>
       <div className="relative pt-24 text-white">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/hero-section-image.jpg')] bg-cover  filter brightness-50 -z-10"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-cover  filter brightness-50 -z-10" style={{ backgroundImage: `url(${'/hero-section-image.jpg'})` }}></div>
         <div className="absolute top-0 left-0 w-full h-full -z-10 inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>
 
         <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
@@ -24,8 +35,8 @@ export default function Page() {
             <p className="leading-normal text-2xl mb-8">
               Sub-hero message, not too long and not too short. Make it just right!
             </p>
-            <div className="mx-auto lg:mx-0 flex p-2 rounded border border-gray-300 hover:border-black bg-white">
-              <InputBase
+            <div className="mx-auto lg:mx-0 flex gap-2 items-center w-full max-w-xs p-2 rounded border border-gray-300 hover:border-black bg-white">
+              {/* <InputBase
                 ref={async (el) => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}
                 sx={{ ml: 1, flexGrow: 1 }}
                 placeholder="Search Google Maps"
@@ -35,8 +46,30 @@ export default function Page() {
               ></InputBase>
               <IconButton>
                 <Icon>search</Icon>
-              </IconButton>
-              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+              </IconButton> */}
+              <Select
+                size="small"
+                value={""} // Use null instead of an empty string
+                displayEmpty
+                onChange={(event) => {
+                  // Handle the selected value here
+                }}
+                input={<OutlinedInput />}
+                renderValue={(selected) => {
+                  if (!selected) return <em>Select District</em>;
+                  return selected;
+                }}
+                className="grow"
+              >
+                {/* Add your options here */}
+
+                {districts.map((item, index) => (
+                  <MenuItem key={index} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
               <IconButton onClick={async () => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}>
                 <Icon>my_location</Icon>
               </IconButton>
@@ -75,9 +108,9 @@ export default function Page() {
         </div>
       </div>
 
+      <FeaturedCategory />
       <HIW />
       <Features />
-      <FeaturedCategory />
     </>
   );
 };

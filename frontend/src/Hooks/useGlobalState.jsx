@@ -7,10 +7,18 @@ import React from 'react';
 const GlobalStateContext = createContext();
 
 const GlobalStateProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [globalState, setGlobalState] = useLocalStorage("globalState", {});
   const { pathname } = useLocation();
   React.useEffect(() => {
-    setGlobalState((prevState, props) => ({ ...(prevState || {}), hideFooter: pathname.startsWith("/chats"), lastPath: prevState.current != pathname ? prevState.current : null, current: pathname }));
+    setGlobalState((prevState, props) => ({
+      ...(prevState || {}),
+      hideFooter: pathname.startsWith("/chats"),
+      lastPath: prevState.current != pathname ? prevState.current : null,
+      current: pathname,
+      navigate
+    }));
     window.globalState = globalState;
   }, [pathname]);
 

@@ -1,3 +1,4 @@
+import { Icon } from "@mui/material";
 import { Outlet, Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -80,32 +81,12 @@ const Sidebar = () => {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to="/admin/jobs"
-                className={`${location.pathname == "/admin/jobs" && "bg-gray-200"
-                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
-              >
-                <div className="text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM4 8h16v4h-3v-2h-2v2H9v-2H7v2H4V8zm0 11v-5h3v2h2v-2h6v2h2v-2h3.001v5H4z"></path>
-                  </svg>
-                </div>
-                <span className="z-10 absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
-                  Jobs
-                </span>
-              </Link>
-            </li>
+
             <li>
               <Link
                 to="/admin/comments"
                 className={`${location.pathname == "/admin/comments" && "bg-gray-200"
-                  } relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+                  } todo relative flex items-center justify-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
               >
                 <div className="text-gray-500">
                   <svg
@@ -120,6 +101,18 @@ const Sidebar = () => {
                 </div>
                 <span className="z-10 absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
                   Comments
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin/comments"
+                className={`${location.pathname == "/admin/comments" && "bg-gray-200"
+                  } todo relative flex items-center justify-center gap-x-2 p-2 rounded-lg hover:bg-gray-200 active:bg-gray-100 duration-150 group`}
+              >
+                <Icon>verified_user</Icon>
+                <span className="z-10 absolute left-14 p-1 px-1.5 rounded-md whitespace-nowrap text-xs text-white bg-gray-800 hidden group-hover:inline-block group-focus:hidden duration-150">
+                  Verification
                 </span>
               </Link>
             </li>

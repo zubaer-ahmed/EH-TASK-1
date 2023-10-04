@@ -30,28 +30,28 @@ export default function Page() {
           </Link>
           <Link
             to="/settings/billing"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
           >
             <Icon fontSize="inherit">payment</Icon>
             <div className="text-gray-500 font-bold">Billing</div>
           </Link>
           <Link
             to="/settings/appearance"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
           >
             <Icon fontSize="inherit">brush</Icon>
             <div className="text-gray-500 font-bold">Appearance</div>
           </Link>
           <Link
             to="/settings/notifications"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
           >
             <Icon fontSize="inherit">notifications</Icon>
             <div className="text-gray-500 font-bold">Notifications</div>
           </Link>
           <Link
             to="/settings/privacy"
-            className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
           >
             <Icon fontSize="inherit">security</Icon>
             <div className="text-gray-500 font-bold">Privacy</div>
