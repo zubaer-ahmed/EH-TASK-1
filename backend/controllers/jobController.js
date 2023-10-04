@@ -2,7 +2,7 @@ const models = require("../models");
 
 // Methods to be executed on routes
 const getJobs = async (req, res) => {
-  return res.json(await models.Job.find({}).populate("employer"));
+  return res.json(await models.Order.find({}).populate("user"));
 };
 
 const getJob = async (req, res) => {

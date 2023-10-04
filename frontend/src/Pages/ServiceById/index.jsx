@@ -1,195 +1,206 @@
-import Icon from "@mui/material/Icon";
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs, { Dayjs } from "dayjs";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 import { useLocalStorage } from "../../Hooks/useLocalStorage";
+import services from "../../Data/services";
+import { Select, MenuItem, FormControl, FormHelperText, TextField, Button, InputBase, IconButton, Divider, Container, Modal } from "@mui/material";
+import { DatePicker, LocalizationProvider, StaticDatePicker, StaticTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Box, CircularProgress, Icon } from "@mui/material";
+import { useAuth } from "@/Hooks/useAuth";
+import LoginOverlay from "@/Components/LoginOverlay";
+import { useGlobalState } from '../../Hooks/useGlobalState';
+import { useHelpers } from '../../Hooks/useHelpers';
 
 function ServiceById() {
   // Access the "slug" parameter from the URL
-  const { slug } = useParams();
-  const serviceId = slug;
-  const [replyText, setReplyText] = React.useState("");
-  const [job, setJob] = React.useState(null);
+  const { user, setUser } = useAuth();
+  const { globalState, setGlobalState } = useGlobalState();
+  const { slug: serviceId } = useParams();
+  const [service, setService] = React.useState(services.find(item => item.id == serviceId));
   const navigate = useNavigate();
-  const [globalState, setGlobalState] = useLocalStorage("globalState", {});
+  const [loading, setLoading] = React.useState(false);
+  const [data, setData] = React.useState({});
+  const [time, setTime] = React.useState(dayjs(new Date()));
+  const [description, setDescription] = React.useState("");
+  const [userLocation, setUserLocation] = React.useState(user?.location);
+  const { getLocation } = useHelpers();
+  const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    setGlobalState({ ...globalState, hello: "world" });
+    (async () => {
+      setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2))
+    })()
+    return () => { };
+  }, [])
+  async function submitForm() {
+    try {
+      console.log("data", JSON.stringify({ serviceId: service.id, data, description, time }));
+      if (!user) {
+        setOpen(true);
+        return;
+      }
+      let res = await (await fetch(import.meta.env.VITE_BASE_URL + "/api/orders/postOrder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ serviceId: service.id, data, description, time, location: userLocation })
+      })).json();
+      console.log("result", res)
+      return res._id;
+    }
+    catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
 
   return (
-    <div className="flex w-full h-full p-4 overflow-auto items-start">
-      <div className="basis-8/12 flex flex-col space-y-4 ">
-        <div className="flex flex-col w-full h-full p-4 rounded border shadow">
-          <div className="w-full h-full flex flex-col justify-center space-y-1 p-2">
-            <h3 className="text-xl font-bold text-blue-600">
-              Current Service Title
-            </h3>
-            <div className="flex items-center text-sm text-gray-500 space-x-1">
-              <Icon fontSize="inherit">place</Icon> <div>Service Area</div>
-            </div>
-            <div className="flex items-center text-sm text-gray-500 space-x-1">
-              <Icon fontSize="inherit">access_time</Icon> <div>Open Time</div>
-            </div>
-            <div className="flex items-center text-sm text-gray-500 space-x-1">
-              <Icon fontSize="inherit">reply</Icon>{" "}
-              <div>Expected Response Time</div>
-            </div>
-            <div className="flex items-center text-sm text-gray-500 space-x-1">
-              <Icon fontSize="inherit">attach_money</Icon> <div>Cost</div>
-            </div>
-            <div className="flex space-x-2">
-              <div
-                className="button p-2"
-                onClick={() => {
-                  setGlobalState({
-                    ...globalState,
-                    cart: {
-                      items: [
-                        globalState.services.find(
-                          (item) => item._id == serviceId
-                        ),
-                      ],
-                    },
-                  });
-                  navigate("/checkout");
-                }}
-              >
-                <Icon fontSize="inherit">shopping_cart</Icon>{" "}
-                <div>Order Now</div>
-              </div>
-              <div className="button p-2 bg-green-500 text-white">
-                <Icon fontSize="inherit">phone</Icon> <div>Call Provider</div>
-              </div>
-            </div>
+    <div className="flex flex-col w-full h-full p-4 max-w-xl self-center py-8 my-8">
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="absolute flex flex-col top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded shadow-md w-full max-w-sm">
+          <div className="p-4">
+            You need to login/register first
+          </div>
+          <div className="divider w-full bg-zinc-600/25 h-[1px]"></div>
+          <div className="p-4 flex gap-2">
+            <div onClick={() => {
+              localStorage.setItem('previousUrl', window.location.pathname);
+              navigate("/login");
+            }} className='material-button'>Okay</div>
+            <div className='material-button'>Cancel</div>
           </div>
         </div>
-        <div className="flex flex-col w-full h-full p-4 rounded border shadow">
-          <h1 className="text-xl font-bold text-gray-800 ">Description</h1>
-          <div className="divider w-full bg-zinc-600/25 h-[1px] my-4"></div>
-          <div className="flex flex-col w-full py-2 px-4 border-l-4">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-              mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-              voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-              fugiat iusto fuga praesentium optio, eaque rerum! Provident
-              similique accusantium nemo autem. Veritatis obcaecati tenetur iure
-              eius earum ut molestias architecto voluptate aliquam nihil,
-              eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-              tenetur error, harum nesciunt ipsum debitis quas aliquid.
-              Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa
-              laudantium molestias eos sapiente officiis modi at sunt excepturi
-              expedita sint? Sed quibusdam recusandae alias error harum maxime
-              adipisci amet laborum. Perspiciatis minima nesciunt dolorem!
-              Officiis iure rerum voluptates a cumque velit quibusdam sed amet
-              tempora. Sit laborum ab, eius fugit doloribus tenetur fugiat,
-              temporibus enim commodi iusto libero magni deleniti quod quam
-              consequuntur! Commodi minima excepturi repudiandae velit hic
-              maxime doloremque. Quaerat provident commodi consectetur veniam
-              similique ad earum omnis ipsum saepe, voluptas, hic voluptates
-              pariatur est explicabo fugiat, dolorum eligendi quam cupiditate
-              excepturi mollitia maiores labore suscipit quas? Nulla, placeat.
-              Voluptatem quaerat non architecto ab laudantium modi minima sunt
-              esse temporibus sint culpa, recusandae aliquam numquam totam
-              ratione voluptas quod exercitationem fuga. Possimus quis earum
-              veniam quasi aliquam eligendi, placeat qui corporis!
-            </p>
-          </div>
-          <div className="my-4"></div>
-          <div className="flex space-x-2">
-            <div className="button p-2">
-              <Icon fontSize="inherit">question_mark</Icon>{" "}
-              <div>Ask a Question</div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full h-full p-4 rounded border shadow">
-          <div className="flex w-full items-center space-x-2">
-            <input
-              className="border-2 rounded-lg p-2 w-full"
-              name="text"
-              id="text"
-              rows="3"
-              placeholder="Add a comment to this service... "
-              onChange={(e) => setReplyText(e.target.value)}
-            />
-            <div className="material-button">Send</div>
-          </div>{" "}
-          <h1 className="text-xl font-bold text-gray-800 mt-2">Commnets</h1>
-          <div className="flex flex-col py-4 space-y-2">
-            {(job?.comments?.length > 0 &&
-              job?.comments?.map((reply, index) => (
-                <div
-                  className="flex  p-2 border bg-gray-50 shadow space-x-2 px-2 py-4"
-                  key={index}
-                >
-                  <img src="/noimage.svg" className="h-8 w-8" alt="Vite logo" />
-                  <div className="flex flex-col w-full" key={reply._id}>
-                    <h1 className="text-sm font-bold text-gray-700">
-                      {reply?.senderId?.email}
-                    </h1>
-                    <p className="text-gray-700">{reply?.text}</p>
-                    <div className="text-xs mt-2 text-blue-500 ">
-                      <a href="#" className="underline">
-                        Like
-                      </a>{" "}
-                      <a href="#" className="underline">
-                        Reply
-                      </a>{" "}
-                      <a href="#" className="underline">
-                        Edit
-                      </a>{" "}
-                      <a href="#" className="underline">
-                        Delete
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))) ||
-              "No comments yet"}
-          </div>
-        </div>
+      </Modal>
+      <img src={service.imageSrc} className=" w-32 h-32 self-center" />
+      <div className="my-2"></div>
+      <div className="text-center font-bold text-blue-500 title text-4xl">{service.name}</div>
+      <div className="my-2"></div>
+      <div className="">
+        <label className="block mb-2 text-sm font-bold text-gray-900">Describe Your Issue</label>
+        <TextField multiline rows={2} fullWidth variant="outlined" value={description} onChange={(event) => setDescription(event.target.value)} />
+        <div className="my-2"></div>
       </div>
-
-      <div className="basis-4/12 w-full px-4">
-        <div className="w-full h-full rounded border shadow p-4">
-          <div className="flex items-center ">
-            <h1 className="text-xl font-bold text-gray-700">Employer Name</h1>
-            <div className="grow"></div>
-            <div className="rounded px-1 bg-green-500 text-md text-white mr-1">
-              4.6
+      {service.options?.map((item, index) => {
+        return (<div key={index}>
+          {(() => {
+            if (item.type == "input#text") {
+              return (
+                <div className="">
+                  <label className="block mb-2 text-sm font-bold text-gray-900">{index + 1 + ". " + item.title}</label>
+                  <TextField multiline rows={2} fullWidth variant="outlined" value={data[index] || ""} onChange={(event) => setData({ ...data, [index]: event.target.value })} />
+                </div>
+              )
+            }
+            if (item.type == "select") {
+              return (
+                <div className="">
+                  <label className="block mb-2 text-sm font-bold text-gray-900">{index + 1 + ". " + item.title}</label>
+                  <Select fullWidth displayEmpty inputProps={{ 'aria-label': 'Without label' }}
+                    value={data[index] || ""} onChange={(event) => setData({ ...data, [index]: event.target.value })}>
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {item.options.map((option, index) => (
+                      <MenuItem key={index} value={option.value}>{option.text}</MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              )
+            }
+          })()}
+          <div className="my-2"></div>
+        </div>)
+      })}
+      <label className="block mb-2 text-sm font-bold text-gray-900">Your Address</label>
+      <div className="flex p-2 rounded border border-gray-300 hover:border-black">
+        <InputBase
+          sx={{ ml: 1, flexGrow: 1 }}
+          placeholder="Search Google Maps"
+          inputProps={{ 'aria-label': 'search google maps' }}
+          onChange={(event) => { setUserLocation(event.target.value) }}
+          value={userLocation || ""}
+        ></InputBase>
+        <IconButton>
+          <Icon >search</Icon>
+        </IconButton>
+        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+        <IconButton onClick={async () => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}>
+          <Icon>my_location</Icon>
+        </IconButton>
+      </div>
+      <div className="my-2"></div>
+      <label className="block mb-2 text-sm font-bold text-gray-900">Appointment Time</label>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker orientation="landscape" defaultValue={time} />
+      </LocalizationProvider>
+      <div className="my-2"></div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <TimePicker viewRenderers={{
+          hours: renderTimeViewClock,
+          minutes: renderTimeViewClock,
+          seconds: renderTimeViewClock,
+        }}
+          orientation="landscape" defaultValue={time} />
+      </LocalizationProvider>
+      <div className="my-2"></div>
+      <div className="">
+        <label className="block mb-2 text-sm font-bold text-gray-900">Billing Account</label>
+        <Select fullWidth displayEmpty inputProps={{ 'aria-label': 'Without label' }}
+          value={""} onChange={(event) => { }}>
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {user?.paymentOptions?.map((option, index) => (
+            <MenuItem key={index} value={option.value}>{option.text}</MenuItem>
+          ))}
+          <MenuItem value="" >
+            <div className=" space-x-2">
+              <Icon fontSize='inherit'>add</Icon>
+              <em>Add Payment Option</em>
             </div>
-            <div className="flex text-md">
-              {Array(5)
-                .fill()
-                .map((_, index) => (
-                  <Icon key={index} fontSize="inherit">
-                    star
-                  </Icon>
-                ))}
-            </div>
-          </div>
-          <div className="divider w-full bg-zinc-600/25 h-[1px] my-6"></div>
-          <div className="flex ">
-            <img
-              src={"/noimage.svg"}
-              alt=""
-              className="w-28 h-28 object-cover"
-            />
-            <div className="w-full h-full flex flex-col justify-center space-y-1 p-2">
-              <h3 className="text-xl font-bold text-blue-600">
-                Service Provider Title
-              </h3>
-              <div className="flex items-center text-sm text-gray-500 space-x-1">
-                <Icon fontSize="inherit">place</Icon>{" "}
-                <div>Profile Service Area</div>
-              </div>
-              <div className="flex items-center text-sm text-gray-500 space-x-1">
-                <Icon fontSize="inherit">access_time</Icon> <div>Hotline</div>
-              </div>
-              <div className="flex space-x-2">
-                <div className="button p-2">Chat</div>
-                <div className="button p-2 bg-green-500 text-white">View</div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </MenuItem>
+        </Select>
+      </div>
+      <div className="my-2"></div>
+      <div className="relative flex flex-col w-full">
+        <Button
+          variant="contained"
+          disabled={loading}
+          onClick={async (e) => {
+            e.preventDefault();
+            setLoading(true);
+            const orderId = await submitForm();
+            setLoading(false);
+            if (orderId)
+              navigate(`/orders/user/${orderId}`);
+          }}>
+          Order Service
+        </Button>
+        {loading && (
+          <CircularProgress
+            size={24}
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+            }}
+          />
+        )}
       </div>
     </div>
   );

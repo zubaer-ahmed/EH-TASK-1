@@ -1,11 +1,13 @@
+###
+GET http://localhost:8001/api/getObjectId
 ### USER ENDPOINTS
-GET http://localhost:8000/api/users/logout
+GET http://localhost:8001/api/users/logout
 ### 
-GET http://localhost:8000/api/users/getSelf
+GET http://localhost:8001/api/users/getSelf
 ###
-GET http://localhost:8000/api/users/getUsers
+GET http://localhost:8001/api/users/getUsers
 ###
-POST http://localhost:8000/api/users/login
+POST http://localhost:8001/api/users/login
 Content-Type: application/json
 
 {
@@ -13,7 +15,7 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-POST http://localhost:8000/api/users/register
+POST http://localhost:8001/api/users/register
 Content-Type: application/json
 
 {
@@ -21,7 +23,7 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-POST http://localhost:8000/api/users/updateUser
+POST http://localhost:8001/api/users/updateUser
 Content-Type: application/json
 
 {
@@ -33,12 +35,14 @@ Content-Type: application/json
   "__v": 0
 }
 ### JOBS ENDPOINTS
-GET http://localhost:8000/api/jobs/getJobs
+GET http://localhost:8001/api/jobs/getJobs
 ### SERVICES ENDPOINTS
-GET http://localhost:8000/api/services/getServices
+GET http://localhost:8001/api/services/search/paintss
+###
+GET http://localhost:8001/api/services/getServices
 
 ###
-POST http://localhost:8000/api/services/updateService
+POST http://localhost:8001/api/services/updateService
 Content-Type: application/json
 
 {
@@ -49,9 +53,9 @@ Content-Type: application/json
     "__v": 0
 }
 ### REVIEWS ENDPOINTS
-GET http://localhost:8000/api/reviews/getReviews
+GET http://localhost:8001/api/reviews/getReviews
 ###
-POST http://localhost:8000/api/reviews/updateReview
+POST http://localhost:8001/api/reviews/updateReview
 Content-Type: application/json
 
 {
@@ -62,7 +66,7 @@ Content-Type: application/json
   "__v": 0
 }
 ###
-POST http://localhost:8000/api/reviews/createReview
+POST http://localhost:8001/api/reviews/createReview
 Content-Type: application/json
 
 {
@@ -72,7 +76,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8000/api/reviews/deleteReview
+POST http://localhost:8001/api/reviews/deleteReview
 Content-Type: application/json
 
 {
@@ -80,13 +84,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8000/api/comments/getComments
+GET http://localhost:8001/api/comments/getComments
 ###
-GET http://localhost:8000/api/comments/getComments/review
+GET http://localhost:8001/api/comments/getComments/review
 ###
 GET http://localhost:5173/api/comments/64f9d42793f2fc37c2af3107
 ###
-POST http://localhost:8000/api/comments/replyComment/64f9dce6fc67a480e86f5ae8
+POST http://localhost:8001/api/comments/replyComment/64f9dce6fc67a480e86f5ae8
 Content-Type: application/json
 
   {

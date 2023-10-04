@@ -3,7 +3,7 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 
 export default () => {
-  const { login: authLogin } = useAuth();
+  const { login: localStorageLogin } = useAuth();
   const navigate = useNavigate();
   const [user, setUser] = React.useState({
     email: "admin",
@@ -30,8 +30,11 @@ export default () => {
       return showErrorMessage(responseJSON?.error);
     }
     localStorage.jwt = responseJSON.jwt;
-    authLogin(responseJSON);
+    localStorageLogin(responseJSON);
     await fetchUser(); // load extra details of users like, order history
+    const previousUrl = localStorage.getItem('previousUrl') || null;
+    localStorage.removeItem('previousUrl'); // Remove after use
+    if (previousUrl) return navigate(previousUrl);
     navigate("/");
   }
   function showErrorMessage(msg) {
@@ -137,7 +140,7 @@ export default () => {
             </div>
           </div>
 
-        <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-3/6">
+          <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-3/6">
             <div className="flex-1">
               <div className="text-center">
                 <div className="flex justify-center mx-auto">

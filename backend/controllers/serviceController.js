@@ -2,9 +2,16 @@ const models = require("../models");
 
 // Methods to be executed on routes
 const getServices = async (req, res) => {
-  return res.json(await models.Service.find({}).populate("worker"));
+  return res.json(await models.Service.find({}).populate("uploader"));
 };
 
+const search = async (req, res) => {
+  if (!req.params.keyword) return res.json(await models.Service.find({}));
+  const services = await models.Service.find({
+    name: { $regex: req.params.keyword, $options: "i" },
+  });
+  return res.json(services);
+};
 const getService = async (req, res) => {
   const comment = await models.Service.findOne({ _id: req.params.id }).populate(
     "worker"
@@ -42,6 +49,7 @@ const orderService = async (req, res) => {
 
 // Export of all methods as object
 module.exports = {
+  search,
   getServices,
   getService,
   updateService,

@@ -3,9 +3,9 @@ import React from "react";
 const Features = () => {
   return (
     <div>
-        <section class="bg-white mt-24">
-    <div class="container px-6 py-10 mx-auto">
-        <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl"><span class="underline decoration-blue-500">Features</span> we provide </h1>
+      <section className="bg-white mt-24">
+        <div className="container px-6 py-10 mx-auto">
+          <h1 className="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl"><span className="underline decoration-blue-500">Features</span> we provide </h1>
 
           <p className="mt-4 text-gray-500 xl:mt-6">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum

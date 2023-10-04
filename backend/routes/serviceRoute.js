@@ -12,6 +12,8 @@ router.use(express.json());
 
 // Requests
 router.get("/getServices", serviceController.getServices);
+router.get("/search/:keyword", serviceController.search);
+router.get("/search", serviceController.search);
 router.get("/getService/:id", serviceController.getService);
 router.post("/updateService", serviceController.updateService);
 router.post("/createService", auth, serviceController.createService);

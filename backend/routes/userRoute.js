@@ -2,7 +2,8 @@
 const { Router } = require("express");
 const express = require("express");
 const { auth } = require("../utils");
-
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 // Local Modules
 const userController = require("../controllers/userController");
 
@@ -14,12 +15,29 @@ router.use(express.json());
 router.get("/", (req, res) => {
   res.send("Hello");
 });
+router.post(
+  "/registerWorker",
+  auth,
+  upload.fields([
+    { name: "files", maxCount: 10 },
+    { name: "pfp", maxCount: 1 },
+  ]),
+  userController.registerWorker
+);
 router.get("/getUsers", userController.getUsers);
+router.get(
+  "/revokeWorkerApplication",
+  auth,
+  userController.revokeWorkerApplication
+);
 router.post("/updateUser", auth, userController.updateUser);
+router.post("/updateUser", userController.updateUser);
 router.post("/deleteUser", userController.deleteUser);
-router.get("/getSelf", userController.auth, userController.getSelf);
+router.get("/getSelf", auth, userController.getSelf);
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.get("/logout", userController.logout);
+router.get("/search", userController.search);
+router.post("/advancedSearch", userController.advancedSearch);
 
 module.exports = router;

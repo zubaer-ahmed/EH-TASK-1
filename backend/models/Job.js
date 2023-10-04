@@ -16,6 +16,7 @@ const Job = mongoose.model(
       },
     },
     {
+      minimize: false,
       timestamps: true, // This option adds 'createdAt' and 'updatedAt' fields
     }
   )

@@ -18,14 +18,7 @@ const auth = async (req, res, next) => {
   if (!decoded) return res.status(401).json({ error: "Invalid token" });
   req.user = await models.User.findOne({ email: decoded.email }).populate({
     path: "orders",
-    options: { limit: 10 },
-    populate: [
-      {
-        path: "user",
-        select: "firstName lastName roles",
-      },
-      { path: "service" },
-    ],
+    options: { limit: 5 },
   });
   if (!req.user) {
     return res.status(401).json({ error: "User does not exist" });

@@ -72,7 +72,9 @@ const Footer = () => {
                     </a>
                   </li>
                   <li className="mt-3">
-                    <a className="cursor-pointer text-gray-500 hover:text-black">
+                    <a
+                    href={"/careers"}
+                    className="cursor-pointer text-gray-500 hover:text-black">
                       Careers
                     </a>
                   </li>
@@ -117,8 +119,10 @@ const Footer = () => {
                 </h2>
                 <nav className="mb-10 list-none">
                   <li className="mt-3">
-                    <a className="cursor-pointer text-gray-500 hover:text-black">
-                      Terms &amp; Privacy
+                    <a
+                    href={"/privacy-policy"}
+                    className="cursor-pointer text-gray-500 hover:text-black">
+                      Privacy Policy
                     </a>
                   </li>
                   <li className="mt-3">
@@ -173,9 +177,9 @@ const Footer = () => {
           </div>
           <div className="bg-indigo-600">
             <div className="container mx-auto px-5 py-4">
-              <p className="text-center text-sm capitalize text-black">
+              <p className="text-center text-sm capitalize text-white">
                 © 2023 All rights reserved by{" "}
-                <span className="text-black">Engineer Hut</span>
+                <span className="text-white">Engineer Hut</span>
               </p>
             </div>
           </div>
