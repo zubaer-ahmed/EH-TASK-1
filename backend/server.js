@@ -1,7 +1,6 @@
 var exceptionHandler = require("express-exception-handler");
 exceptionHandler.handle();
 const path = require("path");
-const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 var bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -13,9 +12,23 @@ const servicesRoute = require("./routes/serviceRoute.js");
 const commentRoute = require("./routes/commentRoute.js");
 const workerRoute = require("./routes/workerRoute.js");
 const ordersRoute = require("./routes/orderRoute.js");
+const chatRoute = require("./routes/chatRoute.js");
 const models = require("./models");
-// Server Initialization
+const jwt = require("jsonwebtoken");
+
 const app = express();
+const server = require("http").createServer(app);
+const { Server } = require("socket.io");
+const { v4: uuidv4 } = require("uuid");
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+require("./handleSocketIO.js").handleSocketIO(io);
+// Server Initialization
 const PORT = 8001;
 
 app.use(
@@ -40,6 +53,7 @@ app.use("/api/services", servicesRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/workers", workerRoute);
 app.use("/api/orders", ordersRoute);
+app.use("/api/chats", chatRoute);
 app.get("/api/getObjectId", (req, res) =>
   res.send(new models.mongoose.Types.ObjectId().toString())
 );
@@ -47,6 +61,7 @@ app.get("/api/getObjectId", (req, res) =>
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err?.message); // Log the error for debugging purposes
+  console.error(err?.stack); // Log the error for debugging purposes
   // Set an appropriate status code based on the error type
   const statusCode = err.statusCode || 500;
   // Send an error response to the client
@@ -61,7 +76,7 @@ app.get("*", (req, res) => {
 });
 
 // Server Listen Along with Database
-app.listen(PORT, "127.0.0.1", (error) => {
+server.listen(PORT, "0.0.0.0", (error) => {
   if (!error) console.log("Listening on http://localhost:" + PORT);
   else console.log("Error occurred, server can't start", error);
 });

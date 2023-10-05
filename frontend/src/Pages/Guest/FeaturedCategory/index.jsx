@@ -18,7 +18,7 @@ const FeaturedCategory = () => {
             </p>
           </div>
           <div className="flex flex-wrap -m-4 text-center">
-            {services.map((service, index) => (
+            {services.slice(0, 10).map((service, index) => (
               <Link to={`/service/${service.id}`} key={index} className="p-4 md:w-1/5 sm:w-1/2 w-full">
                 <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
                   <img

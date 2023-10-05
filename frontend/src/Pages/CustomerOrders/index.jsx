@@ -26,6 +26,7 @@ import { DatePicker, LocalizationProvider, TimePicker, renderTimeViewClock } fro
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DataGrid } from '@mui/x-data-grid';
+import { useGlobalState } from '../../Hooks/useGlobalState';
 export default function Page() {
   const { slug: orderId, slug2: mode } = useParams();
   const { user, setUser, fetchUser } = useAuth();
@@ -114,16 +115,19 @@ export default function Page() {
 
   ];
 
+  const { breakpoint } = useGlobalState();
+
   return (
     <section className="flex flex-col w-full h-full">
-      <div className="flex w-full grow items-stretch p-4">
-        <OrdersSideBar />
-
-        <div className="relative flex flex-col basis-9/12 grow w-full h-full">
+      <div className="flex w-full grow items-stretch">
+        <div className="basis-3/12 shrink-0 hidden sm:flex flex-col p-6 pb-24 border-r sticky top-[4.5em] h-screen overflow-auto">
+          <OrdersSideBar />
+        </div>
+        <div className="relative flex flex-col basis-full sm:basis-9/12 h-full items-center">
           {orderId && order && (
-            <div className="flex flex-col space-y-4">
-              <div className="my-2"></div>
-              <Stepper activeStep={order?.step + 1}>
+            <div className="flex flex-col px-6">
+              <Stepper className="py-12 px-4" sx={{}} activeStep={order?.step + 1} orientation={`${breakpoint.sm ? "horizontal" : "vertical"}`}>
+
                 {steps.map((label, index) => {
                   const stepProps = {};
                   const labelProps = {};
@@ -134,14 +138,13 @@ export default function Page() {
                   );
                 })}
               </Stepper>
-              <div className="my-4"></div>
               {order.provider && (
                 <>
                   <label className="block mb-2 text-xl font-bold text-gray-900">Provider</label>
                   <div className="flex">{order.provider.email}</div>
+                  <div className="my-4"></div>
                 </>
               )}
-              <div className="my-4"></div>
               <div className="p-4 bg-white flex items-center mx-auto border-b  mb-10 border-gray-200 rounded-lg sm:flex-row flex-col border">
                 <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center flex-shrink-0 sm:self-start">
                   <img
@@ -232,8 +235,7 @@ export default function Page() {
           )
             ||
             allOrders?.length > 0 && (
-              <div className="flex flex-col p-4">
-
+              <div className="p-6 w-full">
                 <div className="h-full w-full">
                   <DataGrid
                     getRowHeight={() => 'auto'}

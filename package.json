@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run start\"",
-    "host": "concurrently \"cd frontend && npm run build\" \"cd backend && npm run start\""
+    "host": "concurrently \"cd frontend && npm run build && cd .. && xcopy /E/H/Y frontend\\dist backend\\dist\\ \" \"cd backend && npm run start\" ",
+    "hostlinux": "concurrently \"cd frontend && npm run build && cd .. && cp -r frontend/dist backend/dist \" \"cd backend && npm run start\" "
   },
   "devDependencies": {
     "concurrently": "^8.2.1"
@@ -15,6 +16,8 @@
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",
     "i18next-http-backend": "^2.2.2",
-    "react-i18next": "^13.2.2"
+    "nodemailer": "^6.9.5",
+    "react-i18next": "^13.2.2",
+    "twilio": "^4.18.0"
   }
 }

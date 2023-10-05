@@ -1,13 +1,14 @@
 import Icon from "@mui/material/Icon";
 import { Link, useNavigate } from "react-router-dom";
 
-const ProductCard = ({ order: { serviceId, user, time, description, location, price }, service: { name, id, imageSrc }, order, service }) => {
+const ProductCard = ({ order: { serviceId, user, time, description, location, price }, service: { _id, name, id, imageSrc }, order, service }) => {
     const navigate = useNavigate();
     async function acceptOrder() {
         let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/orders/acceptOrder/${order._id}`,
             {
                 credentials: "include",
             })).json();
+        console.log("accept order", res)
         navigate(`/jobs/${order._id}`);
     }
 

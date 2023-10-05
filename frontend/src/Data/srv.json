@@ -1,154 +1,212 @@
-[
-  {
-    "id": "ac-service",
-    "name": "AC Service",
-    "price": 1000,
-    "imageSrc": "https://www.svgrepo.com/show/103565/air-conditioner.svg",
-    "options": [
-      {
-        "type": "select",
-        "title": "Type of AC",
-        "options": [
-          {
-            "value": "window",
-            "text": "Window"
-          },
-          {
-            "value": "split",
-            "text": "Split"
-          }
-        ]
-      }
+{
+  "count": 83,
+  "start_index": 11,
+  "end_index": 20,
+  "page_number": 2,
+  "page_size": 10,
+  "page_count": 9,
+  "page_data_count": 10,
+  "pages": {
+    "previous_url": "/products/service/",
+    "next_url": "/products/service/?page=3",
+    "page_links": [
+      ["/products/service/", 1, false, false],
+      ["/products/service/?page=2", 2, true, false],
+      ["/products/service/?page=3", 3, false, false],
+      [null, null, false, true],
+      ["/products/service/?page=9", 9, false, false]
     ]
   },
-  {
-    "id": "painting-service",
-    "name": "Painting",
-    "price": 3000,
-    "imageSrc": "https://www.svgrepo.com/show/136398/painting-roller-outline.svg",
-    "options": [
-      {
-        "type": "input#text",
-        "title": "Enter Surface Area"
-      },
-      {
-        "type": "select",
-        "title": "Side",
-        "options": [
-          {
-            "value": "exterior",
-            "text": "Enterior"
-          },
-          {
-            "value": "interior",
-            "text": "Interior"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "refrigerator-service",
-    "name": "Refrigerator Service",
-    "price": 5000,
-    "imageSrc": "https://www.svgrepo.com/show/490758/fridge-2.svg"
-  },
-  {
-    "id": "house-shifting-service",
-    "name": "House Shifting",
-    "price": 10000,
-    "imageSrc": "https://www.svgrepo.com/show/308733/moving-house-house-moving-move-house-move-in.svg",
-    "options": [
-      {
-        "type": "input#text",
-        "title": "Start Location"
-      },
-      {
-        "type": "input#text",
-        "title": "Target Location"
-      },
-      {
-        "type": "select",
-        "title": "Number of Vans Required",
-        "options": [
-          {
-            "value": "1",
-            "text": "1"
-          },
-          {
-            "value": "2",
-            "text": "2"
-          },
-          {
-            "value": "3",
-            "text": "3"
-          },
-          {
-            "value": "4",
-            "text": "4"
-          },
-          {
-            "value": "5",
-            "text": "5"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "cleaning-service",
-    "name": "Cleaning",
-    "price": 500,
-    "imageSrc": "https://www.svgrepo.com/show/287614/cleaning-mop.svg",
-    "options": [
-      {
-        "type": "select",
-        "title": "Type",
-        "options": [
-          {
-            "value": "floor",
-            "text": "Floor"
-          },
-          {
-            "value": "window",
-            "text": "Window"
-          },
-          {
-            "value": "households",
-            "text": "Households"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "plumber-service",
-    "price": 500,
-    "name": "Plumber",
-    "imageSrc": "https://www.svgrepo.com/show/5095/plumber.svg"
-  },
-  {
-    "id": "electrician-service",
-    "price": 500,
-    "name": "Electrician",
-    "imageSrc": "https://www.svgrepo.com/show/423670/worker-architecture.svg"
-  },
-  {
-    "id": "mechanic-service",
-    "price": 500,
-    "name": "Mechanic",
-    "imageSrc": "https://www.svgrepo.com/show/322769/mechanic-garage.svg"
-  },
-  {
-    "id": "maid-service",
-    "price": 1000,
-    "name": "Maid Service",
-    "imageSrc": "https://www.svgrepo.com/show/70134/social-worker.svg"
-  },
-  {
-    "id": "home-delivery-service",
-    "name": "Home Delivery",
-    "price": 500,
-    "imageSrc": "https://www.svgrepo.com/show/480999/delivery.svg"
-  }
-]
+  "results": [
+    {
+      "id": 11,
+      "slug": "kitchen-hood-cleaning",
+      "remarks": "",
+      "status": null,
+      "name": "Kitchen Hood Cleaning",
+      "code_number": "khc",
+      "unit_price": 1000,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/e339db78-06f3-400c-bf54-8b7625df889c.png",
+      "image": "https://handy-mama-media.s3.amazonaws.com/product/images/kitchen.jpg",
+      "icon": "https://handy-mama-media.s3.amazonaws.com/product/icon/kitchen.jpg"
+    },
+    {
+      "id": 12,
+      "slug": "oven-cleaning",
+      "remarks": "",
+      "status": null,
+      "name": "Oven Cleaning",
+      "code_number": "ocl",
+      "unit_price": 399,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/82d45ddc-bad6-476a-a888-754b86d0756c.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 13,
+      "slug": "refrigerator-cleaning",
+      "remarks": "",
+      "status": null,
+      "name": "Refrigerator Cleaning",
+      "code_number": "rcl",
+      "unit_price": 999,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/2b61d672-2dbe-45f2-adc7-2ddef8b57172.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 15,
+      "slug": "bedbug-control-service",
+      "remarks": "",
+      "status": null,
+      "name": "Bedbug Control Service",
+      "code_number": "bcs",
+      "unit_price": 1200,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/dfe542c8-d940-44b4-9bde-d164f2acf339.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 16,
+      "slug": "cockroach-control-service",
+      "remarks": "",
+      "status": null,
+      "name": "Cockroach Control Service",
+      "code_number": "ccs",
+      "unit_price": 1200,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/bee56c2d-5f05-4518-a91c-24a1d7a6ca7b.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 17,
+      "slug": "rodent-control-service",
+      "remarks": "",
+      "status": null,
+      "name": "Rodent Control Service",
+      "code_number": "rcs",
+      "unit_price": 1200,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/890cb287-a3c8-4014-8029-4a4ee9f70bb8.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 18,
+      "slug": "termite-control-service",
+      "remarks": "",
+      "status": null,
+      "name": "Termite Control Service",
+      "code_number": "tcs",
+      "unit_price": 2400,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/c591213d-db26-412c-8c5c-bf7b56c3969a.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 19,
+      "slug": "water-tank-cleaning-6-storied",
+      "remarks": "",
+      "status": null,
+      "name": "Water Tank Cleaning",
+      "code_number": "6pw",
+      "unit_price": 7000,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/75b0d242-a009-4a94-8efe-5762480875e5.png",
+      "image": "https://handy-mama-media.s3.amazonaws.com/product/images/Water-Tank.png",
+      "icon": "https://handy-mama-media.s3.amazonaws.com/product/icon/Water-Tank.png"
+    },
+    {
+      "id": 22,
+      "slug": "basic-disinfect-cleaning",
+      "remarks": "",
+      "status": null,
+      "name": "Basic Disinfection Cleaning",
+      "code_number": "bd",
+      "unit_price": 3500,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/d7abfef5-8861-40b2-b66f-932c77e16acc.png",
+      "image": null,
+      "icon": null
+    },
+    {
+      "id": 23,
+      "slug": "carpentry-inspection",
+      "remarks": "",
+      "status": null,
+      "name": "Carpentry Inspection",
+      "code_number": "cpi",
+      "unit_price": 200,
+      "vendor_price": null,
+      "max_unit_price": null,
+      "discount_type": "FLAT",
+      "discount_amount": 0,
+      "total_discount_amount": 0,
+      "max_discount_amount": 5000,
+      "about_product": "",
+      "image_url": "https://hm-image-storage.s3.ap-southeast-1.amazonaws.com/c49a622a-fbb3-4acc-87df-b6f174e5b55b.jpeg",
+      "image": null,
+      "icon": null
+    }
+  ]
+}

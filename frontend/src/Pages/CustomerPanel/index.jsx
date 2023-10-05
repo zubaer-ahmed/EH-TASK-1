@@ -50,7 +50,6 @@ export default () => {
       await fetch(import.meta.env.VITE_BASE_URL + "/api/services/getServices")
     ).json();
     setServices(fetchedArray);
-    setGlobalState({ ...globalState, services: fetchedArray });
     console.log(fetchedArray);
   }
   const location = useLocation();

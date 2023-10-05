@@ -14,11 +14,19 @@ const CustomModal = ({ open, onClose, children }) => {
 
     React.useEffect(() => {
         setDomReady(true);
-
+        return () => {
+            document.body.style.overflow = "auto";
+            document.body.style.paddingRight = "";
+        };
     }, [])
     React.useEffect(() => {
-        document.body.style.overflow = show ? "hidden" : "auto";
-        document.body.style.paddingRight = show ? getScrollBarWidth() + "px" : "";
+        if (show) {
+            document.body.style.overflow = "hidden";
+            document.body.style.paddingRight = getScrollBarWidth() + "px";
+        } else {
+            document.body.style.overflow = "auto";
+            document.body.style.paddingRight = "";
+        }
     }, [show])
     function getScrollBarWidth() {
         let el = document.createElement("div");

@@ -21,6 +21,9 @@ function ScrollToTop() {
 import Login from "./Pages/Login";
 
 const AdminPanel = lazy(() => import("./Pages/AdminPanel"));
+const Chats = lazy(() => import("./Pages/Chats"));
+const ChatById = lazy(() => import("./Pages/ChatById"));
+const Notifications = lazy(() => import("./Pages/Notifications"));
 const CustomerHome = lazy(() => import("./Pages/CustomerHome"));
 const RegisterWorker = lazy(() => import("./Pages/RegisterWorker"));
 const Orders = lazy(() => import("./Pages/Orders"));
@@ -45,46 +48,42 @@ const Footer = lazy(() => import("./Components/Footer"));
 const FAQ = lazy(() => import("./Pages/Guest/FAQ/FAQ"));
 const Contact = lazy(() => import("./Pages/Guest/Contact"));
 const Blog = lazy(() => import("./Pages/Guest/Blog"));
-const Details = lazy(() => import("./Pages/Guest/Blog/details"));
+const Details = lazy(() => import("./Pages/Guest/Blog/Details"));
 const Profile = lazy(() => import('./Pages/Profile'));
 const Jobs = lazy(() => import('./Pages/Jobs'));
 import './i18n';
 import { useTranslation } from 'react-i18next';
-import Maintenance from "./Pages/Maintenance";
-import TAP from "./Pages/Guest/Terms&Privacy";
+import { useGlobalState } from "./Hooks/useGlobalState";
 
-const Loading = () => {
-  return (
-    <div className="flex justify-center items-center h-screen w-full">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-  );
-};
+import Loading from "./Components/Loading";
+import Maintenance from './Pages/Maintenance/index';
+import TAP from './Pages/Guest/Terms&Privacy/index';
+import Dashboard from './Pages/AdminPanel/Dashboard'
+
 
 function App() {
 
+  const { globalState, setGlobalState } = useGlobalState();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [tabValue, setTabValue] = React.useState("1");
   const { user, setUser, fetchUser } = useAuth();
   React.useEffect(() => {
+    setGlobalState(prev => ({ ...prev, socket: null }));
     (async () => {
-      if (user) fetchUser();
-      window.fetchUser = fetchUser;
+      if (user) await fetchUser();
     })();
-    return () => { };
+
   }, []);
   return (
     <div className="relative flex flex-col w-full h-full">
+      {/* <div className={`text-sm w-full ${globalState.socket?.id ? "bg-green-500" : "bg-red-500"} text-white`}>
+        {globalState.socket?.id || "Not Connected"}
+      </div> */}
       <TopNav />
       <ScrollToTop />
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="registerWorker" element={
-            <ProtectedRoute redirect="/login">
-              <RegisterWorker />
-            </ProtectedRoute>
-          } />
           <Route
             path="/"
             element={
@@ -92,11 +91,20 @@ function App() {
                 <Home className="flex flex-col  w-full h-full overflow-auto" />
               </ProtectedRoute>
             }
-          >
-            <Route path="" element={<CustomerHome />} />
-            <Route path="*" element={<NotFound />} />
-
+          />
+          <Route path="registerWorker" element={
+            <ProtectedRoute redirect="/login">
+              <RegisterWorker />
+            </ProtectedRoute>
+          } />
+          <Route path="chats" element={<Chats />}>
+            <Route path=":slug" element={
+              <Suspense fallback={<Loading />}>
+                <ChatById />
+              </Suspense>
+            } />
           </Route>
+          <Route path="notifications" element={<Notifications />} />
           <Route path="service/:slug" element={<ServiceById />} />
           <Route path="orders" element={
             <div className="flex flex-col w-full h-full">
@@ -184,10 +192,11 @@ function App() {
           <Route path="logout" element={<Logout />} />
           <Route path="careers" element={<Maintenance />} />
           <Route path="privacy-policy" element={<TAP />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-              <Footer/>
+              
     </div>
   );
 }

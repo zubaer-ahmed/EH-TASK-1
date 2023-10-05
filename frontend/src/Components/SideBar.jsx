@@ -12,6 +12,7 @@ const Sidebar = () => {
       <div className="flex flex-col h-full">
         <div className="flex-1 flex flex-col h-full">
           <ul className="px-4 text-sm font-medium flex-1 space-y-2 py-4">
+            {/* TODO: User verification page */}
             <li>
               <Link
                 to="/admin/profile"

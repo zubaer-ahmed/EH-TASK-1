@@ -13,6 +13,7 @@ const Service = mongoose.model(
       price: Number,
       imageSrc: String,
       options: Object,
+      category: [String],
     },
     {
       minimize: false,
