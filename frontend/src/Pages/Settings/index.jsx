@@ -38,6 +38,8 @@ export default function index() {
             to="/settings/billing"
             className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
             >
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+          >
             <Icon fontSize="inherit">payment</Icon>
             <div className="text-gray-500 font-bold">Billing</div>
           </Link>
@@ -45,6 +47,8 @@ export default function index() {
             to="/settings/appearance"
             className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
             >
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+          >
             <Icon fontSize="inherit">brush</Icon>
             <div className="text-gray-500 font-bold">Appearance</div>
           </Link>
@@ -52,6 +56,8 @@ export default function index() {
             to="/settings/notifications"
             className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
             >
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+          >
             <Icon fontSize="inherit">notifications</Icon>
             <div className="text-gray-500 font-bold">Notifications</div>
           </Link>
@@ -59,6 +65,8 @@ export default function index() {
             to="/settings/privacy"
             className="space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
             >
+            className="todo space-x-2 rounded p-2 hover:bg-gray-100 flex items-center "
+          >
             <Icon fontSize="inherit">security</Icon>
             <div className="text-gray-500 font-bold">Privacy</div>
           </Link>

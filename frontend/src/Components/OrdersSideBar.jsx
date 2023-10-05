@@ -1,6 +1,7 @@
 import { Icon } from "@mui/material";
 import { Link, Routes, Route, useNavigate, Outlet } from "react-router-dom";
 
+
 export default function Component() {
     return <div className="flex flex-col w-full h-full text-gray-700">
         <div className="text-2xl text-black">Customer</div>

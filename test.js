@@ -94,9 +94,15 @@
 
 // main().catch(console.error);
 
-import services from "./frontend/src/Data/services.js";
-const categories = new Set();
-services.forEach((service) => {
-  categories.add(...service.category);
-});
-console.log(categories);
+// import services from "./frontend/src/Data/services.js";
+// const categories = new Set();
+// services.forEach((service) => {
+//   categories.add(...service.category);
+// });
+// console.log(categories);
+
+import districts from "./frontend/src/Data/districts_bd.js";
+(async () => {
+  const dists = districts;
+  console.log(dists);
+})();

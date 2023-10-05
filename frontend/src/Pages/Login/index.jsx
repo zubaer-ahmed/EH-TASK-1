@@ -138,8 +138,9 @@ export default () => {
                         }}
                       />
                       <a onClick={async () => {
-                        console.log("sendLoginOTP", import.meta.env.VITE_BASE_URL + `/api/users/sendLoginOTP?email=${tempUser.email}&phone=${tempUser.phone}`);
                         let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/users/sendLoginOTP?email=${tempUser.email}&phone=${tempUser.phone}`)).json();
+                        if (res.error)
+                          return showErrorMessage(res.error);
                         console.log("sendLoginOTP", res);
                         setTempUser({ ...tempUser, loginMode: "otp" });
                       }}
@@ -163,9 +164,11 @@ export default () => {
                           >Use Password</a>
                           <a onClick={async () => {
                             let res = await (await fetch(import.meta.env.VITE_BASE_URL + `/api/users/sendLoginOTP?email=${tempUser.email}&phone=${tempUser.phone}`)).json();
-                            console.log("sendLoginOTP", res);
+                            if (res.error)
+                              return showErrorMessage(res.error);
+                            console.log("sendLoginOTP", res.error);
                             setTempUser({ ...tempUser, loginMode: "otp" });
-                          }} className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Sent to {tempUser.email || tempUser.phone}. Resend? (32 sec)</a>
+                          }} className="todo text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Sent to {tempUser.mode == "email" ? tempUser.email : tempUser.phone}. Resend? (32 sec)</a>
                         </div>
                       </div>
                     )}

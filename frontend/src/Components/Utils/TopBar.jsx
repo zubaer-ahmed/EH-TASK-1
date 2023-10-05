@@ -29,6 +29,7 @@ const TopNav = () => {
   const languages = ["en-US", "bn-BD", "ar-SA", "ja-JP"];
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
+  const [searchText, setSearchText] = React.useState("");
 
   React.useEffect(() => {
     // i18n.changeLanguage(language.split("-")[0]);
@@ -62,7 +63,7 @@ const TopNav = () => {
           </li>
           <li></li>
 
-          <li className={` hidden sm:flex`}>
+          <li className={` hidden sm:flex `}>
             <Select
               size="small"
               className=""
@@ -89,20 +90,26 @@ const TopNav = () => {
                 {t("SEARCH")}
               </label>
               <div className="relative w-full">
-
-                <input
-                  type="text"
-                  id="simple-search"
-                  className=" border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  "
-                  placeholder="Search Services"
-                  required
-                />
-                <div className="absolute inset-y-0 right-0 flex">
-                  <Divider sx={{ height: 28, my: "auto" }} orientation="vertical" />
-                  <IconButton>
-                    <Icon>search</Icon>
-                  </IconButton>
-                </div>
+                <form onSubmit={e => { e.preventDefault(); }}>
+                  <input
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    onKeyDown={(e) => {
+                      e.key === 'Enter' && (() => { e.preventDefault(); navigate(`/search?q=${searchText}`) })()
+                    }}
+                    type="text"
+                    id="simple-search"
+                    className=" border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  "
+                    placeholder="Search Services"
+                    required
+                  />
+                  <div className="absolute inset-y-0 right-0 flex">
+                    <Divider sx={{ height: 28, my: "auto" }} orientation="vertical" />
+                    <IconButton onClick={(e) => { e.preventDefault(); navigate(`/search?q=${searchText}`) }}>
+                      <Icon>search</Icon>
+                    </IconButton>
+                  </div>
+                </form>
               </div>
             </form>
           </li>

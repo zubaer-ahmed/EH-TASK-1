@@ -300,7 +300,7 @@ export default function Page() {
             </div>
 
             <button
-              className="relative w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+              className="todo relative w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               onClick={updateProfile}
             >
               Update

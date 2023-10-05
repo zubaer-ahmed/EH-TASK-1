@@ -55,11 +55,11 @@ export default function Page() {
 
     socket.on("connect", () => {
       console.log("connected:", socket.id);
-      // setGlobalState({ ...globalState, socket, connected: true });
+      setGlobalState((p) => ({ ...p, socket }));
     });
     socket.on("disconnect", () => {
       console.log("disconnected:", socket.id);
-      // setGlobalState({ ...globalState, socket, connected: false });
+      setGlobalState((p) => ({ ...p, socket }));
     });
     socket.on("init", (initialMessages) => {
       console.log("room joined");

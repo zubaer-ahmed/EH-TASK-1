@@ -1,6 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.todo {
+  position: relative;
+}
+
+.todo::before {
+  content: "TODO";
+  background-color: red;
+  font-size: 10px;
+  line-height: 15px;
+  color: white;
+  padding: -3px -3px;
+  border: 2px solid white;
+  border-radius: 4px;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -28,7 +46,6 @@
   box-shadow: 0 0 10px #ff4040;
 }
 body {
-  font-family: "Source Sans Pro", "Lato", sans-serif;
 }
 
 ::-webkit-scrollbar {

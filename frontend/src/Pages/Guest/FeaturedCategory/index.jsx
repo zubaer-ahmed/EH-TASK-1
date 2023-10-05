@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import services from "../../../Data/services";
+import categories from "../../../Data/services.json";
 
 
 const FeaturedCategory = () => {
@@ -18,15 +18,15 @@ const FeaturedCategory = () => {
             </p>
           </div>
           <div className="flex flex-wrap -m-4 text-center">
-            {services.slice(0, 10).map((service, index) => (
-              <Link to={`/service/${service.id}`} key={index} className="p-4 md:w-1/5 sm:w-1/2 w-full">
+            {categories.slice(0, 10).map((category, index) => (
+              <Link to={`/category/${category.value}`} key={index} className="p-4 md:w-1/5 sm:w-1/2 w-full">
                 <div className="border-2 border-gray-300 px-4 py-6 rounded-lg h-full">
                   <img
-                    src={service.imageSrc}
+                    src={category.img}
                     className="h-12 mx-auto"
                     alt=""
                   />
-                  <p className="leading-relaxed mt-2">{service.name}</p>
+                  <p className="leading-relaxed mt-2">{category.name}</p>
                 </div>
               </Link>
             ))}
