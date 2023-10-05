@@ -53,6 +53,11 @@ const Blog = lazy(() => import("./Pages/Guest/Blog"));
 const Details = lazy(() => import("./Pages/Guest/Blog/Details"));
 const Profile = lazy(() => import('./Pages/Profile'));
 const Jobs = lazy(() => import('./Pages/Jobs'));
+
+const CustomerProfile = lazy(() => import('./Pages/Customer/Profile'));
+const CustomerSettings = lazy(() => import('./Pages/Customer/Settings'));
+const CustomerHistory = lazy(() => import('./Pages/Customer/History'));
+
 import './i18n';
 import { useTranslation } from 'react-i18next';
 import { useGlobalState } from "./Hooks/useGlobalState";
@@ -146,6 +151,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="customer/profile" element={<CustomerProfile />} />
+          <Route path="customer/settings" element={<CustomerSettings />} />
+          <Route path="customer/history" element={<CustomerHistory />} />
+          
           <Route path="login" element={<Login />} />
           <Route path="FAQ" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />

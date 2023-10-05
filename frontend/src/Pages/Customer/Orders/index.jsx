@@ -5,7 +5,7 @@ import Icon from "@mui/material/Icon";
 import { useAuth } from "../../../Hooks/useAuth";
 import SideBar from "../../../Components/Customer/Sidebar";
 import WorkerPanel from "../../Jobs";
-import CustomerPanel from "../../../Pages/CustomerPanel";
+import CustomerPanel from "../../CustomerPanel";
 import AdminPanel from "../../AdminPanel";
 import { LineChart } from '@mui/x-charts/LineChart';
 

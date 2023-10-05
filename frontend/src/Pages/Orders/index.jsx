@@ -1,7 +1,5 @@
-
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
