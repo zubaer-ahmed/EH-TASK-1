@@ -10,18 +10,18 @@ import SessionActivity from '../../../Components/Customer/SessionActivity';
 const index = () => {
   return (
     <>
-    <div className='flex'>
-        <ProfileNavigation/>
+      <div className='flex'>
+        <ProfileNavigation />
         <section>
-            <ProfileSection/>
-            <AuthSection/>
-            <TimeDate/>
+          <ProfileSection />
+          <AuthSection />
+          <TimeDate />
         </section>
         <section class="w-1/2 h-2/3 my-4 mr-4 bg-white">
-            <GeneralInformation/>
-            <SessionActivity/>
+          <GeneralInformation />
+          <SessionActivity />
         </section>
-    </div>
+      </div>
     </>
   )
 }
