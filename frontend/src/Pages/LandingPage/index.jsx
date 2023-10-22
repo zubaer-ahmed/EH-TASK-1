@@ -1,11 +1,18 @@
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
-import Features from "../Guest/Features/Features";
+import Features from "../Guest/Features";
 import FeaturedCategory from "../Guest/FeaturedCategory";
-import HIW from "../Guest/HIW";
-import { Divider, Icon, IconButton, InputBase, MenuItem, OutlinedInput, Select } from "@mui/material";
+import HowItWorks from "./HowItWorks";
+import { Divider, Icon, IconButton, InputBase, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { useHelpers } from "../../Hooks/useHelpers";
 import React from "react";
 import districts from "../../Data/districts_bd.json";
+import SearchIcon from '@mui/icons-material/Search';
+import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
+import Footer from "../../Components/Footer";
+import CTA from "./CTA";
+import Testimonials from "./Testimonials";
+import video from '../../../public/heroVideo.mp4';
+
 export default function Page() {
   const [userLocation, setUserLocation] = React.useState("");
   const { getLocation } = useHelpers();
@@ -20,97 +27,77 @@ export default function Page() {
     { icon: "house", name: 'shifting' },
     { icon: "imagesearch_roller", name: 'painting' },
   ]);
+  
   return (
     <>
-      <div className="relative pt-24 text-white">
-        <div className="absolute top-0 left-0 w-full h-full bg-cover  filter brightness-50 -z-10" style={{ backgroundImage: `url(${'/hero-section-image.jpg'})` }}></div>
-        <div className="absolute top-0 left-0 w-full h-full -z-10 inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>
+    <div className="relative h-[55vh] md:h-[45vh] lg:h-[75vh] w-screen">
+        <video className="absolute w-full h-full object-cover saturate-100" autoPlay loop muted playsInline>
+            <source src="../../../public/heroVideo.mp4" type="video/mp4"/>
+        </video>
 
-        <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-          <div className="flex flex-col w-full md:w-1/2 justify-center items-start text-center md:text-left">
-            <p className="uppercase tracking-loose w-full">What business are you?</p>
-            <h1 className="my-4 text-5xl font-bold leading-tight">
-              Main Hero Message to sell yourself!
-            </h1>
-            <p className="leading-normal text-2xl mb-8">
-              Sub-hero message, not too long and not too short. Make it just right!
-            </p>
-            <div className="mx-auto lg:mx-0 flex gap-2 items-center w-full max-w-xs p-2 rounded border border-gray-300 hover:border-black bg-white">
-              {/* <InputBase
-                ref={async (el) => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}
-                sx={{ ml: 1, flexGrow: 1 }}
-                placeholder="Search Google Maps"
-                inputProps={{ 'aria-label': 'search google maps' }}
-                onChange={(event) => { setUserLocation(event.target.value) }}
-                value={userLocation || ""}
-              ></InputBase>
-              <IconButton>
-                <Icon>search</Icon>
-              </IconButton> */}
-              <Select
-                size="small"
-                value={""} // Use null instead of an empty string
-                displayEmpty
-                onChange={(event) => {
-                  // Handle the selected value here
-                }}
-                input={<OutlinedInput />}
-                renderValue={(selected) => {
-                  if (!selected) return <em>Select District</em>;
-                  return selected;
-                }}
-                className="grow"
-              >
-                {/* Add your options here */}
+          <div className="relative z-10 flex items-center justify-center flex-col h-full">
 
-                {districts.map((item, index) => (
-                  <MenuItem key={index} value={item.name}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
-              <IconButton onClick={async () => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}>
-                <Icon>my_location</Icon>
-              </IconButton>
+            <div className="text-center">
+              <h1 className="text-3xl font-semibold text-white lg:text-4xl my-4">Need a helping hand?</h1>
+              <h1 className="text-3xl font-semibold text-white lg:text-4xl my-4">Hand-Picked Professionals to serve you 24/7</h1>
             </div>
-            <button
-              className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-              GET STARTED
-            </button>
-          </div>
-          <div className="w-full md:w-1/2 py-6 text-center flex flex-col items-center ">
+            <div className="w-1/2 flex justify-evenly mt-8">
+              <div className="mx-auto lg:mx-0 flex gap-2 items-center w-96 px-2 max-w-xs">
+                  {/* <InputBase
+                    ref={async (el) => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}
+                    sx={{ ml: 1, flexGrow: 1 }}
+                    placeholder="Search Google Maps"
+                    inputProps={{ 'aria-label': 'search google maps' }}
+                    onChange={(event) => { setUserLocation(event.target.value) }}
+                    value={userLocation || ""}
+                  ></InputBase>
+                  <IconButton>
+                    <Icon>search</Icon>
+                  </IconButton> */}
+                  <Select
+                    size="small"
+                    value={""} // Use null instead of an empty string
+                    displayEmpty
+                    onChange={(event) => {
+                      // Handle the selected value here
+                    }}
+                    input={<OutlinedInput className="border border-white text-white rounded-lg"
+                    label="Select District"
+                    labelId="select-district-label"
+                    id="select-district"/>}
+                    renderValue={(selected) => {
+                      if (!selected) return <em className="text-white">Select District</em>;
+                      return selected;
+                    }}
+                    className="grow"
+                  >
+                    {/* Add your options here */}
 
+                    {districts.map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
+                  <IconButton onClick={async () => { setUserLocation("Lat: " + (await getLocation()).latitude.toFixed(2) + " Long: " + (await getLocation()).longitude.toFixed(2)) }}>
+                    <PersonPinCircleIcon className="text-white border rounded-full w-12 h-12"/>
+                  </IconButton>
+              </div>
+              <div className="relative px-2">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                  <SearchIcon className="text-blue"/>
+                </div>
+                <input type="text" className="bg-white text-black text-sm rounded-lg block w-96 h-12 pl-10 p-2.5" placeholder="Search for you service"/>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="">
-          <svg viewBox="0 0 1428 174" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 
-            <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-              <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fillRule="nonzero">
-                <path
-                  d="M0,0 C90.7283404,0.927527913 147.912752,27.187927 291.910178,59.9119003 C387.908462,81.7278826 543.605069,89.334785 759,82.7326078 C469.336065,156.254352 216.336065,153.6679 0,74.9732496"
-                  opacity="0.100000001"></path>
-                <path
-                  d="M100,104.708498 C277.413333,72.2345949 426.147877,52.5246657 546.203633,45.5787101 C666.259389,38.6327546 810.524845,41.7979068 979,55.0741668 C931.069965,56.122511 810.303266,74.8455141 616.699903,111.243176 C423.096539,147.640838 250.863238,145.462612 100,104.708498 Z"
-                  opacity="0.100000001"></path>
-                <path
-                  d="M1046,51.6521276 C1130.83045,29.328812 1279.08318,17.607883 1439,40.1656806 L1439,120 C1271.17211,77.9435312 1140.17211,55.1609071 1046,51.6521276 Z"
-                  id="Path-4" opacity="0.200000003"></path>
-              </g>
-              <g transform="translate(-4.000000, 76.000000)" fill="#FFFFFF" fillRule="nonzero">
-                <path
-                  d="M0.457,34.035 C57.086,53.198 98.208,65.809 123.822,71.865 C181.454,85.495 234.295,90.29 272.033,93.459 C311.355,96.759 396.635,95.801 461.025,91.663 C486.76,90.01 518.727,86.372 556.926,80.752 C595.747,74.596 622.372,70.008 636.799,66.991 C663.913,61.324 712.501,49.503 727.605,46.128 C780.47,34.317 818.839,22.532 856.324,15.904 C922.689,4.169 955.676,2.522 1011.185,0.432 C1060.705,1.477 1097.39,3.129 1121.236,5.387 C1161.703,9.219 1208.621,17.821 1235.4,22.304 C1285.855,30.748 1354.351,47.432 1440.886,72.354 L1441.191,104.352 L1.121,104.031 L0.457,34.035 Z">
-                </path>
-              </g>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <FeaturedCategory />
-      <HIW />
-      <Features />
+      <Features/>
+      <Testimonials/>
+      <CTA/>
+      <Footer/>
     </>
   );
 };

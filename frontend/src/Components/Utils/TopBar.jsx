@@ -40,7 +40,7 @@ const TopNav = () => {
 
   return (
     <>
-      <nav className="shrink-0 sticky top-0 h-[4.5em] w-full border-b bg-white space-y-8 z-20 ">
+      <nav className="shrink-0 sticky top-0 h-[4.5em] w-full bg-blue-200 space-y-8 z-20 ">
         <ul className="flex items-center h-full space-x-2 px-4 font-medium overflow-x-auto text-sm">
           <li>
             <div className="h-full flex items-center justify-center">
@@ -84,7 +84,8 @@ const TopNav = () => {
                 ))}
             </Select>
           </li>
-          <li className="hidden sm:block">
+          {/**
+           <li className="hidden sm:block">
             <form className="flex items-center">
               <label htmlFor="simple-search" className="sr-only">
                 {t("SEARCH")}
@@ -113,6 +114,7 @@ const TopNav = () => {
               </div>
             </form>
           </li>
+           */}
 
           <div className="grow"></div>
           <div className="hidden sm:flex space-x-2 ">
@@ -185,13 +187,6 @@ const TopNav = () => {
                   >
                     <Icon fontSize="inherit">search</Icon>
                     <div>{t("SEARCH")}</div>
-                  </Link>
-                  <Link
-                    className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"
-                    to="/language"
-                  >
-                    <Icon fontSize="inherit">language</Icon>
-                    <div>{t("LANGUAGE")}</div>
                   </Link>
                   <Link
                     className="flex items-center text-sm text-gray-500 space-x-1 hover:bg-gray-200 p-2 rounded"

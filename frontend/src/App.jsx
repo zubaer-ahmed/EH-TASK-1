@@ -47,7 +47,7 @@ const TopNav = lazy(() => import("./Components/Utils/TopBar"));
 const Register = lazy(() => import("./Pages/Register"));
 const Logout = lazy(() => import("./Pages/Logout"));
 const Footer = lazy(() => import("./Components/Footer"));
-const FAQ = lazy(() => import("./Pages/Guest/FAQ/FAQ"));
+const FAQ = lazy(() => import("./Pages/Guest/FAQ"));
 const Contact = lazy(() => import("./Pages/Guest/Contact"));
 const Blog = lazy(() => import("./Pages/Guest/Blog"));
 const Details = lazy(() => import("./Pages/Guest/Blog/Details"));
@@ -64,7 +64,7 @@ import { useGlobalState } from "./Hooks/useGlobalState";
 
 import Loading from "./Components/Loading";
 import Maintenance from './Pages/Maintenance/index';
-import TAP from './Pages/Guest/Terms&Privacy/index';
+import TAP from './Pages/Guest/Terms&Privacy';
 import Dashboard from './Pages/AdminPanel/Dashboard'
 
 
@@ -83,9 +83,9 @@ function App() {
 
   }, []);
   return (
-    <div className="relative flex flex-col w-full h-full">
+    <div className="relative container flex flex-col w-full h-full">
       <div className={`text-sm w-full ${globalState.socket?.id ? "bg-green-500" : "bg-red-500"} text-white`}>
-        {globalState.socket?.id || "Not Connected"}
+        {globalState.socket?.id || ""}
       </div>
       <TopNav />
       <ScrollToTop />
