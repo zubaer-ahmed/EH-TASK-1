@@ -1,7 +1,7 @@
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Features from "../Guest/Features";
 import FeaturedCategory from "../Guest/FeaturedCategory";
-import HowItWorks from "./HowItWorks";
+import HowItWorks from "./Why";
 import { Divider, Icon, IconButton, InputBase, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { useHelpers } from "../../Hooks/useHelpers";
 import React from "react";
@@ -11,7 +11,7 @@ import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import Footer from "../../Components/Footer";
 import CTA from "./CTA";
 import Testimonials from "./Testimonials";
-import video from '../../../public/heroVideo.mp4';
+import video from '/heroVideo.mp4';
 
 export default function Page() {
   const [userLocation, setUserLocation] = React.useState("");
@@ -32,7 +32,7 @@ export default function Page() {
     <>
     <div className="relative h-[55vh] md:h-[45vh] lg:h-[75vh] w-screen">
         <video className="absolute w-full h-full object-cover saturate-100" autoPlay loop muted playsInline>
-            <source src="../../../public/heroVideo.mp4" type="video/mp4"/>
+            <source src="/heroVideo.mp4" type="video/mp4"/>
         </video>
 
           <div className="relative z-10 flex items-center justify-center flex-col h-full">
@@ -93,7 +93,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-
+      <HowItWorks/>
       <Features/>
       <Testimonials/>
       <CTA/>

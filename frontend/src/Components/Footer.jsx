@@ -7,9 +7,8 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 const Footer = () => {
   return (
     <>
-      <div className="flex w-full">
-        <footer className="body-font w-full text-black">
-          <div className="md:flex-no-wrap container flex flex-col flex-wrap px-5 my-16 md:flex-row md:items-center lg:items-start">
+        <footer className="body-font w-full text-black container mx-auto">
+          <div className="md:flex-no-wrap flex flex-col flex-wrap px-5 my-16 md:flex-row md:items-center lg:items-start">
             <div className="mx-auto w-64 flex-shrink-0 text-center md:mx-0 md:text-left">
               <a className="title-font flex items-center justify-center font-medium text-black md:justify-start">
                 {
@@ -75,31 +74,6 @@ const Footer = () => {
               </div>
               <div className="w-full px-4 md:w-1/2 lg:w-1/5">
                 <h2 className="title-font mb-3 text-sm font-bold uppercase tracking-widest text-black">
-                  Support
-                </h2>
-                <nav className="mb-10 list-none">
-                  <li className="mt-3">
-                    <a
-                      className="cursor-pointer text-gray-500 hover:text-black"
-                      href={"/Contact"}
-                    >
-                      Contact Support
-                    </a>
-                  </li>
-                  <li className="mt-3">
-                    <a className="cursor-pointer text-gray-500 hover:text-black">
-                      Help Resources
-                    </a>
-                  </li>
-                  <li className="mt-3">
-                    <a className="cursor-pointer text-gray-500 hover:text-black">
-                      Release Updates
-                    </a>
-                  </li>
-                </nav>
-              </div>
-              <div className="w-full px-4 md:w-1/2 lg:w-1/5">
-                <h2 className="title-font mb-3 text-sm font-bold uppercase tracking-widest text-black">
                   Platform
                 </h2>
                 <nav className="mb-10 list-none">
@@ -140,7 +114,7 @@ const Footer = () => {
                   </li>
                 </nav>
               </div>
-              <div className="w-full px-4 md:w-1/2 lg:w-1/5">
+              <div className="w-full px-4 md:w-2/2 lg:w-2/6">
                 <h2 className="title-font mb-3 text-sm font-bold uppercase tracking-widest text-black">
                   Stay tuned
                 </h2>
@@ -160,16 +134,18 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </footer>
           <div className="bg-blue-500">
             <div className="container px-5 py-4">
               <p className="text-center text-sm capitalize text-white">
-                © 2023 All rights reserved by{" "}
-                <span className="text-black">Helpers</span>
+                © {new Date().getFullYear()} All rights reserved by{" "}
+                <span className="text-black"> 
+                    <a href={"/contact"}
+                    className="cursor-pointer">Helpers</a> 
+                </span>
               </p>
             </div>
           </div>
-        </footer>
-      </div>
     </>
   );
 };

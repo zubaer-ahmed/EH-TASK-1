@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import Stats from "../../Guest/Stats";
+import Stats from "./Stats";
 
 const FaqsCard = (props) => {
   const answerElRef = useRef();

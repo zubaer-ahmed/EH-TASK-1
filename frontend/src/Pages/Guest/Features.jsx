@@ -12,11 +12,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 const Features = () => {
   return (
     <>
-        <section className="mt-8 mb-0">
+        <section className="mt-8 mb-0 container mx-auto">
             <div className="max-w-screen-xl text-black items-center justify-between lg:flex md:px-8">
-                <div className="sm:hidden lg:block lg:max-w-xl">
-                    <img src="https://plus.unsplash.com/premium_photo-1661719110458-f97f4b0a9bd4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" className="rounded-lg" alt="" />
-                </div>
                 <div className="mt-6 sm:mt-0 md:flex lg:block">
                   <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl max-w-2xl">
                     Because we care about your <span className="underline decoration-blue-500">Safety</span>..
@@ -49,6 +46,9 @@ const Features = () => {
                         </li>
                       </ul>
                   </div>
+                </div>
+                <div className="sm:hidden lg:block lg:max-w-xl">
+                    <img src="https://plus.unsplash.com/premium_photo-1661719110458-f97f4b0a9bd4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" className="rounded-lg" alt="" />
                 </div>
             </div>
         </section>

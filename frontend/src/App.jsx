@@ -83,7 +83,7 @@ function App() {
 
   }, []);
   return (
-    <div className="relative container flex flex-col w-full h-full">
+    <div className="relative flex flex-col w-full h-full">
       <div className={`text-sm w-full ${globalState.socket?.id ? "bg-green-500" : "bg-red-500"} text-white`}>
         {globalState.socket?.id || ""}
       </div>
